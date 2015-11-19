@@ -1,12 +1,29 @@
 package br.com.gostoudaaula.dao;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
-public interface DAO<T> {
+import org.springframework.stereotype.Repository;
 
-	public void setEntityManager(EntityManager manager);
+@Repository
+public abstract class DAO<T> {
 
-	public void salva(T object);
+	protected EntityManager manager;
 
-	public T devolve(T object);
+	@PersistenceContext
+	public void setEntityManager(EntityManager manager) {
+		this.manager = manager;
+	}
+
+	public void salva(T t) {
+		manager.persist(t);
+	}
+
+	public abstract T devolve(T t);
+	
+	public void clear(){
+		this.manager.clear();
+	}
+	
+	
 }

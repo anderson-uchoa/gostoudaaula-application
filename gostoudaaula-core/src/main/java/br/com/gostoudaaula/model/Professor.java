@@ -19,8 +19,8 @@ public class Professor extends Pessoa {
 	public Professor(Integer chapa) {
 		this.chapa = chapa;
 	}
-
-	@OneToMany
+	
+	@OneToMany(mappedBy="professor")
 	public List<Aula> getAulas() {
 		return aulas;
 	}
@@ -37,4 +37,12 @@ public class Professor extends Pessoa {
 		this.chapa = chapa;
 	}
 
+	@Override
+	public String toString() {
+		return "Professor [chapa=" + chapa + ", aulas=" + aulas + ", id=" + id
+				+ ", nome=" + nome + ", sobrenome=" + sobrenome + "]";
+	}
+
+	
+	
 }

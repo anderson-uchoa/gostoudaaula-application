@@ -11,8 +11,6 @@ import javax.persistence.ManyToMany;
 @Entity
 public class Questoes {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String descricao;
 	private List<Projeto> projetos;
@@ -34,8 +32,21 @@ public class Questoes {
 		this.projetos = projetos;
 	}
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId() {
 		return id;
 	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	@Override
+	public String toString() {
+		return "Questoes [id=" + id + ", descricao=" + descricao
+				+ ", projetos=" + projetos + "]";
+	}
+
+	
 }

@@ -13,7 +13,7 @@ import org.joda.time.LocalDate;
 public class DateConverter implements AttributeConverter<LocalDate, Date> {
 
 	public Date convertToDatabaseColumn(LocalDate attribute) {
-		return new Date(attribute.toDateTimeAtStartOfDay().getMillis());
+		return new Date(attribute.toDate().getTime());
 	}
 
 	public LocalDate convertToEntityAttribute(Date dbData) {

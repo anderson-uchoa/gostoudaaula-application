@@ -12,10 +12,10 @@
 	<context:property-placeholder
 		file-encoding="UTF-8"
 		location="classpath:properties/general.properties, classpath:properties/database.properties,
-	 classpath:properties/flyway.properties" />
+	 classpath:properties/flyway.properties, classpath:properties/jpa.properties" />
 
-	<context:component-scan base-package="br.com.gostoudaaula"
-		use-default-filters="false" />
+	<context:component-scan base-package="br.com.gostoudaaula" />
 
 	<import resource="spring-flyway-config.xml" />
+	<import resource="spring-jpa-config.xml" />
 </beans>

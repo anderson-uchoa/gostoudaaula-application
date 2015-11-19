@@ -54,11 +54,12 @@ CREATE TABLE questoes_projeto(
 );
 
 CREATE TABLE periodo_letivo (
+	id integer auto_increment primary key,
 	ano integer,
     semestre integer,
 	id_turma integer,
     id_disciplina integer,
-    primary key (ano, semestre, id_turma, id_disciplina),
+    unique key indentificacao_do_periodo (ano, semestre, id_turma, id_disciplina),
     foreign key (id_turma) references turma(id) on delete cascade on update cascade,
     foreign key (id_disciplina) references disciplina(id) on delete cascade on update cascade
 );
@@ -81,11 +82,11 @@ CREATE TABLE alunos_aula (
 );
 
 CREATE TABLE avaliacao(
-	id integer auto_increment,
+	id integer auto_increment primary key,
     id_projeto integer,
     id_aula integer,
     data_avaliacao date NOT NULL,
-	primary key (id, id_projeto, id_aula),
+	unique key id_da_avaliacao (id_projeto, id_aula),
 	foreign key (id_projeto) references projeto(id) on delete cascade on update cascade,
 	foreign key (id_aula) references aula(id) on delete cascade on update cascade
 );

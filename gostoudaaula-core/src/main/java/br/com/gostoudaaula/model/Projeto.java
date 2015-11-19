@@ -14,8 +14,6 @@ import javax.persistence.OneToOne;
 @Entity
 public class Projeto {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String descricao;
 	private Avaliacao avaliacao;
@@ -29,7 +27,7 @@ public class Projeto {
 		this.descricao = descricao;
 	}
 
-	@OneToOne
+	@OneToOne(mappedBy = "projeto")
 	public Avaliacao getAvaliacao() {
 		return avaliacao;
 	}
@@ -39,7 +37,7 @@ public class Projeto {
 	}
 
 	@ManyToMany
-	@JoinTable(name = "questoes_projeto", joinColumns = { @JoinColumn(name = "id_projeto") }, inverseJoinColumns = { @JoinColumn(name = "is_questoes") })
+	@JoinTable(name = "questoes_projeto", joinColumns = { @JoinColumn(name = "id_projeto") }, inverseJoinColumns = { @JoinColumn(name = "id_questoes") })
 	public List<Questoes> getQuestoes() {
 		return questoes;
 	}
@@ -48,8 +46,22 @@ public class Projeto {
 		this.questoes = questoes;
 	}
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId() {
 		return id;
 	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	@Override
+	public String toString() {
+		return "Projeto [id=" + id + ", descricao=" + descricao
+				+ ", avaliacao=" + avaliacao + ", questoes=" + questoes + "]";
+	}
+	
+	
 }
+

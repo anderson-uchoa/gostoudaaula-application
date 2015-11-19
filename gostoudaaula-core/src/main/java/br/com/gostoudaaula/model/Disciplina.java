@@ -1,19 +1,18 @@
 package br.com.gostoudaaula.model;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
+@Entity
 public class Disciplina {
+
+	private Long id;
+	private String descricao;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private String descricao;
-	@OneToMany
-	private PeriodoLetivo periodoLetivo;
-
 	public Long getId() {
 		return id;
 	}
@@ -28,6 +27,11 @@ public class Disciplina {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	@Override
+	public String toString() {
+		return "Disciplina [id=" + id + ", descricao=" + descricao + "]";
 	}
 
 }

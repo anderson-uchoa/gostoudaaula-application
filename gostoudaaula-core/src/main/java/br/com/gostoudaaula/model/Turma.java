@@ -4,15 +4,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 @Entity
 public class Turma {
 
 	private Long id;
 	private String descricao;
-	@OneToMany
-	private PeriodoLetivo periodoLetivo;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public Long getId() {
+		return id;
+	}
 
 	public String getDescricao() {
 		return descricao;
@@ -22,18 +25,13 @@ public class Turma {
 		this.descricao = descricao;
 	}
 
-	public PeriodoLetivo getPeriodoLetivo() {
-		return periodoLetivo;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	public void setPeriodoLetivo(PeriodoLetivo periodoLetivo) {
-		this.periodoLetivo = periodoLetivo;
-	}
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Long getId() {
-		return id;
+	@Override
+	public String toString() {
+		return "Turma [id=" + id + ", descricao=" + descricao + "]";
 	}
 
 }

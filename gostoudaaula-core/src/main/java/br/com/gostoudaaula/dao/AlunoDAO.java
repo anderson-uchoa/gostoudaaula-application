@@ -2,8 +2,6 @@ package br.com.gostoudaaula.dao;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
@@ -11,20 +9,7 @@ import org.springframework.stereotype.Repository;
 import br.com.gostoudaaula.model.Aluno;
 
 @Repository
-public class AlunoDAO implements DAO<Aluno> {
-
-	private EntityManager manager;
-
-	@Override
-	@PersistenceContext
-	public void setEntityManager(EntityManager manager) {
-		this.manager = manager;
-	}
-
-	@Override
-	public void salva(Aluno aluno) {
-		manager.persist(aluno);
-	}
+public class AlunoDAO extends DAO<Aluno> {
 
 	@Override
 	public Aluno devolve(Aluno aluno) {
@@ -38,6 +23,12 @@ public class AlunoDAO implements DAO<Aluno> {
 		TypedQuery<Aluno> query = manager
 				.createQuery("from Aluno", Aluno.class);
 		return query.getResultList();
+	}
+
+	public void salvaAlunos(List<Aluno> alunos) {
+		for (Aluno aluno : alunos) {
+			manager.persist(aluno);
+		}
 	}
 
 }
