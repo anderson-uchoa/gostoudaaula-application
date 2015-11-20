@@ -25,4 +25,10 @@ public class AulaDAO extends DAO<Aula> {
 
 	}
 
+	public void salvaLista(List<Aula> aulas) {
+		for (Aula aula : aulas) {
+			manager.persist(aula);
+		}
+	}
+
 }

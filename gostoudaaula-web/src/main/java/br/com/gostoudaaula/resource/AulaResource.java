@@ -21,7 +21,7 @@ public class AulaResource {
 
 	@GET
 	@Produces(ResourceUtils.JSONUTF8)
-	public Response listaAulas() {
+	public Response listaAula() {
 		return Response.ok().entity(service.getLista()).build();
 	}
 
