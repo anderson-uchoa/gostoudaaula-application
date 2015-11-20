@@ -12,6 +12,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "periodo_letivo", uniqueConstraints = { @UniqueConstraint(columnNames = {
 		"ano", "semestre", "id_turma", "id_disciplina" }) })
@@ -31,6 +33,7 @@ public class PeriodoLetivo {
 	}
 
 	@OneToMany(mappedBy = "periodoLetivo")
+	@JsonManagedReference
 	public List<Aula> getAulas() {
 		return aulas;
 	}

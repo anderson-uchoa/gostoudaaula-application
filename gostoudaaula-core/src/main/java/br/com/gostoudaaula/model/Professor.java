@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @PrimaryKeyJoinColumn(name = "id_pessoa")
 public class Professor extends Pessoa {
@@ -19,8 +21,9 @@ public class Professor extends Pessoa {
 	public Professor(Integer chapa) {
 		this.chapa = chapa;
 	}
-	
-	@OneToMany(mappedBy="professor")
+
+	@OneToMany(mappedBy = "professor")
+	@JsonManagedReference
 	public List<Aula> getAulas() {
 		return aulas;
 	}
@@ -43,6 +46,4 @@ public class Professor extends Pessoa {
 				+ ", nome=" + nome + ", sobrenome=" + sobrenome + "]";
 	}
 
-	
-	
 }

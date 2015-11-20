@@ -20,9 +20,8 @@ public class AulaDAO extends DAO<Aula> {
 	}
 
 	public List<Aula> lista() {
-		TypedQuery<Aula> query = manager.createQuery("from Aula", Aula.class);
+		TypedQuery<Aula> query = manager.createQuery("select a from Aula a", Aula.class);
 		return query.getResultList();
-
 	}
 
 	public void salvaLista(List<Aula> aulas) {

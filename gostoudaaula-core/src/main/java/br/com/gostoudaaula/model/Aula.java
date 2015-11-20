@@ -35,6 +35,7 @@ public class Aula {
 
 	@ManyToOne
 	@JoinColumn(name = "id_professor")
+	@JsonBackReference
 	public Professor getProfessor() {
 		return professor;
 	}
@@ -45,6 +46,7 @@ public class Aula {
 
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "id_periodo_letivo")
+	@JsonBackReference
 	public PeriodoLetivo getPeriodoLetivo() {
 		return periodoLetivo;
 	}
