@@ -1,5 +1,7 @@
 package br.com.gostoudaaula.dao;
 
+import java.util.List;
+
 import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
@@ -15,6 +17,12 @@ public class AulaDAO extends DAO<Aula> {
 				"from Aula a where a.data = :data", Aula.class);
 		query.setParameter("data", aula.getData());
 		return query.getSingleResult();
+	}
+
+	public List<Aula> lista() {
+		TypedQuery<Aula> query = manager.createQuery("from Aula", Aula.class);
+		return query.getResultList();
+
 	}
 
 }

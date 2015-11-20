@@ -6,22 +6,22 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import br.com.gostoudaaula.service.AlunoService;
+import br.com.gostoudaaula.service.AulaService;
 import br.com.gostoudaaula.utils.ResourceUtils;
 
-@Path("aluno")
-public class AlunoResource {
+@Path("aula")
+public class AulaResource {
 
-	private AlunoService service;
+	private AulaService service;
 
 	@Inject
-	public AlunoResource(AlunoService service) {
+	public AulaResource(AulaService service) {
 		this.service = service;
 	}
 
 	@GET
 	@Produces(ResourceUtils.JSONUTF8)
-	public Response listaAlunos() {
+	public Response listaAulas() {
 		return Response.ok().entity(service.getLista()).build();
 	}
 
