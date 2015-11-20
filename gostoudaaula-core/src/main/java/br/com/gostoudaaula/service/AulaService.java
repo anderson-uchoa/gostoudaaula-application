@@ -18,8 +18,9 @@ public class AulaService {
 	public AulaService(AulaDAO aDao) {
 		this.aDao = aDao;
 	}
-	
-	public List<Aula> getLista(){
+
+	public List<Aula> getLista() {
+		System.out.println(aDao.lista());
 		return aDao.lista();
 	}
 
