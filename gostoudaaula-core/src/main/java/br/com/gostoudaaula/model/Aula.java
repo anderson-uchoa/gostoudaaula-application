@@ -20,7 +20,8 @@ import br.com.gostoudaaula.converter.DateConverter;
 import br.com.gostoudaaula.json.LocalDateDeserializer;
 import br.com.gostoudaaula.json.LocalDateSerializer;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -33,9 +34,8 @@ public class Aula {
 	private LocalDate data;
 	private List<Aluno> alunos;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "id_professor")
-	@JsonBackReference
 	public Professor getProfessor() {
 		return professor;
 	}
@@ -46,7 +46,6 @@ public class Aula {
 
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "id_periodo_letivo")
-	@JsonBackReference
 	public PeriodoLetivo getPeriodoLetivo() {
 		return periodoLetivo;
 	}
@@ -68,8 +67,7 @@ public class Aula {
 		this.data = data;
 	}
 
-	@ManyToMany(mappedBy = "aulas")
-	@JsonBackReference
+	@ManyToMany(mappedBy = "aulas", cascade = CascadeType.PERSIST)
 	public List<Aluno> getAlunos() {
 		return alunos;
 	}

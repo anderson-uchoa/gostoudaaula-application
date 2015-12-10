@@ -2,6 +2,7 @@ package br.com.gostoudaaula.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.joda.time.LocalDate;
@@ -32,7 +34,7 @@ public class Avaliacao {
 	private List<Respostas> respostas;
 	private LocalDate data;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "id_projeto")
 	public Projeto getProjeto() {
 		return projeto;
@@ -61,7 +63,7 @@ public class Avaliacao {
 		return id;
 	}
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "id_aula")
 	public Aula getAula() {
 		return aula;
@@ -71,7 +73,7 @@ public class Avaliacao {
 		this.aula = aula;
 	}
 
-	@ManyToMany(mappedBy = "avaliacoes")
+	@ManyToMany(mappedBy = "avaliacoes", cascade = CascadeType.PERSIST)
 	public List<Aluno> getAlunos() {
 		return alunos;
 	}
@@ -80,7 +82,7 @@ public class Avaliacao {
 		this.alunos = alunos;
 	}
 
-	@ManyToMany(mappedBy = "avaliacoes")
+	@OneToMany(mappedBy = "avaliacao", cascade = CascadeType.PERSIST)
 	public List<Respostas> getRespostas() {
 		return respostas;
 	}

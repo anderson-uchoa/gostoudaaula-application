@@ -2,6 +2,7 @@ package br.com.gostoudaaula.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,7 +28,7 @@ public class Projeto {
 		this.descricao = descricao;
 	}
 
-	@OneToOne(mappedBy = "projeto")
+	@OneToOne(mappedBy = "projeto", cascade = CascadeType.PERSIST)
 	public Avaliacao getAvaliacao() {
 		return avaliacao;
 	}
@@ -36,7 +37,7 @@ public class Projeto {
 		this.avaliacao = avaliacao;
 	}
 
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.PERSIST)
 	@JoinTable(name = "questoes_projeto", joinColumns = { @JoinColumn(name = "id_projeto") }, inverseJoinColumns = { @JoinColumn(name = "id_questoes") })
 	public List<Questoes> getQuestoes() {
 		return questoes;

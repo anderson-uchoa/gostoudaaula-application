@@ -2,14 +2,17 @@ package br.com.gostoudaaula.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "id_pessoa")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Professor extends Pessoa {
 
 	private Integer chapa;
@@ -22,8 +25,7 @@ public class Professor extends Pessoa {
 		this.chapa = chapa;
 	}
 
-	@OneToMany(mappedBy = "professor")
-	@JsonManagedReference
+	@OneToMany(mappedBy = "professor", cascade = CascadeType.PERSIST)
 	public List<Aula> getAulas() {
 		return aulas;
 	}

@@ -6,6 +6,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
+import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +16,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
-import br.com.gostoudaaula.dao.RespostasDAO;
+import br.com.gostoudaaula.example.AvaliacaoExample;
+import br.com.gostoudaaula.example.QuestoesExample;
 import br.com.gostoudaaula.example.RespostasExample;
 import br.com.gostoudaaula.model.Respostas;
 
@@ -29,17 +31,36 @@ public class RespostasDAOTest {
 
 	@Inject
 	private RespostasDAO rDao;
-	private Respostas respostas;
+	private Respostas respostas1;
 
 	@Before
 	public void setup() {
-		respostas = new RespostasExample().getExample1();
+		respostas1 = new RespostasExample().getExample1();
 	}
 
 	@Test
 	public void deveCadastrarUmaResposta() {
-		rDao.salva(respostas);
-		assertThat(respostas.getData(), equalTo(rDao.devolve(respostas)
+		rDao.salva(respostas1);
+		assertThat(respostas1.getData(), equalTo(rDao.devolve(respostas1)
 				.getData()));
+	}
+
+	@Test
+	public void deveCadastrarRespostasParaUmaQuestao() {
+		respostas1.setQuestoes(new QuestoesExample().getExample1());
+		rDao.salva(respostas1);
+		Respostas recuperada = rDao.devolve(respostas1);
+		assertThat(recuperada.getQuestoes().getDescricao(),
+				equalTo("Questão 1"));
+	}
+
+	@Test
+	public void deveCadastrarRespostasParaUmaAvaliacao() {
+		respostas1.setAvaliacao(new AvaliacaoExample().getExample1());
+		rDao.salva(respostas1);
+		Respostas recuperada = rDao.devolve(respostas1);
+
+		assertThat(recuperada.getAvaliacao().getData(),
+				equalTo(LocalDate.now()));
 	}
 }

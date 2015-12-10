@@ -1,7 +1,6 @@
 package br.com.gostoudaaula.model;
 
-import java.util.List;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -9,8 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import org.joda.time.LocalDate;
@@ -30,7 +27,7 @@ public class Respostas {
 	private Integer resposta;
 	private LocalDate data;
 	private Questoes questoes;
-	private List<Avaliacao> avaliacoes;
+	private Avaliacao avaliacao;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,7 +60,7 @@ public class Respostas {
 		this.data = data;
 	}
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "id_questoes")
 	public Questoes getQuestoes() {
 		return questoes;
@@ -73,21 +70,21 @@ public class Respostas {
 		this.questoes = questoes;
 	}
 
-	@ManyToMany
-	@JoinTable(name = "respostas_avaliacao", joinColumns = { @JoinColumn(name = "id_respostas") }, inverseJoinColumns = { @JoinColumn(name = "id_avaliacao") })
-	public List<Avaliacao> getAvaliacoes() {
-		return avaliacoes;
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "id_avaliacao")
+	public Avaliacao getAvaliacao() {
+		return avaliacao;
 	}
 
-	public void setAvaliacoes(List<Avaliacao> avaliacoes) {
-		this.avaliacoes = avaliacoes;
+	public void setAvaliacao(Avaliacao avaliacao) {
+		this.avaliacao = avaliacao;
 	}
 
 	@Override
 	public String toString() {
 		return "Respostas [id=" + id + ", descricao=" + resposta + ", data="
 				+ data + ", questoes=" + questoes + ", avaliacoes="
-				+ avaliacoes + "]";
+				+ avaliacao + "]";
 	}
 
 }

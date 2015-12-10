@@ -9,5 +9,12 @@ public class QuestoesExample {
 		questoes.setDescricao("Questão 1");
 		return questoes;
 	}
+
+	public Questoes getExample2() {
+		Questoes questoes = new Questoes();
+		questoes.setDescricao("Questão 2");
+		return questoes;
+
+	}
 	
 }

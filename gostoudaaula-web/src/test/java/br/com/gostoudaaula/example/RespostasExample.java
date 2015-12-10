@@ -13,4 +13,11 @@ public class RespostasExample {
 		return respostas;
 	}
 	
+	public Respostas getExample2(){
+		Respostas respostas = new Respostas();
+		respostas.setResposta(9);
+		respostas.setData(LocalDate.now());
+		return respostas;
+	}
+	
 }

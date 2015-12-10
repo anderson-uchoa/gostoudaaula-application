@@ -2,6 +2,7 @@ package br.com.gostoudaaula.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,7 +24,7 @@ public class Questoes {
 		this.descricao = descricao;
 	}
 
-	@ManyToMany(mappedBy = "questoes")
+	@ManyToMany(mappedBy = "questoes", cascade = CascadeType.PERSIST)
 	public List<Projeto> getProjetos() {
 		return projetos;
 	}

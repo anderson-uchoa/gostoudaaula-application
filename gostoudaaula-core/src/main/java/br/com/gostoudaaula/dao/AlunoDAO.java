@@ -20,8 +20,10 @@ public class AlunoDAO extends DAO<Aluno> {
 	}
 
 	public List<Aluno> lista() {
-		TypedQuery<Aluno> query = manager
-				.createQuery("from Aluno", Aluno.class);
+		TypedQuery<Aluno> query = manager.createQuery(
+				"select a from Aluno a inner join fetch a.aulas left join a.avaliacoes",
+				Aluno.class);
+		System.out.println(query.getResultList());
 		return query.getResultList();
 	}
 

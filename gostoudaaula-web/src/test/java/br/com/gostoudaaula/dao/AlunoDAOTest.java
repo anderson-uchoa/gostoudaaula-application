@@ -36,8 +36,6 @@ public class AlunoDAOTest {
 
 	@Inject
 	private AlunoDAO alunoDao;
-	@Inject
-	private AvaliacaoDAO avaliacaoDAO;
 	private Aluno aluno1;
 	private Aluno aluno2;
 
@@ -60,39 +58,29 @@ public class AlunoDAOTest {
 		alunos.add(aluno1);
 		alunos.add(aluno2);
 		alunoDao.salvaAlunos(alunos);
-		assertThat(alunoDao.lista().size(), equalTo(2));
+		List<Aluno> alunosSalvos = alunoDao.lista();
+		assertThat(alunosSalvos.get(0).getProntuario(), equalTo(13100082));
+		assertThat(alunosSalvos.get(1).getProntuario(), equalTo(13100083));
 	}
 
 	@Test
 	public void deveCadastrarUmAlunoEmUmaAula() {
 		List<Aula> aulas = new ArrayList<Aula>();
-		Aula aula = new AulaExample().getExample1();
-		aulas.add(aula);
+		aulas.add(new AulaExample().getExample1());
 		aluno1.setAulas(aulas);
-
 		alunoDao.salva(aluno1);
-
-		assertThat(LocalDate.now(), equalTo(alunoDao.devolve(aluno1).getAulas()
-				.get(0).getData()));
+		assertThat(alunoDao.devolve(aluno1).getAulas().get(0).getData(),
+				equalTo(LocalDate.now()));
 	}
 
 	@Test
 	public void deveCadastrarUmAlunoEmUmaAvaliacao() {
-		Avaliacao avaliacao = new AvaliacaoExample().getExample1();
-		avaliacaoDAO.salva(avaliacao);
-		Avaliacao recuperada = avaliacaoDAO.devolve(avaliacao);
-
-		List<Aluno> alunos = new ArrayList<Aluno>();
-		alunos.add(aluno1);
-		recuperada.setAlunos(alunos);
-
 		List<Avaliacao> avaliacoes = new ArrayList<Avaliacao>();
-		avaliacoes.add(recuperada);
+		avaliacoes.add(new AvaliacaoExample().getExample1());
 		aluno1.setAvaliacoes(avaliacoes);
-
 		alunoDao.salva(aluno1);
-
-		assertThat(1, equalTo(alunoDao.devolve(aluno1).getAvaliacoes().size()));
+		assertThat(alunoDao.devolve(aluno1).getAvaliacoes().get(0).getData(),
+				equalTo(LocalDate.now()));
 	}
 
 }

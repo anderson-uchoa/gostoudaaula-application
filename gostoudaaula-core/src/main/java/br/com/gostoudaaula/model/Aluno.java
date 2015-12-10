@@ -9,13 +9,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 @Entity
 @PrimaryKeyJoinColumn(name = "id_pessoa")
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
 public class Aluno extends Pessoa {
 
 	private Integer prontuario;
@@ -49,7 +44,6 @@ public class Aluno extends Pessoa {
 
 	@ManyToMany(cascade = CascadeType.PERSIST)
 	@JoinTable(name = "alunos_aula", joinColumns = { @JoinColumn(name = "id_aluno") }, inverseJoinColumns = { @JoinColumn(name = "id_aula") })
-	@JsonManagedReference
 	public List<Aula> getAulas() {
 		return aulas;
 	}
@@ -58,7 +52,7 @@ public class Aluno extends Pessoa {
 		this.aulas = aulas;
 	}
 
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.PERSIST)
 	@JoinTable(name = "alunos_avaliacao", joinColumns = { @JoinColumn(name = "id_aluno") }, inverseJoinColumns = { @JoinColumn(name = "id_avaliacao") })
 	public List<Avaliacao> getAvaliacoes() {
 		return avaliacoes;

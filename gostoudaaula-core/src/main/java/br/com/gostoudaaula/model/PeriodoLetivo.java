@@ -2,6 +2,7 @@ package br.com.gostoudaaula.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,8 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "periodo_letivo", uniqueConstraints = { @UniqueConstraint(columnNames = {
@@ -32,8 +31,7 @@ public class PeriodoLetivo {
 		return id;
 	}
 
-	@OneToMany(mappedBy = "periodoLetivo")
-	@JsonManagedReference
+	@OneToMany(mappedBy = "periodoLetivo", cascade = CascadeType.PERSIST)
 	public List<Aula> getAulas() {
 		return aulas;
 	}
@@ -42,7 +40,7 @@ public class PeriodoLetivo {
 		this.aulas = aulas;
 	}
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "id_turma")
 	public Turma getTurma() {
 		return turma;
@@ -52,7 +50,7 @@ public class PeriodoLetivo {
 		this.turma = turma;
 	}
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "id_disciplina")
 	public Disciplina getDisciplina() {
 		return disciplina;
