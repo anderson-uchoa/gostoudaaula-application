@@ -20,10 +20,8 @@ public class AlunoDAO extends DAO<Aluno> {
 	}
 
 	public List<Aluno> lista() {
-		TypedQuery<Aluno> query = manager.createQuery(
-				"select a from Aluno a inner join fetch a.aulas left join a.avaliacoes",
+		TypedQuery<Aluno> query = manager.createQuery("select a from Aluno a",
 				Aluno.class);
-		System.out.println(query.getResultList());
 		return query.getResultList();
 	}
 
@@ -33,4 +31,18 @@ public class AlunoDAO extends DAO<Aluno> {
 		}
 	}
 
+	public boolean autentica(Aluno aluno) {
+		TypedQuery<Aluno> query = manager
+				.createQuery(
+						"Select a from Aluno a where a.prontuario = :prontuario and a.senha = :senha",
+						Aluno.class);
+		query.setParameter("prontuario", aluno.getProntuario());
+		query.setParameter("senha", aluno.getSenha());
+
+		System.out.println(query.getSingleResult());
+		if (query.getSingleResult() != null) {
+			return true;
+		}
+		return false;
+	}
 }

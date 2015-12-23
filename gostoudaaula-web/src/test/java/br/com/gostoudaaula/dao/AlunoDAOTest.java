@@ -83,4 +83,10 @@ public class AlunoDAOTest {
 				equalTo(LocalDate.now()));
 	}
 
+	@Test
+	public void deveAutenticarAluno() {
+		alunoDao.salva(aluno1);
+		assertThat(alunoDao.autentica(aluno1), equalTo(true));
+	}
+
 }

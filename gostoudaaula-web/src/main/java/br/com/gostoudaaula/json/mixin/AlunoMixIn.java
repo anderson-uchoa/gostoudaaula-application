@@ -1,4 +1,4 @@
-package br.com.gostoudaaula.json;
+package br.com.gostoudaaula.json.mixin;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;

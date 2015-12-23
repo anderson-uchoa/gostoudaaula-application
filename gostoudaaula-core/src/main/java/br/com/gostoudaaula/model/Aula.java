@@ -20,8 +20,6 @@ import br.com.gostoudaaula.converter.DateConverter;
 import br.com.gostoudaaula.json.LocalDateDeserializer;
 import br.com.gostoudaaula.json.LocalDateSerializer;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
