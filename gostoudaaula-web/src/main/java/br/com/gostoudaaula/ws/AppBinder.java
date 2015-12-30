@@ -29,7 +29,7 @@ public class AppBinder extends AbstractBinder {
 		try {
 
 			List<Class> classes = classUtil
-					.fromPackage("br.com.gostoudaaula.dao");
+					.fromPackage("br.com.gostoudaaula.db.dao");
 			classes.addAll(classUtil
 					.fromPackage("br.com.gostoudaaula.service"));
 

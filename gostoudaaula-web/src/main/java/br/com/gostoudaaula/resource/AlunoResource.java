@@ -7,9 +7,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import br.com.gostoudaaula.db.service.AlunoService;
 import br.com.gostoudaaula.json.mixin.AlunoMixIn;
 import br.com.gostoudaaula.model.Aluno;
+import br.com.gostoudaaula.service.AlunoService;
 import br.com.gostoudaaula.utils.ResourceUtils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;

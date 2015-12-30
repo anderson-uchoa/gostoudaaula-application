@@ -1,4 +1,4 @@
-package br.com.gostoudaaula.db.service;
+package br.com.gostoudaaula.service;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
