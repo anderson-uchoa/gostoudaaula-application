@@ -19,7 +19,6 @@
 		<spring.version>4.2.2.RELEASE</spring.version>
 	</properties>
 
-
 	<dependencies>
 		<dependency>
 			<groupId>org.hibernate</groupId>

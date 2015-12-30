@@ -1,4 +1,4 @@
-package br.com.gostoudaaula.dao;
+package br.com.gostoudaaula.db.dao;
 
 import java.util.List;
 

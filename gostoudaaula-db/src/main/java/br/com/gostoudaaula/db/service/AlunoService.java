@@ -7,7 +7,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
-import br.com.gostoudaaula.dao.AlunoDAO;
+import br.com.gostoudaaula.db.dao.AlunoDAO;
 import br.com.gostoudaaula.model.Aluno;
 
 @Service

@@ -19,6 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
+import br.com.gostoudaaula.db.dao.ProfessorDAO;
 import br.com.gostoudaaula.example.AulaExample;
 import br.com.gostoudaaula.example.ProfessorExample;
 import br.com.gostoudaaula.model.Aula;

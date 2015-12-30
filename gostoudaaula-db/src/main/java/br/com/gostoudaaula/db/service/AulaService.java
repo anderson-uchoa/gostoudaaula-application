@@ -6,7 +6,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
-import br.com.gostoudaaula.dao.AulaDAO;
+import br.com.gostoudaaula.db.dao.AulaDAO;
 import br.com.gostoudaaula.model.Aula;
 
 @Service

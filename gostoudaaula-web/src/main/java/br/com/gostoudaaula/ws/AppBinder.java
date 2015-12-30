@@ -7,7 +7,7 @@ import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import br.com.gostoudaaula.dao.DAO;
+import br.com.gostoudaaula.db.dao.DAO;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 public class AppBinder extends AbstractBinder {
