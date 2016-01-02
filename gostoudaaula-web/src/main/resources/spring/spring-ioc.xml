@@ -14,6 +14,8 @@
 	<context:annotation-config></context:annotation-config>
 	<context:component-scan base-package="br.com.gostoudaaula" />
 
+	<bean id="ObjectMapper" class="com.fasterxml.jackson.databind.ObjectMapper">
+	</bean>
 
 	<import resource="spring-flyway-config.xml" />
 	<import resource="spring-jpa-config.xml" />

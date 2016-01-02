@@ -1,5 +1,7 @@
 package br.com.gostoudaaula.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
@@ -25,5 +27,9 @@ public class ProfessorService {
 
 	public Professor retorna(Professor professor) {
 		return pDao.devolve(professor);
+	}
+
+	public List<Professor> getLista() {
+		return pDao.lista();
 	}
 }

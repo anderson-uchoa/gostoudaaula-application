@@ -24,7 +24,7 @@
 		<property name="jpaPropertyMap">
 			<map>
 				<entry key="hibernate.dialect" value="${hibernate.dialect}" />
-				<!-- <entry key="hibernate.enable_lazy_load_no_trans" value="true" /> -->
+				<entry key="hibernate.enable_lazy_load_no_trans" value="true" />
 
 				<entry key="hibernate.show_sql" value="${hibernate.show_sql}" />
 				<entry key="hibernate.format_sql" value="${hibernate.format_sql}" />

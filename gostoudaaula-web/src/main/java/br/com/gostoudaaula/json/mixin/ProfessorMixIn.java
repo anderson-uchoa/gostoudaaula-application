@@ -7,12 +7,12 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.com.gostoudaaula.model.Aula;
-import br.com.gostoudaaula.model.Avaliacao;
 
 @JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.NONE)
-public class AlunoMixIn {
+public class ProfessorMixIn {
 
-	public class MainMixIn extends AlunoMixIn {
+	public class MainMixIn extends ProfessorMixIn {
+
 		@JsonProperty
 		private Long id;
 		@JsonProperty
@@ -20,16 +20,13 @@ public class AlunoMixIn {
 		@JsonProperty
 		private String sobrenome;
 		@JsonProperty
-		private Integer prontuario;
-		@JsonProperty
-		private String senha;
+		private Integer chapa;
 		@JsonProperty
 		private List<Aula> aulas;
-		@JsonProperty
-		private List<Avaliacao> avaliacoes;
+
 	}
 
-	public class AssociationMixIn extends AlunoMixIn {
+	public class AssociationMixIn extends ProfessorMixIn {
 		@JsonProperty
 		private Long id;
 		@JsonProperty
@@ -37,7 +34,7 @@ public class AlunoMixIn {
 		@JsonProperty
 		private String sobrenome;
 		@JsonProperty
-		private Integer prontuario;	
+		private Integer chapa;
 	}
 
 }

@@ -1,5 +1,7 @@
 package br.com.gostoudaaula.db.dao;
 
+import java.util.List;
+
 import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
@@ -17,5 +19,9 @@ public class PeriodoLetivoDAO extends DAO<PeriodoLetivo> {
 		query.setParameter("ano", periodo.getAno());
 		query.setParameter("semestre", periodo.getSemestre());
 		return query.getSingleResult();
+	}
+
+	public List<PeriodoLetivo> lista() {
+		return null;
 	}
 }
