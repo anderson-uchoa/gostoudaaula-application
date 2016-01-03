@@ -14,14 +14,14 @@ public class PeriodoLetivoDAO extends DAO<PeriodoLetivo> {
 	@Override
 	public PeriodoLetivo devolve(PeriodoLetivo periodo) {
 		TypedQuery<PeriodoLetivo> query = manager.createQuery(
-				"from PeriodoLetivo p where p.ano = :ano "
-						+ "and p.semestre = :semestre", PeriodoLetivo.class);
+				"from PeriodoLetivo p where p.ano = :ano " + "and p.semestre = :semestre", PeriodoLetivo.class);
 		query.setParameter("ano", periodo.getAno());
 		query.setParameter("semestre", periodo.getSemestre());
 		return query.getSingleResult();
 	}
 
 	public List<PeriodoLetivo> lista() {
-		return null;
+		TypedQuery<PeriodoLetivo> query = manager.createQuery("select p from PeriodoLetivo p", PeriodoLetivo.class);
+		return query.getResultList();
 	}
 }

@@ -1,4 +1,4 @@
-package br.com.gostoudaaula.model;
+	package br.com.gostoudaaula.model;
 
 import java.util.List;
 

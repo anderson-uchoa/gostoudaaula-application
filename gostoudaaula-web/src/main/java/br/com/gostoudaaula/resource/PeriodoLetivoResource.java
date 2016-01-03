@@ -1,5 +1,7 @@
 package br.com.gostoudaaula.resource;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -9,6 +11,8 @@ import javax.ws.rs.core.Response;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import br.com.gostoudaaula.json.mixin.PeriodoLetivoMixIn;
+import br.com.gostoudaaula.model.PeriodoLetivo;
 import br.com.gostoudaaula.service.PeriodoLetivoService;
 import br.com.gostoudaaula.utils.ResourceUtils;
 
@@ -26,7 +30,9 @@ public class PeriodoLetivoResource {
 	@Produces(ResourceUtils.JSONUTF8)
 	public Response lista() throws JsonProcessingException{
 		ObjectMapper mapper = new ObjectMapper();
-		String json = mapper.writeValueAsString(service.getLista()); 
+		mapper.addMixIn(PeriodoLetivo.class, PeriodoLetivoMixIn.AssociationMixIn.class);
+		List<PeriodoLetivo> periodo = service.getLista();
+		String json = mapper.writeValueAsString(periodo); 
 		return Response.ok().entity(json).build();
 	}
 }

@@ -31,7 +31,7 @@ public class ProfessorResource {
 	@Produces(ResourceUtils.JSONUTF8)
 	public Response listaProfessor() throws JsonProcessingException{
 		ObjectMapper mapper = new ObjectMapper();
-		mapper.addMixIn(Professor.class, ProfessorMixIn.class);
+		mapper.addMixIn(Professor.class, ProfessorMixIn.MainMixIn.class);
 		String json = mapper.writeValueAsString(service.getLista());
 		return Response.ok().entity(json).build();
 	}

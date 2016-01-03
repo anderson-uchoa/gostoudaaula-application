@@ -21,7 +21,6 @@ public class AulaService {
 	}
 
 	public List<Aula> getLista() {
-		System.out.println(aDao.lista());
 		return aDao.lista();
 	}
 	

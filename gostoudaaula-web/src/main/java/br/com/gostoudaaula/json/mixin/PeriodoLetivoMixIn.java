@@ -31,7 +31,6 @@ public class PeriodoLetivoMixIn {
 	}
 
 	public class AssociationMixIn extends PeriodoLetivoMixIn {
-
 		@JsonProperty
 		private Long id;
 		@JsonProperty

@@ -1,7 +1,8 @@
 package br.com.gostoudaaula.json.mixin;
 
-import java.time.LocalDate;
 import java.util.List;
+
+import org.joda.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
@@ -15,6 +16,7 @@ import br.com.gostoudaaula.model.Professor;
 public class AulaMixIn {
 
 	public class MainMixIn extends AulaMixIn {
+
 		@JsonProperty
 		private Long id;
 		@JsonProperty
@@ -25,6 +27,7 @@ public class AulaMixIn {
 		private LocalDate data;
 		@JsonProperty
 		private List<Aluno> alunos;
+
 	}
 
 	public class AssociationMixIn extends AulaMixIn {
@@ -33,9 +36,20 @@ public class AulaMixIn {
 		@JsonProperty
 		private Professor professor;
 		@JsonProperty
+		private PeriodoLetivo periodoLetivo;
+		@JsonProperty
 		private LocalDate data;
+	}
+
+	public class AssociationWithProfessorMixIn extends AulaMixIn {
+		@JsonProperty
+		private Long id;
+		@JsonProperty
+		private Professor professor;
 		@JsonProperty
 		private PeriodoLetivo periodoLetivo;
+		@JsonProperty
+		private LocalDate data;
 	}
 
 }

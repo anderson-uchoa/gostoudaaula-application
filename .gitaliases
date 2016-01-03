@@ -1,0 +1,4 @@
+
+[alias]
+publish = git clone https://github.com/alexfelipe/gostoudaaula-application checkout master && git pull origin master && git rebase master dev && git checkout master && git merge dev && git push origin master:master && git checkout dev
+forcepush = push origin master --force

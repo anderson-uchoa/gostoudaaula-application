@@ -20,7 +20,6 @@ public class PeriodoLetivoService {
 	}
 	
 	public List<PeriodoLetivo> getLista() {
-		
 		return this.pDao.lista();
 	}
 
