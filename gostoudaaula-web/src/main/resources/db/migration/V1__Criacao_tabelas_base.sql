@@ -6,35 +6,35 @@ CREATE TABLE pessoa (
 
 CREATE TABLE aluno (
 	id_pessoa integer primary key auto_increment,
-    prontuario integer NOT NULL,
+    prontuario integer NOT NULL UNIQUE,
     senha varchar(255) NOT NULL,
 	foreign key (id_pessoa) references pessoa(id) on delete cascade on update cascade
 );
 
 CREATE TABLE professor (
 	id_pessoa integer primary key,
-	chapa integer NOT NULL,
+	chapa integer NOT NULL UNIQUE,
     foreign key (id_pessoa) references pessoa(id) on delete cascade on update cascade
 );
 
 CREATE TABLE turma (
 	id integer primary key auto_increment,
-    descricao varchar(50) NOT NULL
+    descricao varchar(50) NOT NULL UNIQUE
 );
 
 CREATE TABLE disciplina (
 	id integer primary key auto_increment,
-    descricao varchar(50) NOT NULL
+    descricao varchar(50) NOT NULL UNIQUE
 );
 
 CREATE TABLE projeto (
 	id integer primary key auto_increment,
-    descricao varchar (100) NOT NULL
+    descricao varchar (100) NOT NULL UNIQUE
 );
 
 CREATE TABLE questoes (
 	id integer primary key auto_increment,
-    descricao varchar (255) NOT NULL
+    descricao varchar (255) NOT NULL UNIQUE
 );
 
 CREATE TABLE questoes_projeto(

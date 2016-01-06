@@ -14,6 +14,7 @@ import br.com.gostoudaaula.json.mixin.AlunoMixIn;
 import br.com.gostoudaaula.model.Aluno;
 import br.com.gostoudaaula.service.AlunoService;
 import br.com.gostoudaaula.utils.ResourceUtils;
+import br.com.gostoudaaula.ws.exception.NotAuthorizedException;
 
 @Path("aluno")
 public class AlunoResource {
@@ -30,11 +31,11 @@ public class AlunoResource {
 	public Response listaAlunos() throws JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.addMixIn(Aluno.class, AlunoMixIn.AssociationMixIn.class);
-//		mapper.addMixIn(Aluno.class, AlunoMixIn.MainMixIn.class)
-//		.addMixIn(Aula.class, AulaMixIn.AssociationWithProfessorMixIn.class)
-//		.addMixIn(PeriodoLetivo.class,PeriodoLetivoMixIn.AssociationMixIn.class)
-//		.addMixIn(Avaliacao.class, AvaliacaoMixIn.AssociationMixIn.class)
-//		.addMixIn(Projeto.class, ProjetoMixIn.AssociationMixIn.class);
+		// mapper.addMixIn(Aluno.class, AlunoMixIn.MainMixIn.class)
+		// .addMixIn(Aula.class, AulaMixIn.AssociationWithProfessorMixIn.class)
+		// .addMixIn(PeriodoLetivo.class,PeriodoLetivoMixIn.AssociationMixIn.class)
+		// .addMixIn(Avaliacao.class, AvaliacaoMixIn.AssociationMixIn.class)
+		// .addMixIn(Projeto.class, ProjetoMixIn.AssociationMixIn.class);
 		String json = mapper.writeValueAsString(service.getLista());
 		return Response.ok().entity(json).build();
 	}
@@ -44,6 +45,19 @@ public class AlunoResource {
 	public Response salvaAluno(Aluno aluno) {
 		service.salva(aluno);
 		return Response.ok().build();
+	}
+
+	@POST
+	@Path("/auth")
+	@Produces(ResourceUtils.JSONUTF8)
+	public Response autentica(Aluno aluno) throws JsonProcessingException {
+		if (service.autentica(aluno)) {
+			ObjectMapper mapper = new ObjectMapper();
+			mapper.addMixIn(Aluno.class, AlunoMixIn.AssociationMixIn.class);
+			String json = mapper.writeValueAsString(service.retorna(aluno));
+			return Response.ok().entity(json).build();
+		}
+		throw new NotAuthorizedException("Erro na autenticação");
 	}
 
 }

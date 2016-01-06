@@ -1,5 +1,6 @@
 package br.com.gostoudaaula.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -11,8 +12,12 @@ import javax.persistence.PrimaryKeyJoinColumn;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "id_pessoa")
-public class Aluno extends Pessoa {
+public class Aluno extends Pessoa implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer prontuario;
 	private String senha;
 	private List<Aula> aulas;

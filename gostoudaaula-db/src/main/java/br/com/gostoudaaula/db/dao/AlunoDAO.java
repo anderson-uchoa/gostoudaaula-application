@@ -13,15 +13,12 @@ public class AlunoDAO extends DAO<Aluno> {
 
 	@Override
 	public Aluno devolve(Aluno aluno) {
-		TypedQuery<Aluno> query = manager.createQuery(
-				"from Aluno a where a.prontuario = :pProntuario", Aluno.class);
-		return query.setParameter("pProntuario", aluno.getProntuario())
-				.getSingleResult();
+		TypedQuery<Aluno> query = manager.createQuery("from Aluno a where a.prontuario = :pProntuario", Aluno.class);
+		return query.setParameter("pProntuario", aluno.getProntuario()).getSingleResult();
 	}
 
 	public List<Aluno> lista() {
-		TypedQuery<Aluno> query = manager.createQuery("select a from Aluno a",
-				Aluno.class);
+		TypedQuery<Aluno> query = manager.createQuery("select a from Aluno a", Aluno.class);
 		return query.getResultList();
 	}
 
@@ -32,15 +29,12 @@ public class AlunoDAO extends DAO<Aluno> {
 	}
 
 	public boolean autentica(Aluno aluno) {
-		TypedQuery<Aluno> query = manager
-				.createQuery(
-						"Select a from Aluno a where a.prontuario = :prontuario and a.senha = :senha",
-						Aluno.class);
+		TypedQuery<Aluno> query = manager.createQuery(
+				"Select a from Aluno a where a.prontuario = :prontuario and a.senha = :senha", Aluno.class);
 		query.setParameter("prontuario", aluno.getProntuario());
 		query.setParameter("senha", aluno.getSenha());
 
-		System.out.println(query.getSingleResult());
-		if (query.getSingleResult() != null) {
+		if (!query.getResultList().isEmpty()) {
 			return true;
 		}
 		return false;

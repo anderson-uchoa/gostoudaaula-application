@@ -33,4 +33,8 @@ public class AlunoService {
 		return aDao.lista();
 	}
 
+	public boolean autentica(Aluno aluno) {
+		return aDao.autentica(aluno);
+	}
+
 }

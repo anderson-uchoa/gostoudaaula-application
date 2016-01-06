@@ -1,5 +1,6 @@
 package br.com.gostoudaaula.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -13,8 +14,12 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
 @Entity
-public class Projeto {
+public class Projeto implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long id;
 	private String descricao;
 	private Avaliacao avaliacao;
