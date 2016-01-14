@@ -59,5 +59,12 @@ public class AlunoResource {
 		}
 		throw new NotAuthorizedException("Erro na autenticação");
 	}
+	
+	@GET
+	@Path("/aulas")
+	@Produces(ResourceUtils.JSONUTF8)
+	public Response listaDeAulas(Aluno aluno){
+		return null;
+	}
 
 }

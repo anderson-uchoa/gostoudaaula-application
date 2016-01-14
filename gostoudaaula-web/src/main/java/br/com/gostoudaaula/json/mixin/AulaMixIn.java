@@ -45,11 +45,10 @@ public class AulaMixIn {
 		@JsonProperty
 		private Long id;
 		@JsonProperty
-		private Professor professor;
-		@JsonProperty
 		private PeriodoLetivo periodoLetivo;
 		@JsonProperty
 		private LocalDate data;
 	}
+	
 
 }

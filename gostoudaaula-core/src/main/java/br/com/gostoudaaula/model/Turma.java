@@ -8,7 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Turma implements Serializable{
+public class Turma implements Serializable {
 
 	/**
 	 * 
@@ -33,11 +33,6 @@ public class Turma implements Serializable{
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	@Override
-	public String toString() {
-		return "Turma [id=" + id + ", descricao=" + descricao + "]";
 	}
 
 }

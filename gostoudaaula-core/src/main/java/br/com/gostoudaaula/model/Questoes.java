@@ -1,5 +1,6 @@
 package br.com.gostoudaaula.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -10,8 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
 @Entity
-public class Questoes {
+public class Questoes implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long id;
 	private String descricao;
 	private List<Projeto> projetos;
@@ -43,11 +48,4 @@ public class Questoes {
 		this.id = id;
 	}
 
-	@Override
-	public String toString() {
-		return "Questoes [id=" + id + ", descricao=" + descricao
-				+ ", projetos=" + projetos + "]";
-	}
-
-	
 }

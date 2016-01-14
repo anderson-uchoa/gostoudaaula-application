@@ -12,11 +12,8 @@ import javax.persistence.PrimaryKeyJoinColumn;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "id_pessoa")
-public class Aluno extends Pessoa implements Serializable{
+public class Aluno extends Pessoa implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private Integer prontuario;
 	private String senha;
@@ -48,7 +45,8 @@ public class Aluno extends Pessoa implements Serializable{
 	}
 
 	@ManyToMany(cascade = CascadeType.PERSIST)
-	@JoinTable(name = "alunos_aula", joinColumns = { @JoinColumn(name = "id_aluno") }, inverseJoinColumns = { @JoinColumn(name = "id_aula") })
+	@JoinTable(name = "alunos_aula", joinColumns = { @JoinColumn(name = "id_aluno") }, inverseJoinColumns = {
+			@JoinColumn(name = "id_aula") })
 	public List<Aula> getAulas() {
 		return aulas;
 	}
@@ -58,20 +56,14 @@ public class Aluno extends Pessoa implements Serializable{
 	}
 
 	@ManyToMany(cascade = CascadeType.PERSIST)
-	@JoinTable(name = "alunos_avaliacao", joinColumns = { @JoinColumn(name = "id_aluno") }, inverseJoinColumns = { @JoinColumn(name = "id_avaliacao") })
+	@JoinTable(name = "alunos_avaliacao", joinColumns = { @JoinColumn(name = "id_aluno") }, inverseJoinColumns = {
+			@JoinColumn(name = "id_avaliacao") })
 	public List<Avaliacao> getAvaliacoes() {
 		return avaliacoes;
 	}
 
 	public void setAvaliacoes(List<Avaliacao> avaliacoes) {
 		this.avaliacoes = avaliacoes;
-	}
-
-	@Override
-	public String toString() {
-		return "Aluno [prontuario=" + prontuario + ", senha=" + senha
-				+ ", aulas=" + aulas + ", id=" + id + ", nome=" + nome
-				+ ", sobrenome=" + sobrenome + "]";
 	}
 
 }

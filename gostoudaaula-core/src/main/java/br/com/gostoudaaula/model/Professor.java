@@ -1,4 +1,4 @@
- package br.com.gostoudaaula.model;
+package br.com.gostoudaaula.model;
 
 import java.io.Serializable;
 import java.util.List;
@@ -12,9 +12,6 @@ import javax.persistence.PrimaryKeyJoinColumn;
 @PrimaryKeyJoinColumn(name = "id_pessoa")
 public class Professor extends Pessoa implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private Integer chapa;
 	private List<Aula> aulas;
@@ -41,12 +38,6 @@ public class Professor extends Pessoa implements Serializable {
 
 	public void setChapa(Integer chapa) {
 		this.chapa = chapa;
-	}
-
-	@Override
-	public String toString() {
-		return "Professor [chapa=" + chapa + ", aulas=" + aulas + ", id=" + id
-				+ ", nome=" + nome + ", sobrenome=" + sobrenome + "]";
 	}
 
 }

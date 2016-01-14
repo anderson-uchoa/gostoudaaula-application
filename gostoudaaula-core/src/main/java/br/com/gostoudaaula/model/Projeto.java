@@ -43,7 +43,8 @@ public class Projeto implements Serializable {
 	}
 
 	@ManyToMany(cascade = CascadeType.PERSIST)
-	@JoinTable(name = "questoes_projeto", joinColumns = { @JoinColumn(name = "id_projeto") }, inverseJoinColumns = { @JoinColumn(name = "id_questoes") })
+	@JoinTable(name = "questoes_projeto", joinColumns = { @JoinColumn(name = "id_projeto") }, inverseJoinColumns = {
+			@JoinColumn(name = "id_questoes") })
 	public List<Questoes> getQuestoes() {
 		return questoes;
 	}
@@ -62,12 +63,4 @@ public class Projeto implements Serializable {
 		this.id = id;
 	}
 
-	@Override
-	public String toString() {
-		return "Projeto [id=" + id + ", descricao=" + descricao
-				+ ", avaliacao=" + avaliacao + ", questoes=" + questoes + "]";
-	}
-	
-	
 }
-

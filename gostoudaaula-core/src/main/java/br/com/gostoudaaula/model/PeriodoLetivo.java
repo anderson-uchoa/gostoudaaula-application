@@ -1,4 +1,4 @@
-	package br.com.gostoudaaula.model;
+package br.com.gostoudaaula.model;
 
 import java.io.Serializable;
 import java.util.List;
@@ -14,14 +14,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-@Entity
-@Table(name = "periodo_letivo", uniqueConstraints = { @UniqueConstraint(columnNames = {
-		"ano", "semestre", "id_turma", "id_disciplina" }) })
-public class PeriodoLetivo implements Serializable{
+import android.os.Parcel;
+import android.os.Parcelable;
 
-	/**
-	 * 
-	 */
+@Entity
+@Table(name = "periodo_letivo", uniqueConstraints = {
+		@UniqueConstraint(columnNames = { "ano", "semestre", "id_turma", "id_disciplina" }) })
+public class PeriodoLetivo implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 	private Long id;
 	private Integer ano;
@@ -83,13 +83,6 @@ public class PeriodoLetivo implements Serializable{
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	@Override
-	public String toString() {
-		return "PeriodoLetivo [id=" + id + ", ano=" + ano + ", semestre="
-				+ semestre + ", aulas=" + aulas + ", turma=" + turma
-				+ ", disciplina=" + disciplina + "]";
 	}
 
 }

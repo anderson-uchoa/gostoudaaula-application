@@ -17,15 +17,15 @@ import javax.persistence.ManyToOne;
 import org.joda.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import br.com.gostoudaaula.converter.DateConverter;
 import br.com.gostoudaaula.json.LocalDateDeserializer;
 import br.com.gostoudaaula.json.LocalDateSerializer;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 @Entity
-public class Aula implements Serializable{
+public class Aula implements Serializable {
 
 	/**
 	 * 
@@ -87,13 +87,6 @@ public class Aula implements Serializable{
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	@Override
-	public String toString() {
-		return "Aula [id=" + id + ", professor=" + professor
-				+ ", periodoLetivo=" + periodoLetivo + ", data=" + data
-				+ ", alunos=" + alunos + "]";
 	}
 
 }

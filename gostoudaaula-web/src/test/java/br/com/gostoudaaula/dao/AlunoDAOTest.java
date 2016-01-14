@@ -89,5 +89,8 @@ public class AlunoDAOTest {
 		alunoDao.salva(aluno1);
 		assertThat(alunoDao.autentica(aluno1), equalTo(true));
 	}
+	
+	
+	
 
 }

@@ -18,19 +18,16 @@ import javax.persistence.OneToOne;
 import org.joda.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import br.com.gostoudaaula.converter.DateConverter;
 import br.com.gostoudaaula.json.LocalDateDeserializer;
 import br.com.gostoudaaula.json.LocalDateSerializer;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 @Entity
 public class Avaliacao implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private Long id;
 	private Projeto projeto;
@@ -98,13 +95,6 @@ public class Avaliacao implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	@Override
-	public String toString() {
-		return "Avaliacao [id=" + id + ", projeto=" + projeto + ", aula="
-				+ aula + ", alunos=" + alunos + ", respostas=" + respostas
-				+ ", data=" + data + "]";
 	}
 
 }

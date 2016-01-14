@@ -1,5 +1,7 @@
 package br.com.gostoudaaula.model;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
@@ -21,8 +23,12 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
-public class Respostas {
+public class Respostas implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long id;
 	private Integer resposta;
 	private LocalDate data;
@@ -78,13 +84,6 @@ public class Respostas {
 
 	public void setAvaliacao(Avaliacao avaliacao) {
 		this.avaliacao = avaliacao;
-	}
-
-	@Override
-	public String toString() {
-		return "Respostas [id=" + id + ", descricao=" + resposta + ", data="
-				+ data + ", questoes=" + questoes + ", avaliacoes="
-				+ avaliacao + "]";
 	}
 
 }

@@ -35,9 +35,5 @@ public class Disciplina implements Serializable {
 		this.descricao = descricao;
 	}
 
-	@Override
-	public String toString() {
-		return "Disciplina [id=" + id + ", descricao=" + descricao + "]";
-	}
 
 }

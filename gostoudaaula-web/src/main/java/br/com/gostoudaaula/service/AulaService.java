@@ -23,10 +23,18 @@ public class AulaService {
 	public List<Aula> getLista() {
 		return aDao.lista();
 	}
-	
+
 	@Transactional
-	public void salva(Aula aula){
+	public void salva(Aula aula) {
 		aDao.salva(aula);
+	}
+
+	public List<Aula> getListaOfAlunos(Integer prontuario) {
+		return aDao.listaDeAlunos(prontuario);
+	}
+
+	public List<Aula> getListaDeAulaParaAvaliar(Integer prontuario) {
+		return aDao.getAulasDeAlunosParaAvaliar(prontuario);
 	}
 
 }
