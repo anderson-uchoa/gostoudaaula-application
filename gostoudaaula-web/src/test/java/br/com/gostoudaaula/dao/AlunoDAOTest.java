@@ -20,6 +20,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
 import br.com.gostoudaaula.db.dao.AlunoDAO;
+import br.com.gostoudaaula.db.repository.AlunoRepository;
 import br.com.gostoudaaula.example.AlunoExample;
 import br.com.gostoudaaula.example.AulaExample;
 import br.com.gostoudaaula.example.AvaliacaoExample;
@@ -35,8 +36,10 @@ import br.com.gostoudaaula.model.Avaliacao;
 @Transactional
 public class AlunoDAOTest {
 
-	@Inject
+//	@Inject
 	private AlunoDAO alunoDao;
+	@Inject
+	private AlunoRepository repository;
 	private Aluno aluno1;
 	private Aluno aluno2;
 
@@ -48,8 +51,8 @@ public class AlunoDAOTest {
 
 	@Test
 	public void deveCadastrarUmAluno() {
-		alunoDao.salva(aluno1);
-		Aluno alunoDevolvido = alunoDao.devolve(aluno1);
+		repository.save(aluno1);
+		Aluno alunoDevolvido = repository.findByProntuario(aluno1);
 		assertThat(alunoDevolvido.getProntuario(), equalTo(13100082));
 	}
 
@@ -87,6 +90,7 @@ public class AlunoDAOTest {
 	@Test
 	public void deveAutenticarAluno() {
 		alunoDao.salva(aluno1);
+		
 		assertThat(alunoDao.autentica(aluno1), equalTo(true));
 	}
 	

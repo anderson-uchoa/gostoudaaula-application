@@ -7,34 +7,34 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
-import br.com.gostoudaaula.db.dao.AlunoDAO;
+import br.com.gostoudaaula.db.repository.AlunoRepository;
 import br.com.gostoudaaula.model.Aluno;
 
 @Service
 public class AlunoService {
 
-	private AlunoDAO aDao;
+	private AlunoRepository repository;
 
 	@Inject
-	public AlunoService(AlunoDAO aDao) {
-		this.aDao = aDao;
+	public AlunoService(AlunoRepository repository) {
+		this.repository = repository;
 	}
 
 	@Transactional
 	public void salva(Aluno aluno) {
-		aDao.salva(aluno);
+		repository.save(aluno);
 	}
 
 	public Aluno retorna(Aluno aluno) {
-		return aDao.devolve(aluno);
+		return repository.findByProntuario(aluno);
 	}
 
 	public List<Aluno> getLista() {
-		return aDao.lista();
+		return repository.findAll();
 	}
 
 	public boolean autentica(Aluno aluno) {
-		return aDao.autentica(aluno);
+		return repository.autentica(aluno);
 	}
 
 }
