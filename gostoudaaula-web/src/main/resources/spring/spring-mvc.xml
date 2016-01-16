@@ -10,7 +10,7 @@
 	http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
 	<mvc:annotation-driven />
-	
+
 	<mvc:default-servlet-handler />
 	<context:property-placeholder
 		file-encoding="UTF-8"
@@ -26,5 +26,6 @@
 
 	<import resource="spring-jpa-config.xml" />
 	<import resource="spring-flyway-config.xml" />
+	<import resource="spring-ioc.xml" />
 
 </beans>
