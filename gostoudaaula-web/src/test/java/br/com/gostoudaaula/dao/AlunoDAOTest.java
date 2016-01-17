@@ -19,7 +19,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
-import br.com.gostoudaaula.db.dao.AlunoDAO;
 import br.com.gostoudaaula.db.repository.AlunoRepository;
 import br.com.gostoudaaula.example.AlunoExample;
 import br.com.gostoudaaula.example.AulaExample;
@@ -79,14 +78,21 @@ public class AlunoDAOTest {
 		List<Avaliacao> avaliacoes = new ArrayList<Avaliacao>();
 		avaliacoes.add(new AvaliacaoExample().getExample1());
 		aluno1.setAvaliacoes(avaliacoes);
-		alunoDao.salva(aluno1);
-		assertThat(alunoDao.devolve(aluno1).getAvaliacoes().get(0).getData(), equalTo(LocalDate.now()));
+		repository.save(aluno1);
+		assertThat(repository.findByProntuario(aluno1.getProntuario()).getAvaliacoes().get(0).getData(),
+				equalTo(LocalDate.now()));
 	}
 
 	@Test
 	public void deveAutenticarAluno() {
 		repository.save(aluno1);
-		assertThat(repository.autentica(aluno1), equalTo(true));
+		assertThat(repository.autentica(aluno1).getProntuario(), equalTo(aluno1.getProntuario()));
+	}
+
+	@Test
+	public void naoDeveAutenticaAluno(){
+		repository.save(aluno1);
+		assertThat(repository.autentica(aluno2), equalTo(null));
 	}
 
 }

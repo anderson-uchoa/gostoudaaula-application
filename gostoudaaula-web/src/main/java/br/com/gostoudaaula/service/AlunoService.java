@@ -33,7 +33,7 @@ public class AlunoService {
 		return (List<Aluno>) repository.findAll();
 	}
 
-	public boolean autentica(Aluno aluno) {
+	public Aluno autentica(Aluno aluno) {
 		return repository.autentica(aluno);
 	}
 

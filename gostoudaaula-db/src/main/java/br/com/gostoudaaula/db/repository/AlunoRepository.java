@@ -12,7 +12,7 @@ public interface AlunoRepository extends CrudRepository<Aluno, Long> {
 
 	public Aluno findByProntuario(Integer prontuario);
 
-	@Query("SELECT a FROM Aluno a WHERE a.prontuario = " + ":#{#aluno.prontuario} and a.senha = :#{#aluno.nome}")
-	public boolean autentica(@Param("aluno") Aluno aluno);
+	@Query("FROM Aluno a WHERE a.prontuario = :#{#aluno.prontuario} AND a.senha = :#{#aluno.senha}")
+	public Aluno autentica(@Param("aluno") Aluno aluno);
 
 }

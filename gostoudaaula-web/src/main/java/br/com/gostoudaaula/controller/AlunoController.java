@@ -46,15 +46,15 @@ public class AlunoController {
 	}
 
 	@RequestMapping(value = "aluno/autentica/{prontuario}")
-	public @ResponseBody ResponseEntity<String> autentica(@RequestBody Aluno aluno) throws JsonProcessingException{
+	public @ResponseBody ResponseEntity<String> autentica(@RequestBody Aluno aluno) throws JsonProcessingException {
 		String resposta = "Erro de autenticação";
-		
-		if(service.autentica(aluno)){
+
+		if (service.autentica(aluno) != null) {
 			mapper.addMixIn(Aluno.class, AlunoMixIn.AssociationMixIn.class);
 			resposta = mapper.writeValueAsString(service.retorna(aluno));
 			return new ResponseEntity<String>(resposta, HttpStatus.ACCEPTED);
 		}
-		
+
 		return new ResponseEntity<String>(resposta, HttpStatus.UNAUTHORIZED);
 	}
 
