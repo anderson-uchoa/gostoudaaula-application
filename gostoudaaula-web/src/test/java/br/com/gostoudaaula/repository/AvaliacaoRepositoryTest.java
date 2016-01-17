@@ -19,7 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
-import br.com.gostoudaaula.db.dao.AvaliacaoDAO;
+import br.com.gostoudaaula.db.repository.AvaliacaoRepository;
 import br.com.gostoudaaula.example.AlunoExample;
 import br.com.gostoudaaula.example.AulaExample;
 import br.com.gostoudaaula.example.AvaliacaoExample;
@@ -30,15 +30,14 @@ import br.com.gostoudaaula.model.Avaliacao;
 import br.com.gostoudaaula.model.Respostas;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@TestExecutionListeners(listeners = {
-		DependencyInjectionTestExecutionListener.class,
+@TestExecutionListeners(listeners = { DependencyInjectionTestExecutionListener.class,
 		TransactionalTestExecutionListener.class })
 @ContextConfiguration(locations = "/spring/daoContext.xml")
 @Transactional
-public class AvaliacaoDAOTest {
+public class AvaliacaoRepositoryTest {
 
 	@Inject
-	private AvaliacaoDAO aDao;
+	private AvaliacaoRepository avaliacaoRepo;
 	private Avaliacao avaliacao1;
 
 	@Before
@@ -48,26 +47,24 @@ public class AvaliacaoDAOTest {
 
 	@Test
 	public void deveCadastrarUmaAvaliacao() {
-		aDao.salva(avaliacao1);
-		assertThat(avaliacao1.getData(), equalTo(aDao.devolve(avaliacao1)
-				.getData()));
+		avaliacaoRepo.save(avaliacao1);
+		assertThat(avaliacao1.getData(), equalTo(avaliacaoRepo.findByData(avaliacao1.getData()).getData()));
 	}
 
 	@Test
 	public void deveCadastrarUmaAvaliacaComUmaAula() {
 		avaliacao1.setAula(new AulaExample().getExample1());
-		aDao.salva(avaliacao1);
-		Avaliacao recuperada = aDao.devolve(avaliacao1);
+		avaliacaoRepo.save(avaliacao1);
+		Avaliacao recuperada = avaliacaoRepo.findByData(avaliacao1.getData());
 		assertThat(recuperada.getAula().getData(), equalTo(LocalDate.now()));
 	}
 
 	@Test
 	public void deveCadastrarUmaAvaliacaoComUmProjeto() {
 		avaliacao1.setProjeto(new ProjetoExample().getExample1());
-		aDao.salva(avaliacao1);
-		Avaliacao recuperada = aDao.devolve(avaliacao1);
-		assertThat(recuperada.getProjeto().getDescricao(),
-				equalTo("projeto teste"));
+		avaliacaoRepo.save(avaliacao1);
+		Avaliacao recuperada = avaliacaoRepo.findByData(avaliacao1.getData());
+		assertThat(recuperada.getProjeto().getDescricao(), equalTo("projeto teste"));
 	}
 
 	@Test
@@ -77,26 +74,26 @@ public class AvaliacaoDAOTest {
 		respostas.add(exemplo.getExample1());
 		respostas.add(exemplo.getExample2());
 		avaliacao1.setRespostas(respostas);
-		aDao.salva(avaliacao1);
+		avaliacaoRepo.save(avaliacao1);
 
-		Avaliacao recuperada = aDao.devolve(avaliacao1);
+		Avaliacao recuperada = avaliacaoRepo.findByData(avaliacao1.getData());
 
 		assertThat(recuperada.getRespostas().get(0).getResposta(), equalTo(10));
 		assertThat(recuperada.getRespostas().get(1).getResposta(), equalTo(9));
 
 	}
-	
+
 	@Test
-	public void deveCadastrarAvaliacaoComAlunos(){
+	public void deveCadastrarAvaliacaoComAlunos() {
 		List<Aluno> alunos = new ArrayList<Aluno>();
 		AlunoExample exemplo = new AlunoExample();
 		alunos.add(exemplo.getExample1());
 		alunos.add(exemplo.getExample2());
 		avaliacao1.setAlunos(alunos);
-		aDao.salva(avaliacao1);
-		
-		Avaliacao recuperada = aDao.devolve(avaliacao1);
-		
+		avaliacaoRepo.save(avaliacao1);
+
+		Avaliacao recuperada = avaliacaoRepo.findByData(avaliacao1.getData());
+
 		assertThat(recuperada.getAlunos().get(0).getProntuario(), equalTo(13100082));
 		assertThat(recuperada.getAlunos().get(1).getProntuario(), equalTo(13100083));
 	}

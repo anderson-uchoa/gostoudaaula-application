@@ -15,31 +15,30 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
-import br.com.gostoudaaula.db.dao.TurmaDAO;
-import br.com.gostoudaaula.example.TurmaExample;
-import br.com.gostoudaaula.model.Turma;
+import br.com.gostoudaaula.db.repository.DisciplinaRepository;
+import br.com.gostoudaaula.example.DisciplinaExample;
+import br.com.gostoudaaula.model.Disciplina;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@TestExecutionListeners(listeners = {
-		DependencyInjectionTestExecutionListener.class,
+@TestExecutionListeners(listeners = { DependencyInjectionTestExecutionListener.class,
 		TransactionalTestExecutionListener.class })
 @ContextConfiguration(locations = "/spring/daoContext.xml")
 @Transactional
-public class TurmaDAOTest {
+public class DisciplinaRepositoryTest {
 
 	@Inject
-	private TurmaDAO tDao;
-	private Turma turma;
+	private DisciplinaRepository disciplinaRepo;
+	private Disciplina disciplina;
 
 	@Before
 	public void setup() {
-		turma = new TurmaExample().getExample1();
+		disciplina = new DisciplinaExample().getExample1();
 	}
 
 	@Test
-	public void deveCadastrarUmaTurma() {
-		tDao.salva(turma);
-		assertThat(turma.getDescricao(), equalTo(tDao.devolve(turma)
-				.getDescricao()));
+	public void deveCadastrarUmaDisciplina() {
+		disciplinaRepo.save(disciplina);
+		assertThat(disciplina.getDescricao(),
+				equalTo(disciplinaRepo.findByDescricao(disciplina.getDescricao()).getDescricao()));
 	}
 }

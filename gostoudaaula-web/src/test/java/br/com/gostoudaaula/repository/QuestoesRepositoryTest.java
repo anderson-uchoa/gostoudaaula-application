@@ -18,22 +18,21 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
-import br.com.gostoudaaula.db.dao.QuestoesDAO;
+import br.com.gostoudaaula.db.repository.QuestoesRepository;
 import br.com.gostoudaaula.example.ProjetoExample;
 import br.com.gostoudaaula.example.QuestoesExample;
 import br.com.gostoudaaula.model.Projeto;
 import br.com.gostoudaaula.model.Questoes;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@TestExecutionListeners(listeners = {
-		DependencyInjectionTestExecutionListener.class,
+@TestExecutionListeners(listeners = { DependencyInjectionTestExecutionListener.class,
 		TransactionalTestExecutionListener.class })
 @ContextConfiguration(locations = "/spring/daoContext.xml")
 @Transactional
-public class QuestoesDAOTest {
+public class QuestoesRepositoryTest {
 
 	@Inject
-	private QuestoesDAO qDao;
+	private QuestoesRepository questoesRepo;
 	private Questoes questoes1;
 
 	@Before
@@ -43,9 +42,9 @@ public class QuestoesDAOTest {
 
 	@Test
 	public void deveCadastrarUmQuestao() {
-		qDao.salva(questoes1);
-		assertThat(questoes1.getDescricao(), equalTo(qDao.devolve(questoes1)
-				.getDescricao()));
+		questoesRepo.save(questoes1);
+		assertThat(questoes1.getDescricao(),
+				equalTo(questoesRepo.findByDescricao(questoes1.getDescricao()).getDescricao()));
 	}
 
 	@Test
@@ -56,15 +55,12 @@ public class QuestoesDAOTest {
 		projetos.add(exemplo.getExample2());
 
 		questoes1.setProjetos(projetos);
-		qDao.salva(questoes1);
+		questoesRepo.save(questoes1);
 
-		Questoes recuperado = qDao.devolve(questoes1
-				);
+		Questoes recuperado = questoesRepo.findByDescricao(questoes1.getDescricao());
 
-		assertThat(recuperado.getProjetos().get(0).getDescricao(),
-				equalTo("projeto teste"));
-		assertThat(recuperado.getProjetos().get(1).getDescricao(),
-				equalTo("projeto teste1"));
+		assertThat(recuperado.getProjetos().get(0).getDescricao(), equalTo("projeto teste"));
+		assertThat(recuperado.getProjetos().get(1).getDescricao(), equalTo("projeto teste1"));
 	}
 
 }

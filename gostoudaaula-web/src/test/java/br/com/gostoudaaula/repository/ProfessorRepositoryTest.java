@@ -19,22 +19,21 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
-import br.com.gostoudaaula.db.dao.ProfessorDAO;
+import br.com.gostoudaaula.db.repository.ProfessorRepository;
 import br.com.gostoudaaula.example.AulaExample;
 import br.com.gostoudaaula.example.ProfessorExample;
 import br.com.gostoudaaula.model.Aula;
 import br.com.gostoudaaula.model.Professor;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@TestExecutionListeners(listeners = {
-		DependencyInjectionTestExecutionListener.class,
+@TestExecutionListeners(listeners = { DependencyInjectionTestExecutionListener.class,
 		TransactionalTestExecutionListener.class })
 @ContextConfiguration(locations = "/spring/daoContext.xml")
 @Transactional
-public class ProfessorDAOTest {
+public class ProfessorRepositoryTest {
 
 	@Inject
-	private ProfessorDAO pDao;
+	private ProfessorRepository professorRepo;
 	private Professor professor1;
 
 	@Before
@@ -44,9 +43,8 @@ public class ProfessorDAOTest {
 
 	@Test
 	public void deveCadastrarUmProfessor() {
-		pDao.salva(professor1);
-		assertThat(professor1.getChapa(), equalTo(pDao.devolve(professor1)
-				.getChapa()));
+		professorRepo.save(professor1);
+		assertThat(professor1.getChapa(), equalTo(professorRepo.findByChapa(professor1.getChapa()).getChapa()));
 	}
 
 	@Test
@@ -55,10 +53,9 @@ public class ProfessorDAOTest {
 		AulaExample exemplo = new AulaExample();
 		aulas.add(exemplo.getExample1());
 		professor1.setAulas(aulas);
-		pDao.salva(professor1);
-		Professor recuperado = pDao.devolve(professor1);
-		assertThat(recuperado.getAulas().get(0).getData(),
-				equalTo(LocalDate.now()));
+		professorRepo.save(professor1);
+		Professor recuperado = professorRepo.findByChapa(professor1.getChapa());
+		assertThat(recuperado.getAulas().get(0).getData(), equalTo(LocalDate.now()));
 
 	}
 

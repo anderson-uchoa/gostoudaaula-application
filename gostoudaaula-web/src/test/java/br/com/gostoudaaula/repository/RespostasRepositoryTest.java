@@ -16,7 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
-import br.com.gostoudaaula.db.dao.RespostasDAO;
+import br.com.gostoudaaula.db.repository.RespostasRepository;
 import br.com.gostoudaaula.example.AvaliacaoExample;
 import br.com.gostoudaaula.example.QuestoesExample;
 import br.com.gostoudaaula.example.RespostasExample;
@@ -28,10 +28,10 @@ import br.com.gostoudaaula.model.Respostas;
 		TransactionalTestExecutionListener.class })
 @ContextConfiguration(locations = "/spring/daoContext.xml")
 @Transactional
-public class RespostasDAOTest {
+public class RespostasRepositoryTest {
 
 	@Inject
-	private RespostasDAO rDao;
+	private RespostasRepository respostasRepo;
 	private Respostas respostas1;
 
 	@Before
@@ -41,16 +41,16 @@ public class RespostasDAOTest {
 
 	@Test
 	public void deveCadastrarUmaResposta() {
-		rDao.salva(respostas1);
-		assertThat(respostas1.getData(), equalTo(rDao.devolve(respostas1)
+		respostasRepo.save(respostas1);
+		assertThat(respostas1.getData(), equalTo(respostasRepo.findByData(respostas1.getData())
 				.getData()));
 	}
 
 	@Test
 	public void deveCadastrarRespostasParaUmaQuestao() {
 		respostas1.setQuestoes(new QuestoesExample().getExample1());
-		rDao.salva(respostas1);
-		Respostas recuperada = rDao.devolve(respostas1);
+		respostasRepo.save(respostas1);
+		Respostas recuperada = respostasRepo.findByData(respostas1.getData());
 		assertThat(recuperada.getQuestoes().getDescricao(),
 				equalTo("Questão 1"));
 	}
@@ -58,8 +58,8 @@ public class RespostasDAOTest {
 	@Test
 	public void deveCadastrarRespostasParaUmaAvaliacao() {
 		respostas1.setAvaliacao(new AvaliacaoExample().getExample1());
-		rDao.salva(respostas1);
-		Respostas recuperada = rDao.devolve(respostas1);
+		respostasRepo.save(respostas1);
+		Respostas recuperada = respostasRepo.findByData(respostas1.getData());
 
 		assertThat(recuperada.getAvaliacao().getData(),
 				equalTo(LocalDate.now()));
