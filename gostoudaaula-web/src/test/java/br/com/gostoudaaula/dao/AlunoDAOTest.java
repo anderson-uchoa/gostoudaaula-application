@@ -29,15 +29,12 @@ import br.com.gostoudaaula.model.Aula;
 import br.com.gostoudaaula.model.Avaliacao;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@TestExecutionListeners(listeners = {
-		DependencyInjectionTestExecutionListener.class,
+@TestExecutionListeners(listeners = { DependencyInjectionTestExecutionListener.class,
 		TransactionalTestExecutionListener.class })
 @ContextConfiguration(locations = "/spring/daoContext.xml")
 @Transactional
 public class AlunoDAOTest {
 
-//	@Inject
-	private AlunoDAO alunoDao;
 	@Inject
 	private AlunoRepository repository;
 	private Aluno aluno1;
@@ -52,7 +49,7 @@ public class AlunoDAOTest {
 	@Test
 	public void deveCadastrarUmAluno() {
 		repository.save(aluno1);
-		Aluno alunoDevolvido = repository.findByProntuario(aluno1);
+		Aluno alunoDevolvido = repository.findByProntuario(aluno1.getProntuario());
 		assertThat(alunoDevolvido.getProntuario(), equalTo(13100082));
 	}
 
@@ -61,8 +58,8 @@ public class AlunoDAOTest {
 		List<Aluno> alunos = new ArrayList<Aluno>();
 		alunos.add(aluno1);
 		alunos.add(aluno2);
-		alunoDao.salvaAlunos(alunos);
-		List<Aluno> alunosSalvos = alunoDao.lista();
+		repository.save(alunos);
+		List<Aluno> alunosSalvos = (List<Aluno>) repository.findAll();
 		assertThat(alunosSalvos.get(0).getProntuario(), equalTo(13100082));
 		assertThat(alunosSalvos.get(1).getProntuario(), equalTo(13100083));
 	}
@@ -72,8 +69,8 @@ public class AlunoDAOTest {
 		List<Aula> aulas = new ArrayList<Aula>();
 		aulas.add(new AulaExample().getExample1());
 		aluno1.setAulas(aulas);
-		alunoDao.salva(aluno1);
-		assertThat(alunoDao.devolve(aluno1).getAulas().get(0).getData(),
+		repository.save(aluno1);
+		assertThat(repository.findByProntuario(aluno1.getProntuario()).getAulas().get(0).getData(),
 				equalTo(LocalDate.now()));
 	}
 
@@ -83,18 +80,13 @@ public class AlunoDAOTest {
 		avaliacoes.add(new AvaliacaoExample().getExample1());
 		aluno1.setAvaliacoes(avaliacoes);
 		alunoDao.salva(aluno1);
-		assertThat(alunoDao.devolve(aluno1).getAvaliacoes().get(0).getData(),
-				equalTo(LocalDate.now()));
+		assertThat(alunoDao.devolve(aluno1).getAvaliacoes().get(0).getData(), equalTo(LocalDate.now()));
 	}
 
 	@Test
 	public void deveAutenticarAluno() {
-		alunoDao.salva(aluno1);
-		
-		assertThat(alunoDao.autentica(aluno1), equalTo(true));
+		repository.save(aluno1);
+		assertThat(repository.autentica(aluno1), equalTo(true));
 	}
-	
-	
-	
 
 }

@@ -26,11 +26,11 @@ public class AlunoService {
 	}
 
 	public Aluno retorna(Aluno aluno) {
-		return repository.findByProntuario(aluno);
+		return repository.findByProntuario(aluno.getProntuario());
 	}
 
 	public List<Aluno> getLista() {
-		return repository.findAll();
+		return (List<Aluno>) repository.findAll();
 	}
 
 	public boolean autentica(Aluno aluno) {
