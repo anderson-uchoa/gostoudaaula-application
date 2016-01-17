@@ -1,4 +1,4 @@
-package br.com.gostoudaaula.dao;
+package br.com.gostoudaaula.repository;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -32,7 +32,7 @@ import br.com.gostoudaaula.model.Avaliacao;
 		TransactionalTestExecutionListener.class })
 @ContextConfiguration(locations = "/spring/daoContext.xml")
 @Transactional
-public class AlunoDAOTest {
+public class AlunoRepositoryTest {
 
 	@Inject
 	private AlunoRepository repository;

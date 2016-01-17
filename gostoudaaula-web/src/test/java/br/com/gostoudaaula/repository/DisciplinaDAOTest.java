@@ -1,4 +1,4 @@
-package br.com.gostoudaaula.dao;
+package br.com.gostoudaaula.repository;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -15,9 +15,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
-import br.com.gostoudaaula.db.dao.TurmaDAO;
-import br.com.gostoudaaula.example.TurmaExample;
-import br.com.gostoudaaula.model.Turma;
+import br.com.gostoudaaula.db.dao.DisciplinaDAO;
+import br.com.gostoudaaula.example.DisciplinaExample;
+import br.com.gostoudaaula.model.Disciplina;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @TestExecutionListeners(listeners = {
@@ -25,21 +25,21 @@ import br.com.gostoudaaula.model.Turma;
 		TransactionalTestExecutionListener.class })
 @ContextConfiguration(locations = "/spring/daoContext.xml")
 @Transactional
-public class TurmaDAOTest {
+public class DisciplinaDAOTest {
 
 	@Inject
-	private TurmaDAO tDao;
-	private Turma turma;
+	private DisciplinaDAO dDao;
+	private Disciplina disciplina;
 
 	@Before
 	public void setup() {
-		turma = new TurmaExample().getExample1();
+		disciplina = new DisciplinaExample().getExample1();
 	}
 
 	@Test
-	public void deveCadastrarUmaTurma() {
-		tDao.salva(turma);
-		assertThat(turma.getDescricao(), equalTo(tDao.devolve(turma)
+	public void deveCadastrarUmaDisciplina() {		
+		dDao.salva(disciplina);
+		assertThat(disciplina.getDescricao(), equalTo(dDao.devolve(disciplina)
 				.getDescricao()));
 	}
 }

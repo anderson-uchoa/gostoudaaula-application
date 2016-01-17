@@ -13,7 +13,6 @@ import br.com.gostoudaaula.model.Professor;
 @Service
 public class ProfessorService {
 
-	private ProfessorDAO pDao;
 
 	@Inject
 	public ProfessorService(ProfessorDAO pDao) {

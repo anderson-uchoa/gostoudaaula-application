@@ -1,4 +1,4 @@
-package br.com.gostoudaaula.dao;
+package br.com.gostoudaaula.repository;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;

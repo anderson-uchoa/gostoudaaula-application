@@ -12,7 +12,6 @@ import br.com.gostoudaaula.model.PeriodoLetivo;
 @Service
 public class PeriodoLetivoService {
 
-	private PeriodoLetivoDAO pDao;
 
 	@Inject
 	public PeriodoLetivoService (PeriodoLetivoDAO pDao){
