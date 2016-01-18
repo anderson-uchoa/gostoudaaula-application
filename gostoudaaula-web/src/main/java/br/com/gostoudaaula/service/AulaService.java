@@ -7,33 +7,31 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
-import br.com.gostoudaaula.db.dao.AulaDAO;
+import br.com.gostoudaaula.db.repository.AulaRepository;
+import br.com.gostoudaaula.model.Aluno;
 import br.com.gostoudaaula.model.Aula;
 
 @Service
 public class AulaService {
 
+	private AulaRepository repository;
 
 	@Inject
-	public AulaService(AulaDAO aDao) {
-		this.aDao = aDao;
+	public AulaService(AulaRepository repository) {
+		this.repository = repository;
 	}
 
 	public List<Aula> getLista() {
-		return aDao.lista();
+		return (List<Aula>) repository.findAll();
 	}
 
 	@Transactional
 	public void salva(Aula aula) {
-		aDao.salva(aula);
+		repository.save(aula);
 	}
 
-	public List<Aula> getListaOfAlunos(Integer prontuario) {
-		return aDao.listaDeAlunos(prontuario);
-	}
-
-	public List<Aula> getListaDeAulaParaAvaliar(Integer prontuario) {
-		return aDao.getAulasDeAlunosParaAvaliar(prontuario);
+	public List<Aula> getListaDeAulaParaAvaliar(Aluno aluno) {
+		return repository.findWithNotEvaluated(aluno);
 	}
 
 }

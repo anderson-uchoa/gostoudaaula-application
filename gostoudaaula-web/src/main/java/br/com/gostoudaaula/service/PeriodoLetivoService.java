@@ -6,20 +6,21 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
-import br.com.gostoudaaula.db.dao.PeriodoLetivoDAO;
+import br.com.gostoudaaula.db.repository.PeriodoLetivoRepository;
 import br.com.gostoudaaula.model.PeriodoLetivo;
 
 @Service
 public class PeriodoLetivoService {
 
+	private PeriodoLetivoRepository repository;
 
 	@Inject
-	public PeriodoLetivoService (PeriodoLetivoDAO pDao){
-		this.pDao = pDao;
+	public PeriodoLetivoService(PeriodoLetivoRepository repository) {
+		this.repository = repository;
 	}
-	
+
 	public List<PeriodoLetivo> getLista() {
-		return this.pDao.lista();
+		return (List<PeriodoLetivo>) repository.findAll();
 	}
 
 }

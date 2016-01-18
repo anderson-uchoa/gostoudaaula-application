@@ -7,28 +7,30 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
-import br.com.gostoudaaula.db.dao.ProfessorDAO;
+import br.com.gostoudaaula.db.repository.ProfessorRepository;
 import br.com.gostoudaaula.model.Professor;
 
 @Service
 public class ProfessorService {
 
 
+	private ProfessorRepository repository;
+
 	@Inject
-	public ProfessorService(ProfessorDAO pDao) {
-		this.pDao = pDao;
+	public ProfessorService(ProfessorRepository repository) {
+		this.repository = repository;
 	}
 
 	@Transactional
 	public void salva(Professor professor) {
-		pDao.salva(professor);
+		repository.save(professor);
 	}
 
 	public Professor retorna(Professor professor) {
-		return pDao.devolve(professor);
+		return repository.findByChapa(professor.getChapa());
 	}
 
 	public List<Professor> getLista() {
-		return pDao.lista();
+		return (List<Professor>) repository.findAll();
 	}
 }
