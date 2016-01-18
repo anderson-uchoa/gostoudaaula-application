@@ -41,14 +41,6 @@ public class AulaMixIn {
 		private LocalDate data;
 	}
 
-	public class AssociationWithProfessorMixIn extends AulaMixIn {
-		@JsonProperty
-		private Long id;
-		@JsonProperty
-		private PeriodoLetivo periodoLetivo;
-		@JsonProperty
-		private LocalDate data;
-	}
 	
 
 }

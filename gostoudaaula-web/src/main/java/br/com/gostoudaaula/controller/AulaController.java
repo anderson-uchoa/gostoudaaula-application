@@ -1,6 +1,7 @@
 package br.com.gostoudaaula.controller;
 
 import static br.com.gostoudaaula.http.HTTPValues.JSON;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class AulaController {
 		this.service = service;
 	}
 
-	@RequestMapping(value = "aula/{prontuario}", produces = JSON)
+	@RequestMapping(value = "aula/{prontuario}", produces = JSON, method = GET)
 	public @ResponseBody ResponseEntity<String> aulasSemAvaliacao(@PathParam("prontuario") Aluno aluno)
 			throws JsonProcessingException {
 
@@ -46,7 +47,7 @@ public class AulaController {
 		if (aulas.isEmpty())
 			return new ResponseEntity<String>("não existe aulas sem avaliações para esse aluno", HttpStatus.NOT_FOUND);
 
-		mapper.addMixIn(Aula.class, AulaMixIn.AssociationWithProfessorMixIn.class)
+		mapper.addMixIn(Aula.class, AulaMixIn.AssociationMixIn.class)
 				.addMixIn(Professor.class, ProfessorMixIn.AssociationMixIn.class)
 				.addMixIn(PeriodoLetivo.class, PeriodoLetivoMixIn.AssociationMixIn.class);
 

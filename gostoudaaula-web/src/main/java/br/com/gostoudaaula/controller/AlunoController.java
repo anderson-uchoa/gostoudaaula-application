@@ -32,20 +32,20 @@ public class AlunoController {
 		this.mapper = mapper;
 	}
 
-	@RequestMapping(value = "alunos", method = GET, produces = JSON)
+	@RequestMapping(value = "aluno", method = GET, produces = JSON)
 	public @ResponseBody ResponseEntity<String> getAlunos() throws JsonProcessingException {
 		mapper.addMixIn(Aluno.class, AlunoMixIn.AssociationMixIn.class);
 		String resposta = mapper.writeValueAsString(service.getLista());
 		return new ResponseEntity<String>(resposta, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "alunos", method = POST, consumes = JSON)
+	@RequestMapping(value = "aluno", method = POST, consumes = JSON)
 	public @ResponseBody ResponseEntity<String> salvaAluno(@RequestBody Aluno aluno) {
 		service.salva(aluno);
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "aluno/autentica/{prontuario}")
+	@RequestMapping(value = "aluno/auth", method = POST, consumes = JSON, produces = JSON)
 	public @ResponseBody ResponseEntity<String> autentica(@RequestBody Aluno aluno) throws JsonProcessingException {
 		String resposta = "Erro de autenticação";
 
