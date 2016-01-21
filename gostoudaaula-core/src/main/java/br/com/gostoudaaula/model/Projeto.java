@@ -1,6 +1,5 @@
 package br.com.gostoudaaula.model;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -13,17 +12,19 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
-@Entity
-public class Projeto implements Serializable {
+import android.os.Parcel;
+import android.os.Parcelable;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+@Entity
+public class Projeto implements Parcelable {
+
 	private Long id;
 	private String descricao;
 	private Avaliacao avaliacao;
 	private List<Questoes> questoes;
+
+	public Projeto() {
+	}
 
 	public String getDescricao() {
 		return descricao;
@@ -61,6 +62,36 @@ public class Projeto implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public static final Parcelable.Creator<Projeto> CREATOR = new Parcelable.Creator<Projeto>() {
+		public Projeto createFromParcel(Parcel in) {
+			return new Projeto(in);
+		}
+
+		public Projeto[] newArray(int size) {
+			return new Projeto[size];
+		}
+	};
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeLong(id);
+		dest.writeString(descricao);
+		dest.writeParcelable(avaliacao, flags);
+		dest.writeTypedList(questoes);
+	}
+
+	private Projeto(Parcel parcel) {
+		id = parcel.readLong();
+		descricao = parcel.readString();
+		avaliacao = parcel.readParcelable(Avaliacao.class.getClassLoader());
+		parcel.readTypedList(questoes, Questoes.CREATOR);
 	}
 
 }

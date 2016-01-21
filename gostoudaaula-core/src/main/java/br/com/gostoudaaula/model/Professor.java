@@ -1,6 +1,5 @@
 package br.com.gostoudaaula.model;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -8,11 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 @Entity
 @PrimaryKeyJoinColumn(name = "id_pessoa")
-public class Professor extends Pessoa implements Serializable {
+public class Professor extends Pessoa implements Parcelable {
 
-	private static final long serialVersionUID = 1L;
 	private Integer chapa;
 	private List<Aula> aulas;
 
@@ -38,6 +39,32 @@ public class Professor extends Pessoa implements Serializable {
 
 	public void setChapa(Integer chapa) {
 		this.chapa = chapa;
+	}
+
+	public static final Parcelable.Creator<Professor> CREATOR = new Parcelable.Creator<Professor>() {
+		public Professor createFromParcel(Parcel in) {
+			return new Professor(in);
+		}
+
+		public Professor[] newArray(int size) {
+			return new Professor[size];
+		}
+	};
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		chapa = dest.readInt();
+		dest.readTypedList(aulas, Aula.CREATOR);
+	}
+
+	private Professor(Parcel parcel) {
+		parcel.writeInt(chapa);
+		parcel.writeTypedList(aulas);
 	}
 
 }
