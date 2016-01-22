@@ -1,5 +1,6 @@
 package br.com.gostoudaaula.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -119,6 +120,7 @@ public class Aula implements Parcelable {
 		professor = parcel.readParcelable(Professor.class.getClassLoader());
 		periodoLetivo = parcel.readParcelable(PeriodoLetivo.class.getClassLoader());
 		data = (LocalDate) parcel.readSerializable();
+		alunos = new ArrayList<>();
 		parcel.readTypedList(alunos, Aluno.CREATOR);
 	}
 

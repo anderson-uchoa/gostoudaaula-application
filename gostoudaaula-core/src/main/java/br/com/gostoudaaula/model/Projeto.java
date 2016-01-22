@@ -1,5 +1,6 @@
 package br.com.gostoudaaula.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -91,6 +92,7 @@ public class Projeto implements Parcelable {
 		id = parcel.readLong();
 		descricao = parcel.readString();
 		avaliacao = parcel.readParcelable(Avaliacao.class.getClassLoader());
+		questoes = new ArrayList<>();
 		parcel.readTypedList(questoes, Questoes.CREATOR);
 	}
 

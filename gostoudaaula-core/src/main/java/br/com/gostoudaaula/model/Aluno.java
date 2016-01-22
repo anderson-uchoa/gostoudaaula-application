@@ -1,5 +1,6 @@
 package br.com.gostoudaaula.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -87,14 +88,16 @@ public class Aluno extends Pessoa implements Parcelable {
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeInt(prontuario);
 		dest.writeString(senha);
-		dest.writeList(aulas);
-		dest.writeList(avaliacoes);
+		dest.writeTypedList(aulas);
+		dest.writeTypedList(avaliacoes);
 	}
 
 	private Aluno(Parcel parcel) {
 		this.prontuario = parcel.readInt();
 		this.senha = parcel.readString();
+		aulas = new ArrayList<>();
 		parcel.readTypedList(aulas, Aula.CREATOR);
+		avaliacoes = new ArrayList<>();
 		parcel.readTypedList(avaliacoes, Avaliacao.CREATOR);
 	}
 

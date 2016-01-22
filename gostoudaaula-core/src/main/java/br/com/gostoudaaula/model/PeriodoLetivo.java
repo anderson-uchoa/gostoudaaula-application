@@ -1,5 +1,6 @@
 package br.com.gostoudaaula.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -116,6 +117,7 @@ public class PeriodoLetivo implements Parcelable {
 		id = parcel.readLong();
 		ano = parcel.readInt();
 		semestre = parcel.readInt();
+		aulas = new ArrayList<>();
 		parcel.readTypedList(aulas, Aula.CREATOR);
 		turma = parcel.readParcelable(Turma.class.getClassLoader());
 		disciplina = parcel.readParcelable(Disciplina.class.getClassLoader());
