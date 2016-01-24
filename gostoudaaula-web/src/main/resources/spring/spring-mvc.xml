@@ -27,5 +27,5 @@
 	<import resource="spring-jpa-config.xml" />
 	<import resource="spring-flyway-config.xml" />
 	<import resource="spring-ioc.xml" />
-
+	<import resource="spring-i18n-config.xml" />
 </beans>

@@ -7,6 +7,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
+import javax.validation.constraints.Min;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -34,6 +35,7 @@ public class Professor extends Pessoa implements Parcelable {
 		this.aulas = aulas;
 	}
 
+	@Min(1)
 	public Integer getChapa() {
 		return chapa;
 	}

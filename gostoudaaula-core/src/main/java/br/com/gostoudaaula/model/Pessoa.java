@@ -6,6 +6,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -15,7 +19,7 @@ public abstract class Pessoa {
 	protected String nome;
 	protected String sobrenome;
 
-	@Id
+	@Id	
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId() {
 		return id;
@@ -25,6 +29,8 @@ public abstract class Pessoa {
 		this.id = id;
 	}
 
+	@NotEmpty
+	@Size(min = 2)
 	public String getNome() {
 		return nome;
 	}
@@ -33,6 +39,8 @@ public abstract class Pessoa {
 		this.nome = nome;
 	}
 
+	@NotEmpty
+	@Size(min = 2)
 	public String getSobrenome() {
 		return sobrenome;
 	}

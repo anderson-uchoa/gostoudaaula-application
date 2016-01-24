@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -26,7 +28,8 @@ public class Disciplina implements Parcelable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
+	
+	@NotEmpty
 	public String getDescricao() {
 		return descricao;
 	}

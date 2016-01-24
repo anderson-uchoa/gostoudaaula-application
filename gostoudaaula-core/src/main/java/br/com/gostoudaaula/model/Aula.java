@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 import org.joda.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -39,6 +40,7 @@ public class Aula implements Parcelable {
 
 	}
 
+	@NotNull
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "id_professor")
 	public Professor getProfessor() {
@@ -49,6 +51,7 @@ public class Aula implements Parcelable {
 		this.professor = professor;
 	}
 
+	@NotNull
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "id_periodo_letivo")
 	public PeriodoLetivo getPeriodoLetivo() {
@@ -59,6 +62,7 @@ public class Aula implements Parcelable {
 		this.periodoLetivo = periodoLetivo;
 	}
 
+	@NotNull
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Convert(converter = DateConverter.class)
 	@Column(name = "data_aula")

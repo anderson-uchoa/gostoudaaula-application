@@ -6,18 +6,18 @@ import br.com.gostoudaaula.model.Respostas;
 
 public class RespostasExample {
 
-	public Respostas getExample1(){
+	public Respostas getExample1() {
 		Respostas respostas = new Respostas();
 		respostas.setResposta(10);
 		respostas.setData(LocalDate.now());
 		return respostas;
 	}
-	
-	public Respostas getExample2(){
+
+	public Respostas getExample2() {
 		Respostas respostas = new Respostas();
 		respostas.setResposta(9);
 		respostas.setData(LocalDate.now());
 		return respostas;
 	}
-	
+
 }

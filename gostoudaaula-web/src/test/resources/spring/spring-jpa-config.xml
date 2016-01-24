@@ -30,6 +30,7 @@
 				<entry key="hibernate.hikari.dataSource.user" value="${hikari.datasource.user}" />
 				<entry key="hibernate.hikari.dataSource.password" value="${hikari.datasource.password}" />
 				<entry key="hibernate.hikari.dataSource.url" value="${hikari.datasource.url}" />
+				
 
 				<entry key="hibernate.hikari.maximumPoolSize" value="${hikari.pool.maxSize}" />
 				<entry key="hibernate.hikari.connectionTimeout" value="${hikari.pool.timeOut}" />
@@ -41,6 +42,7 @@
 				<entry key="hibernate.hikari.dataSource.prepStmtCacheSqlLimit"
 					value="${hikari.ds.cache.sqlLimit}" />
 				<entry key="hibernate.ejb.naming_strategy" value="org.hibernate.cfg.ImprovedNamingStrategy" />
+				<entry key="javax.persistence.validation.mode" value="none"/>
 			</map>
 		</property>
 	</bean>
@@ -48,5 +50,7 @@
 	<bean id="jpaTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
+	
+	
 
 </beans>

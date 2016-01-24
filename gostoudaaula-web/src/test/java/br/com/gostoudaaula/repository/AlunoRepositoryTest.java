@@ -46,6 +46,12 @@ public class AlunoRepositoryTest {
 	}
 
 	@Test
+	public void naoDeveCadastrarAluno() {
+		Aluno aluno = new Aluno();
+		aluno.setProntuario(123);
+	}
+
+	@Test
 	public void deveCadastrarUmAluno() {
 		repository.save(aluno1);
 		Aluno alunoDevolvido = repository.findByProntuario(aluno1.getProntuario());
@@ -90,7 +96,7 @@ public class AlunoRepositoryTest {
 	}
 
 	@Test
-	public void naoDeveAutenticaAluno(){
+	public void naoDeveAutenticaAluno() {
 		repository.save(aluno1);
 		assertThat(repository.autentica(aluno2), equalTo(null));
 	}

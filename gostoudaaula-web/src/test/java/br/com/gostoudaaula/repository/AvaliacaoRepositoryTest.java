@@ -69,12 +69,15 @@ public class AvaliacaoRepositoryTest {
 
 	@Test
 	public void deveCadastrarUmaAvaliacaoComRespotas() {
+		avaliacaoRepo.save(avaliacao1);
+
 		List<Respostas> respostas = new ArrayList<Respostas>();
 		RespostasExample exemplo = new RespostasExample();
+
 		respostas.add(exemplo.getExample1());
 		respostas.add(exemplo.getExample2());
+
 		avaliacao1.setRespostas(respostas);
-		avaliacaoRepo.save(avaliacao1);
 
 		Avaliacao recuperada = avaliacaoRepo.findByData(avaliacao1.getData());
 

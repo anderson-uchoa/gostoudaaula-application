@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -24,6 +26,7 @@ public class Questoes implements Parcelable {
 
 	}
 
+	@NotEmpty
 	public String getDescricao() {
 		return descricao;
 	}

@@ -11,4 +11,12 @@ public class AvaliacaoExample {
 		avaliacao.setData(LocalDate.now());
 		return avaliacao;
 	}
+	
+	public Avaliacao getExample2(){
+		Avaliacao avaliacao = new Avaliacao();
+		avaliacao.setData(LocalDate.now().plusDays(1));
+		return avaliacao;
+	}
+	
+	
 }

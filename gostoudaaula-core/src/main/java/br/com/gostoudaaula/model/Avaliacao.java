@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 
 import org.joda.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -40,6 +41,7 @@ public class Avaliacao implements Parcelable {
 	public Avaliacao() {
 	}
 
+	@NotNull
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "id_projeto")
 	public Projeto getProjeto() {
@@ -50,6 +52,7 @@ public class Avaliacao implements Parcelable {
 		this.projeto = projeto;
 	}
 
+	@NotNull
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Convert(converter = DateConverter.class)
 	@Column(name = "data_avaliacao")
@@ -69,6 +72,7 @@ public class Avaliacao implements Parcelable {
 		return id;
 	}
 
+	@NotNull
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "id_aula")
 	public Aula getAula() {

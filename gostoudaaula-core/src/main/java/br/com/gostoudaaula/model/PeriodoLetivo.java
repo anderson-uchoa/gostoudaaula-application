@@ -13,6 +13,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -47,6 +50,7 @@ public class PeriodoLetivo implements Parcelable {
 		this.aulas = aulas;
 	}
 
+	@NotNull
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "id_turma")
 	public Turma getTurma() {
@@ -57,6 +61,7 @@ public class PeriodoLetivo implements Parcelable {
 		this.turma = turma;
 	}
 
+	@NotNull
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "id_disciplina")
 	public Disciplina getDisciplina() {
@@ -67,6 +72,7 @@ public class PeriodoLetivo implements Parcelable {
 		this.disciplina = disciplina;
 	}
 
+	@Min(1)
 	public Integer getAno() {
 		return ano;
 	}
@@ -75,6 +81,8 @@ public class PeriodoLetivo implements Parcelable {
 		this.ano = ano;
 	}
 
+	@Min(1)
+	@Max(10)
 	public Integer getSemestre() {
 		return semestre;
 	}
@@ -99,7 +107,6 @@ public class PeriodoLetivo implements Parcelable {
 
 	@Override
 	public int describeContents() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

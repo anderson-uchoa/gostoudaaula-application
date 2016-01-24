@@ -27,6 +27,7 @@
 			<optional>true</optional>
 		</dependency>
 
+
 		<dependency>
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-xml</artifactId>
@@ -46,6 +47,8 @@
 			<artifactId>android</artifactId>
 			<version>4.1.1.4</version>
 		</dependency>
+
+
 
 
 	</dependencies>

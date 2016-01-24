@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -24,6 +26,7 @@ public class Turma implements Parcelable {
 		return id;
 	}
 
+	@NotEmpty
 	public String getDescricao() {
 		return descricao;
 	}

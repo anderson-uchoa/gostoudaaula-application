@@ -13,6 +13,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -27,6 +29,7 @@ public class Projeto implements Parcelable {
 	public Projeto() {
 	}
 
+	@NotEmpty
 	public String getDescricao() {
 		return descricao;
 	}

@@ -9,6 +9,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
+import javax.validation.constraints.Min;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -17,7 +21,7 @@ import android.os.Parcelable;
 @PrimaryKeyJoinColumn(name = "id_pessoa")
 public class Aluno extends Pessoa implements Parcelable {
 
-	private Integer prontuario;
+	private int prontuario;
 	private String senha;
 	private List<Aula> aulas;
 	private List<Avaliacao> avaliacoes;
@@ -30,7 +34,8 @@ public class Aluno extends Pessoa implements Parcelable {
 		this.prontuario = prontuario;
 	}
 
-	public Integer getProntuario() {
+	@Min(1)
+	public int getProntuario() {
 		return prontuario;
 	}
 
@@ -38,6 +43,8 @@ public class Aluno extends Pessoa implements Parcelable {
 		this.prontuario = prontuario;
 	}
 
+	@NotEmpty
+	@Length(min = 5)
 	public String getSenha() {
 		return senha;
 	}
@@ -45,7 +52,7 @@ public class Aluno extends Pessoa implements Parcelable {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-
+	
 	@ManyToMany(cascade = CascadeType.PERSIST)
 	@JoinTable(name = "alunos_aula", joinColumns = { @JoinColumn(name = "id_aluno") }, inverseJoinColumns = {
 			@JoinColumn(name = "id_aula") })
@@ -67,7 +74,7 @@ public class Aluno extends Pessoa implements Parcelable {
 	public void setAvaliacoes(List<Avaliacao> avaliacoes) {
 		this.avaliacoes = avaliacoes;
 	}
-	
+
 	public static final Parcelable.Creator<Aluno> CREATOR = new Parcelable.Creator<Aluno>() {
 		public Aluno createFromParcel(Parcel in) {
 			return new Aluno(in);

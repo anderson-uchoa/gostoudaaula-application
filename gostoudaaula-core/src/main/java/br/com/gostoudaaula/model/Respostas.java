@@ -9,6 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import org.joda.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -45,6 +48,8 @@ public class Respostas implements Parcelable {
 		this.id = id;
 	}
 
+	@Min(0)
+	@Max(10)
 	public Integer getResposta() {
 		return resposta;
 	}
@@ -53,6 +58,7 @@ public class Respostas implements Parcelable {
 		this.resposta = resposta;
 	}
 
+	@NotNull
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Convert(converter = DateConverter.class)
 	@Column(name = "data_resposta")
@@ -66,6 +72,7 @@ public class Respostas implements Parcelable {
 		this.data = data;
 	}
 
+	@NotNull
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "id_questoes")
 	public Questoes getQuestoes() {
@@ -76,6 +83,7 @@ public class Respostas implements Parcelable {
 		this.questoes = questoes;
 	}
 
+	@NotNull
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "id_avaliacao")
 	public Avaliacao getAvaliacao() {
