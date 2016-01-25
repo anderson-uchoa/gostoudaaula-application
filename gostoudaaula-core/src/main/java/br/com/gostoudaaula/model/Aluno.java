@@ -21,7 +21,7 @@ import android.os.Parcelable;
 @PrimaryKeyJoinColumn(name = "id_pessoa")
 public class Aluno extends Pessoa implements Parcelable {
 
-	private int prontuario;
+	private Integer prontuario;
 	private String senha;
 	private List<Aula> aulas;
 	private List<Avaliacao> avaliacoes;
