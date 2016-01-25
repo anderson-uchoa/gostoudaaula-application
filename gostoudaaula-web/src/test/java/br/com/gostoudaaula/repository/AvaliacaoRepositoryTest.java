@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -24,9 +25,12 @@ import br.com.gostoudaaula.example.AlunoExample;
 import br.com.gostoudaaula.example.AulaExample;
 import br.com.gostoudaaula.example.AvaliacaoExample;
 import br.com.gostoudaaula.example.ProjetoExample;
+import br.com.gostoudaaula.example.QuestoesExample;
 import br.com.gostoudaaula.example.RespostasExample;
 import br.com.gostoudaaula.model.Aluno;
 import br.com.gostoudaaula.model.Avaliacao;
+import br.com.gostoudaaula.model.Projeto;
+import br.com.gostoudaaula.model.Questoes;
 import br.com.gostoudaaula.model.Respostas;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -100,4 +104,30 @@ public class AvaliacaoRepositoryTest {
 		assertThat(recuperada.getAlunos().get(0).getProntuario(), equalTo(13100082));
 		assertThat(recuperada.getAlunos().get(1).getProntuario(), equalTo(13100083));
 	}
+
+	public void deveDevolverTodasAsQuestoesDeUmaAvaliacao() {
+		List<Questoes> questoes = new ArrayList<>();
+		Questoes q1 = new QuestoesExample().getExample1();
+		Questoes q2 = new QuestoesExample().getExample2();
+
+		questoes.addAll(Arrays.asList(q1, q2));
+
+		Projeto projeto = new Projeto();
+		projeto.setDescricao("Projeto de teste");
+		projeto.setQuestoes(questoes);
+
+		avaliacao1.setProjeto(projeto);
+
+		avaliacaoRepo.save(avaliacao1);
+
+		Avaliacao recuperada = avaliacaoRepo.findByData(avaliacao1.getData());
+
+		List<Questoes> questoesRecuperadas = avaliacaoRepo.todasAsQuestoesDeUmaAvaliacao(recuperada);
+
+		assertThat(questoesRecuperadas.size(), equalTo(2));
+		assertThat(questoesRecuperadas.get(0).getDescricao(), equalTo(q1.getDescricao()));
+		assertThat(questoesRecuperadas.get(1).getDescricao(), equalTo(q2.getDescricao()));
+
+	}
+
 }
