@@ -30,4 +30,13 @@ public class ProjetoMixIn {
 		@JsonProperty
 		private String descricao;
 	}
+	
+	public class WithQuestionsMixIn extends ProjetoMixIn {
+		@JsonProperty
+		private Long id;
+		@JsonProperty
+		private String descricao;
+		@JsonProperty
+		private List<Questoes> questoes;
+	}
 }

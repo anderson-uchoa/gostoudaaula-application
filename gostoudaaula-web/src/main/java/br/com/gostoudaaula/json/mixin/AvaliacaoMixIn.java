@@ -35,9 +35,9 @@ public class AvaliacaoMixIn {
 		@JsonProperty
 		private Long id;
 		@JsonProperty
-		private Projeto projeto;
-		@JsonProperty
 		private Aula aula;
+		@JsonProperty
+		private Projeto projeto;
 		@JsonProperty
 		private LocalDate data;
 	}

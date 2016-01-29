@@ -8,15 +8,23 @@ import javax.inject.Inject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import br.com.gostoudaaula.json.mixin.AulaMixIn;
+import br.com.gostoudaaula.json.mixin.AvaliacaoMixIn;
+import br.com.gostoudaaula.json.mixin.PeriodoLetivoMixIn;
+import br.com.gostoudaaula.json.mixin.ProfessorMixIn;
+import br.com.gostoudaaula.json.mixin.ProjetoMixIn;
 import br.com.gostoudaaula.json.mixin.QuestoesMixIn;
+import br.com.gostoudaaula.model.Aula;
 import br.com.gostoudaaula.model.Avaliacao;
+import br.com.gostoudaaula.model.PeriodoLetivo;
+import br.com.gostoudaaula.model.Professor;
+import br.com.gostoudaaula.model.Projeto;
 import br.com.gostoudaaula.model.Questoes;
 import br.com.gostoudaaula.service.AvaliacaoService;
 
@@ -33,16 +41,21 @@ public class AvaliacaoController {
 	}
 
 	@RequestMapping(value = "avaliacao/{id}", produces = JSON, method = GET)
-	public @ResponseBody ResponseEntity<String> devolveTodasAsQuestoes(@PathVariable("id") Long id)
+	public @ResponseBody ResponseEntity<String> devolveTodasAsQuestoes(Avaliacao avaliacao)
 			throws JsonProcessingException {
-		Avaliacao avaliacao = new Avaliacao();
-		avaliacao.setId(id);
-		System.out.println(avaliacao.getId());
 		if (service.existe(avaliacao.getId())) {
-			mapper.addMixIn(Questoes.class, QuestoesMixIn.AssociationMixIn.class);
-			String json = mapper.writeValueAsString(service.todasQuestoesDeUmaAvaliacao(avaliacao));
+			mapper.addMixIn(Avaliacao.class, AvaliacaoMixIn.AssociationMixIn.class)
+					.addMixIn(Aula.class, AulaMixIn.AssociationMixIn.class)
+					.addMixIn(Professor.class, ProfessorMixIn.AssociationMixIn.class)
+					.addMixIn(PeriodoLetivo.class, PeriodoLetivoMixIn.AssociationMixIn.class)
+					.addMixIn(Projeto.class, ProjetoMixIn.WithQuestionsMixIn.class)
+					.addMixIn(Questoes.class, QuestoesMixIn.AssociationMixIn.class);
+
+			System.out.println("chega aqui? " + avaliacao.getId());
+			String json = mapper.writeValueAsString(service.retorna(avaliacao));
 			return new ResponseEntity<String>(json, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>("Avaliação inexistente", HttpStatus.NOT_FOUND);
 	}
+
 }

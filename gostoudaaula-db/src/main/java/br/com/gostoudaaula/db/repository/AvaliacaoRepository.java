@@ -16,4 +16,7 @@ public interface AvaliacaoRepository extends CrudRepository<Avaliacao, Long> {
 
 	@Query("SELECT q FROM Questoes q JOIN q.projetos p JOIN p.avaliacao a WHERE a.id = :#{#avaliacao.id}")
 	public List<Questoes> todasAsQuestoesDeUmaAvaliacao(@Param("avaliacao") Avaliacao avaliacao);
+
+	@Query("SELECT a FROM Avaliacao a WHERE a.id = :#{#avaliacao.id}")
+	public Avaliacao retorna(@Param("avaliacao") Avaliacao avaliacao);
 }

@@ -6,7 +6,6 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.ws.rs.PathParam;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +38,7 @@ public class AulaController {
 	}
 
 	@RequestMapping(value = "aula/{prontuario}", produces = JSON, method = GET)
-	public @ResponseBody ResponseEntity<String> aulasSemAvaliacao(@PathParam("prontuario") Aluno aluno)
+	public @ResponseBody ResponseEntity<String> aulasSemAvaliacao(Aluno aluno)
 			throws JsonProcessingException {
 
 		List<Aula> aulas = service.getListaDeAulaParaAvaliar(aluno);

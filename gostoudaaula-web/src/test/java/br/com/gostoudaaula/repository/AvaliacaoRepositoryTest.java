@@ -50,6 +50,15 @@ public class AvaliacaoRepositoryTest {
 	}
 
 	@Test
+	public void deveDevolveAvaliacaoPeloId() {
+		avaliacaoRepo.save(avaliacao1);
+		Avaliacao recuperada = avaliacaoRepo.findByData(avaliacao1.getData());
+		System.out.println("id da avaliação: " + recuperada.getId());
+		Avaliacao recuperadaPeloId = avaliacaoRepo.findOne(recuperada.getId());
+		assertThat(recuperadaPeloId.getId(), equalTo(recuperada.getId()));
+	}
+
+	@Test
 	public void deveCadastrarUmaAvaliacao() {
 		avaliacaoRepo.save(avaliacao1);
 		assertThat(avaliacao1.getData(), equalTo(avaliacaoRepo.findByData(avaliacao1.getData()).getData()));

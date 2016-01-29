@@ -20,7 +20,6 @@ public class AvaliacaoService {
 		this.repository = repository;
 	}
 
-	
 	public List<Questoes> todasQuestoesDeUmaAvaliacao(Avaliacao avaliacao) {
 		return repository.todasAsQuestoesDeUmaAvaliacao(avaliacao);
 	}
@@ -28,4 +27,13 @@ public class AvaliacaoService {
 	public boolean existe(Long id) {
 		return repository.exists(id);
 	}
+
+	public Avaliacao retornaPorData(Avaliacao avaliacao) {
+		return repository.findByData(avaliacao.getData());
+	}
+
+	public Avaliacao retorna(Avaliacao avaliacao) {
+		return repository.retorna(avaliacao);
+	}
+
 }
