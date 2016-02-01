@@ -41,9 +41,11 @@ public class AvaliacaoController {
 	}
 
 	@RequestMapping(value = "avaliacao/{id}", produces = JSON, method = GET)
-	public @ResponseBody ResponseEntity<String> devolveTodasAsQuestoes(Avaliacao avaliacao)
-			throws JsonProcessingException {
-		if (service.existe(avaliacao.getId())) {
+	public @ResponseBody ResponseEntity<String> devolveTodasAsQuestoes(Aula aula) throws JsonProcessingException {
+
+		Avaliacao avaliacao = service.avaliacaoDeUmaAula(aula);
+
+		if (avaliacao != null) {
 			mapper.addMixIn(Avaliacao.class, AvaliacaoMixIn.AssociationMixIn.class)
 					.addMixIn(Aula.class, AulaMixIn.AssociationMixIn.class)
 					.addMixIn(Professor.class, ProfessorMixIn.AssociationMixIn.class)
@@ -51,7 +53,6 @@ public class AvaliacaoController {
 					.addMixIn(Projeto.class, ProjetoMixIn.WithQuestionsMixIn.class)
 					.addMixIn(Questoes.class, QuestoesMixIn.AssociationMixIn.class);
 
-			System.out.println("chega aqui? " + avaliacao.getId());
 			String json = mapper.writeValueAsString(service.retorna(avaliacao));
 			return new ResponseEntity<String>(json, HttpStatus.OK);
 		}

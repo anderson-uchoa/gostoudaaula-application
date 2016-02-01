@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import br.com.gostoudaaula.model.Aula;
 import br.com.gostoudaaula.model.Avaliacao;
 import br.com.gostoudaaula.model.Questoes;
 
@@ -19,4 +20,6 @@ public interface AvaliacaoRepository extends CrudRepository<Avaliacao, Long> {
 
 	@Query("SELECT a FROM Avaliacao a WHERE a.id = :#{#avaliacao.id}")
 	public Avaliacao retorna(@Param("avaliacao") Avaliacao avaliacao);
+
+	public Avaliacao findByAula(Aula aula);
 }
