@@ -40,6 +40,10 @@ public class Avaliacao implements Parcelable {
 
 	public Avaliacao() {
 	}
+	
+	public void adiciona(Aluno aluno){
+		this.alunos.add(aluno);
+	}
 
 	@NotNull
 	@OneToOne(cascade = CascadeType.PERSIST)

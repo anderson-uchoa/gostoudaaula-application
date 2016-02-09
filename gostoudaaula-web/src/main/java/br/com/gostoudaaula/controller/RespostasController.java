@@ -26,6 +26,7 @@ public class RespostasController {
 		this.service = service;
 	}
 
+	
 	@RequestMapping(method = POST, consumes = JSON)
 	public ResponseEntity<String> cadastraRespostas(List<Respostas> respostas) {
 		service.salva(respostas);

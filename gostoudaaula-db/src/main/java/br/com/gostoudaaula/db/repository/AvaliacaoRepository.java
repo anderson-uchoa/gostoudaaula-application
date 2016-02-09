@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import br.com.gostoudaaula.model.Aluno;
 import br.com.gostoudaaula.model.Aula;
 import br.com.gostoudaaula.model.Avaliacao;
 import br.com.gostoudaaula.model.Questoes;
@@ -22,4 +23,14 @@ public interface AvaliacaoRepository extends CrudRepository<Avaliacao, Long> {
 	public Avaliacao retorna(@Param("avaliacao") Avaliacao avaliacao);
 
 	public Avaliacao findByAula(Aula aula);
+
+	@Query("SELECT COUNT(a) > 0 FROM Avaliacao a WHERE a.id = :#{#avaliacao.id} AND "
+			+ "EXISTS(SELECT al FROM Aluno al WHERE al.prontuario = :#{#aluno.prontuario})")
+	public boolean jaAvaliou(@Param("aluno") Aluno aluno, @Param("avaliacao") Avaliacao avaliacao);
+	
+
+	
 }
+
+
+

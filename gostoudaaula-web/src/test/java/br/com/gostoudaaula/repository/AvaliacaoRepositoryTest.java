@@ -20,6 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
+import br.com.gostoudaaula.db.repository.AlunoRepository;
 import br.com.gostoudaaula.db.repository.AvaliacaoRepository;
 import br.com.gostoudaaula.example.AlunoExample;
 import br.com.gostoudaaula.example.AulaExample;
@@ -42,6 +43,8 @@ public class AvaliacaoRepositoryTest {
 
 	@Inject
 	private AvaliacaoRepository avaliacaoRepo;
+	@Inject
+	private AlunoRepository alunoRepo;
 	private Avaliacao avaliacao1;
 
 	@Before
@@ -53,7 +56,6 @@ public class AvaliacaoRepositoryTest {
 	public void deveDevolveAvaliacaoPeloId() {
 		avaliacaoRepo.save(avaliacao1);
 		Avaliacao recuperada = avaliacaoRepo.findByData(avaliacao1.getData());
-		System.out.println("id da avaliação: " + recuperada.getId());
 		Avaliacao recuperadaPeloId = avaliacaoRepo.findOne(recuperada.getId());
 		assertThat(recuperadaPeloId.getId(), equalTo(recuperada.getId()));
 	}
@@ -81,7 +83,7 @@ public class AvaliacaoRepositoryTest {
 	}
 
 	@Test
-	public void deveCadastrarUmaAvaliacaoComRespotas() {
+	public void deveCadastrarUmaAvaliacaoComRespostas() {
 		avaliacaoRepo.save(avaliacao1);
 
 		List<Respostas> respostas = new ArrayList<Respostas>();
@@ -137,6 +139,37 @@ public class AvaliacaoRepositoryTest {
 		assertThat(questoesRecuperadas.get(0).getDescricao(), equalTo(q1.getDescricao()));
 		assertThat(questoesRecuperadas.get(1).getDescricao(), equalTo(q2.getDescricao()));
 
+	}
+
+	@Test
+	public void deveDevolveAvaliacaoJaAvaliada() {
+		Aluno aluno = new AlunoExample().getExample1();
+		alunoRepo.save(aluno);
+		List<Aluno> alunos = new ArrayList<Aluno>();
+		avaliacao1.setAlunos(alunos);
+		avaliacao1.adiciona(alunoRepo.findByProntuario(aluno.getProntuario()));
+
+		avaliacaoRepo.save(avaliacao1);
+
+		Avaliacao retornadaAva = avaliacaoRepo.findByData(avaliacao1.getData());
+		System.out.println(retornadaAva.getAlunos().get(0).getProntuario());
+
+		assertThat(avaliacaoRepo.jaAvaliou(alunos, retornadaAva), equalTo(true));
+	}
+
+	@Test	
+	public void deveInformarAvaliacaoNaoAvaliada() {
+		Aluno aluno = new AlunoExample().getExample1();
+		alunoRepo.save(aluno);
+		
+		List<Aluno> alunos = new ArrayList<Aluno>();
+		alunos.add(aluno);
+
+		avaliacaoRepo.save(avaliacao1);
+
+		Avaliacao retornadaAva = avaliacaoRepo.findByData(avaliacao1.getData());
+
+		assertThat(avaliacaoRepo.jaAvaliou(alunos, retornadaAva), equalTo(false));
 	}
 
 }

@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import br.com.gostoudaaula.db.repository.AvaliacaoRepository;
+import br.com.gostoudaaula.model.Aluno;
 import br.com.gostoudaaula.model.Aula;
 import br.com.gostoudaaula.model.Avaliacao;
 import br.com.gostoudaaula.model.Questoes;
@@ -37,8 +38,16 @@ public class AvaliacaoService {
 		return repository.retorna(avaliacao);
 	}
 
-	public Avaliacao avaliacaoDeUmaAula(Aula aula) {
+	public Avaliacao retorna(Aula aula) {
 		return repository.findByAula(aula);
+	}
+
+	public void salva(Avaliacao avaliacao) {
+		repository.save(avaliacao);
+	}
+
+	public boolean jaAvaliou(Aluno aluno, Avaliacao avaliacao) {
+		return repository.jaAvaliou(aluno, avaliacao);
 	}
 
 }

@@ -2,12 +2,14 @@ package br.com.gostoudaaula.controller;
 
 import static br.com.gostoudaaula.http.HTTPValues.JSON;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import javax.inject.Inject;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -20,6 +22,7 @@ import br.com.gostoudaaula.json.mixin.PeriodoLetivoMixIn;
 import br.com.gostoudaaula.json.mixin.ProfessorMixIn;
 import br.com.gostoudaaula.json.mixin.ProjetoMixIn;
 import br.com.gostoudaaula.json.mixin.QuestoesMixIn;
+import br.com.gostoudaaula.model.Aluno;
 import br.com.gostoudaaula.model.Aula;
 import br.com.gostoudaaula.model.Avaliacao;
 import br.com.gostoudaaula.model.PeriodoLetivo;
@@ -43,7 +46,7 @@ public class AvaliacaoController {
 	@RequestMapping(value = "avaliacao/{id}", produces = JSON, method = GET)
 	public @ResponseBody ResponseEntity<String> devolveTodasAsQuestoes(Aula aula) throws JsonProcessingException {
 
-		Avaliacao avaliacao = service.avaliacaoDeUmaAula(aula);
+		Avaliacao avaliacao = service.retorna(aula);
 
 		if (avaliacao != null) {
 			mapper.addMixIn(Avaliacao.class, AvaliacaoMixIn.AssociationMixIn.class)
@@ -57,6 +60,25 @@ public class AvaliacaoController {
 			return new ResponseEntity<String>(json, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>("Avaliação inexistente", HttpStatus.NOT_FOUND);
+	}
+
+	@RequestMapping(value = "avaliacao/respondida", consumes = JSON, method = POST)
+	public ResponseEntity<String> avaliacaoAula(@RequestBody Aula aula) {
+
+		Avaliacao avaliacao = service.retorna(aula);
+
+		if (avaliacao != null) {
+			Aluno aluno = aula.getAlunos().get(0);
+			
+			if (!service.jaAvaliou(aluno, avaliacao)) {
+				avaliacao.adiciona(aluno);
+				service.salva(avaliacao);
+				return new ResponseEntity<String>(HttpStatus.OK);
+			} else {
+				return new ResponseEntity<String>("Aula já avaliada", HttpStatus.NOT_ACCEPTABLE);
+			}
+		}
+		return new ResponseEntity<String>("Não existe avaliação para essa aula", HttpStatus.BAD_REQUEST);
 	}
 
 }
