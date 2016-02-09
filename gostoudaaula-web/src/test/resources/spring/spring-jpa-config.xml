@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- NÃO ESTÁ SENDO UTILIZADO! CASO VOLTE A SER UTILIZADO, FAVOR REMOVER 
-	O COMENTÁRIO -->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -30,7 +28,6 @@
 				<entry key="hibernate.hikari.dataSource.user" value="${hikari.datasource.user}" />
 				<entry key="hibernate.hikari.dataSource.password" value="${hikari.datasource.password}" />
 				<entry key="hibernate.hikari.dataSource.url" value="${hikari.datasource.url}" />
-				
 
 				<entry key="hibernate.hikari.maximumPoolSize" value="${hikari.pool.maxSize}" />
 				<entry key="hibernate.hikari.connectionTimeout" value="${hikari.pool.timeOut}" />

@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 import org.joda.time.LocalDate;
@@ -35,141 +37,164 @@ import br.com.gostoudaaula.model.Questoes;
 import br.com.gostoudaaula.model.Respostas;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@TestExecutionListeners(listeners = { DependencyInjectionTestExecutionListener.class,
-		TransactionalTestExecutionListener.class })
+@TestExecutionListeners(listeners = { DependencyInjectionTestExecutionListener.class, TransactionalTestExecutionListener.class })
 @ContextConfiguration(locations = "/spring/daoContext.xml")
 @Transactional
 public class AvaliacaoRepositoryTest {
 
-	@Inject
-	private AvaliacaoRepository avaliacaoRepo;
-	@Inject
-	private AlunoRepository alunoRepo;
-	private Avaliacao avaliacao1;
+    @PersistenceContext
+    private EntityManager manager;
+    @Inject
+    private AvaliacaoRepository avaliacaoRepo;
+    @Inject
+    private AlunoRepository alunoRepo;
+    private Avaliacao avaliacao1;
 
-	@Before
-	public void setup() {
-		avaliacao1 = new AvaliacaoExample().getExample1();
-	}
+    @Before
+    public void setup() {
+        avaliacao1 = new AvaliacaoExample().getExample1();
+    }
 
-	@Test
-	public void deveDevolveAvaliacaoPeloId() {
-		avaliacaoRepo.save(avaliacao1);
-		Avaliacao recuperada = avaliacaoRepo.findByData(avaliacao1.getData());
-		Avaliacao recuperadaPeloId = avaliacaoRepo.findOne(recuperada.getId());
-		assertThat(recuperadaPeloId.getId(), equalTo(recuperada.getId()));
-	}
+    @Test
+    public void deveDevolveAvaliacaoPeloId() {
+        avaliacaoRepo.save(avaliacao1);
 
-	@Test
-	public void deveCadastrarUmaAvaliacao() {
-		avaliacaoRepo.save(avaliacao1);
-		assertThat(avaliacao1.getData(), equalTo(avaliacaoRepo.findByData(avaliacao1.getData()).getData()));
-	}
+        clearCache();
 
-	@Test
-	public void deveCadastrarUmaAvaliacaComUmaAula() {
-		avaliacao1.setAula(new AulaExample().getExample1());
-		avaliacaoRepo.save(avaliacao1);
-		Avaliacao recuperada = avaliacaoRepo.findByData(avaliacao1.getData());
-		assertThat(recuperada.getAula().getData(), equalTo(LocalDate.now()));
-	}
+        Avaliacao recuperada = avaliacaoRepo.findByData(avaliacao1.getData());
+        Avaliacao recuperadaPeloId = avaliacaoRepo.findOne(recuperada.getId());
+        assertThat(recuperadaPeloId.getId(), equalTo(recuperada.getId()));
+    }
 
-	@Test
-	public void deveCadastrarUmaAvaliacaoComUmProjeto() {
-		avaliacao1.setProjeto(new ProjetoExample().getExample1());
-		avaliacaoRepo.save(avaliacao1);
-		Avaliacao recuperada = avaliacaoRepo.findByData(avaliacao1.getData());
-		assertThat(recuperada.getProjeto().getDescricao(), equalTo("projeto teste"));
-	}
+    @Test
+    public void deveCadastrarUmaAvaliacao() {
+        avaliacaoRepo.save(avaliacao1);
 
-	@Test
-	public void deveCadastrarUmaAvaliacaoComRespostas() {
-		avaliacaoRepo.save(avaliacao1);
+        clearCache();
 
-		List<Respostas> respostas = new ArrayList<Respostas>();
-		RespostasExample exemplo = new RespostasExample();
+        assertThat(avaliacao1.getData(), equalTo(avaliacaoRepo.findByData(avaliacao1.getData()).getData()));
+    }
 
-		respostas.add(exemplo.getExample1());
-		respostas.add(exemplo.getExample2());
+    @Test
+    public void deveCadastrarUmaAvaliacaComUmaAula() {
+        avaliacao1.setAula(new AulaExample().getExample1());
+        avaliacaoRepo.save(avaliacao1);
 
-		avaliacao1.setRespostas(respostas);
+        clearCache();
 
-		Avaliacao recuperada = avaliacaoRepo.findByData(avaliacao1.getData());
+        Avaliacao recuperada = avaliacaoRepo.findByData(avaliacao1.getData());
+        assertThat(recuperada.getAula().getData(), equalTo(LocalDate.now()));
+    }
 
-		assertThat(recuperada.getRespostas().get(0).getResposta(), equalTo(10));
-		assertThat(recuperada.getRespostas().get(1).getResposta(), equalTo(9));
+    @Test
+    public void deveCadastrarUmaAvaliacaoComUmProjeto() {
+        avaliacao1.setProjeto(new ProjetoExample().getExample1());
+        avaliacaoRepo.save(avaliacao1);
 
-	}
+        clearCache();
 
-	@Test
-	public void deveCadastrarAvaliacaoComAlunos() {
-		List<Aluno> alunos = new ArrayList<Aluno>();
-		AlunoExample exemplo = new AlunoExample();
-		alunos.add(exemplo.getExample1());
-		alunos.add(exemplo.getExample2());
-		avaliacao1.setAlunos(alunos);
-		avaliacaoRepo.save(avaliacao1);
+        Avaliacao recuperada = avaliacaoRepo.findByData(avaliacao1.getData());
+        assertThat(recuperada.getProjeto().getDescricao(), equalTo("projeto teste"));
+    }
 
-		Avaliacao recuperada = avaliacaoRepo.findByData(avaliacao1.getData());
+    @Test
+    public void deveCadastrarUmaAvaliacaoComRespostas() {
+        avaliacaoRepo.save(avaliacao1);
 
-		assertThat(recuperada.getAlunos().get(0).getProntuario(), equalTo(13100082));
-		assertThat(recuperada.getAlunos().get(1).getProntuario(), equalTo(13100083));
-	}
+        clearCache();
+        // FIXME parou de pegar depois de arrumar o cache, coloque tudo no objeto antes de salvar ou antes de limpar o cache, se não vai dar problema
+        List<Respostas> respostas = new ArrayList<Respostas>();
+        RespostasExample exemplo = new RespostasExample();
 
-	public void deveDevolverTodasAsQuestoesDeUmaAvaliacao() {
-		List<Questoes> questoes = new ArrayList<>();
-		Questoes q1 = new QuestoesExample().getExample1();
-		Questoes q2 = new QuestoesExample().getExample2();
+        respostas.add(exemplo.getExample1());
+        respostas.add(exemplo.getExample2());
 
-		questoes.addAll(Arrays.asList(q1, q2));
+        avaliacao1.setRespostas(respostas);
 
-		Projeto projeto = new Projeto();
-		projeto.setDescricao("Projeto de teste");
-		projeto.setQuestoes(questoes);
+        Avaliacao recuperada = avaliacaoRepo.findByData(avaliacao1.getData());
 
-		avaliacao1.setProjeto(projeto);
+        assertThat(recuperada.getRespostas().get(0).getResposta(), equalTo(10));
+        assertThat(recuperada.getRespostas().get(1).getResposta(), equalTo(9));
 
-		avaliacaoRepo.save(avaliacao1);
+    }
 
-		Avaliacao recuperada = avaliacaoRepo.findByData(avaliacao1.getData());
+    @Test
+    public void deveCadastrarAvaliacaoComAlunos() {
+        List<Aluno> alunos = new ArrayList<Aluno>();
+        AlunoExample exemplo = new AlunoExample();
+        alunos.add(exemplo.getExample1());
+        alunos.add(exemplo.getExample2());
+        avaliacao1.setAlunos(alunos);
+        avaliacaoRepo.save(avaliacao1);
 
-		List<Questoes> questoesRecuperadas = avaliacaoRepo.todasAsQuestoesDeUmaAvaliacao(recuperada);
+        clearCache();
 
-		assertThat(questoesRecuperadas.size(), equalTo(2));
-		assertThat(questoesRecuperadas.get(0).getDescricao(), equalTo(q1.getDescricao()));
-		assertThat(questoesRecuperadas.get(1).getDescricao(), equalTo(q2.getDescricao()));
+        Avaliacao recuperada = avaliacaoRepo.findByData(avaliacao1.getData());
 
-	}
+        assertThat(recuperada.getAlunos().get(0).getProntuario(), equalTo(13100082));
+        assertThat(recuperada.getAlunos().get(1).getProntuario(), equalTo(13100083));
+    }
 
-	@Test
-	public void deveDevolveAvaliacaoJaAvaliada() {
-		Aluno aluno = new AlunoExample().getExample1();
-		alunoRepo.save(aluno);
-		List<Aluno> alunos = new ArrayList<Aluno>();
-		avaliacao1.setAlunos(alunos);
-		avaliacao1.adiciona(alunoRepo.findByProntuario(aluno.getProntuario()));
+    public void deveDevolverTodasAsQuestoesDeUmaAvaliacao() {
+        List<Questoes> questoes = new ArrayList<>();
+        Questoes q1 = new QuestoesExample().getExample1();
+        Questoes q2 = new QuestoesExample().getExample2();
 
-		avaliacaoRepo.save(avaliacao1);
+        questoes.addAll(Arrays.asList(q1, q2));
 
-		Avaliacao retornadaAva = avaliacaoRepo.findByData(avaliacao1.getData());
-		System.out.println(retornadaAva.getAlunos().get(0).getProntuario());
+        Projeto projeto = new Projeto();
+        projeto.setDescricao("Projeto de teste");
+        projeto.setQuestoes(questoes);
 
-		assertThat(avaliacaoRepo.jaAvaliou(alunos, retornadaAva), equalTo(true));
-	}
+        avaliacao1.setProjeto(projeto);
 
-	@Test	
-	public void deveInformarAvaliacaoNaoAvaliada() {
-		Aluno aluno = new AlunoExample().getExample1();
-		alunoRepo.save(aluno);
-		
-		List<Aluno> alunos = new ArrayList<Aluno>();
-		alunos.add(aluno);
+        avaliacaoRepo.save(avaliacao1);
 
-		avaliacaoRepo.save(avaliacao1);
+        Avaliacao recuperada = avaliacaoRepo.findByData(avaliacao1.getData());
 
-		Avaliacao retornadaAva = avaliacaoRepo.findByData(avaliacao1.getData());
+        List<Questoes> questoesRecuperadas = avaliacaoRepo.todasAsQuestoesDeUmaAvaliacao(recuperada);
 
-		assertThat(avaliacaoRepo.jaAvaliou(alunos, retornadaAva), equalTo(false));
-	}
+        assertThat(questoesRecuperadas.size(), equalTo(2));
+        assertThat(questoesRecuperadas.get(0).getDescricao(), equalTo(q1.getDescricao()));
+        assertThat(questoesRecuperadas.get(1).getDescricao(), equalTo(q2.getDescricao()));
+
+    }
+
+    @Test
+    public void deveDevolveAvaliacaoJaAvaliada() {
+        Aluno aluno = new AlunoExample().getExample1();
+        List<Aluno> alunos = new ArrayList<Aluno>();
+        avaliacao1.setAlunos(alunos);
+        avaliacao1.adiciona(aluno);
+
+        avaliacaoRepo.save(avaliacao1);
+
+        clearCache();
+
+        Avaliacao retornadaAva = avaliacaoRepo.findByData(avaliacao1.getData());
+
+        assertThat(avaliacaoRepo.jaAvaliou(retornadaAva, aluno), equalTo(true));
+    }
+
+    @Test
+    public void deveInformarAvaliacaoNaoAvaliada() {
+        Aluno aluno = new AlunoExample().getExample1();
+        alunoRepo.save(aluno);
+
+        clearCache();
+
+        avaliacaoRepo.save(avaliacao1);
+
+        clearCache();
+
+        Avaliacao retornadaAva = avaliacaoRepo.findByData(avaliacao1.getData());
+
+        assertThat(avaliacaoRepo.jaAvaliou(retornadaAva, aluno), equalTo(false));
+    }
+
+    private void clearCache() {
+        manager.flush();
+        manager.clear();
+    }
 
 }
