@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 import org.joda.time.LocalDate;
@@ -36,6 +38,8 @@ public class AlunoRepositoryTest {
 
 	@Inject
 	private AlunoRepository repository;
+	@PersistenceContext
+	private EntityManager manager;
 	private Aluno aluno1;
 	private Aluno aluno2;
 
@@ -101,4 +105,22 @@ public class AlunoRepositoryTest {
 		assertThat(repository.autentica(aluno2), equalTo(null));
 	}
 
+	@Test
+	public void deveAlterarNomeDoAluno() {
+		repository.save(aluno1);
+		Aluno retornado = repository.findByProntuario(aluno1.getProntuario());
+		clearCache();
+
+		retornado.setNome("João da Silva");
+		repository.save(retornado);
+		
+		clearCache();
+		
+		assertThat(repository.findByProntuario(aluno1.getProntuario()).getNome(), equalTo(aluno1.getNome()));
+	}
+
+	private void clearCache() {
+		manager.flush();
+		manager.clear();
+	}
 }

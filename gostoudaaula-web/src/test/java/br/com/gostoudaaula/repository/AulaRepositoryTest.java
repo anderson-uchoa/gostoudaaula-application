@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import org.joda.time.LocalDate;
@@ -44,6 +45,8 @@ public class AulaRepositoryTest {
 	private AvaliacaoRepository avaliacaoRepo;
 	@Inject
 	private AlunoRepository alunoRepo;
+	@Inject
+	private EntityManager manager;
 	private Aula aula1;
 	private Aula aula2;
 
@@ -150,6 +153,26 @@ public class AulaRepositoryTest {
 		assertThat(aulasDoAluno.size(), equalTo(1));
 		assertThat(aulasDoAluno.get(0).getData(), equalTo(LocalDate.now()));
 
+	}
+
+	@Test
+	public void deveAlterarADataDaAula() {
+		aulaRepo.save(aula1);
+		clearCache();
+		Aula retornada = aulaRepo.findByData(aula1.getData());
+
+		retornada.setData(LocalDate.now().plusDays(1));
+
+		aulaRepo.save(retornada);
+
+		clearCache();
+
+		assertThat(aulaRepo.findByData(retornada.getData()).getData(), equalTo(retornada.getData()));
+	}
+
+	private void clearCache() {
+		manager.flush();
+		manager.clear();
 	}
 
 }

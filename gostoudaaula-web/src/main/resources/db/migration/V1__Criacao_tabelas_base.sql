@@ -88,7 +88,7 @@ CREATE TABLE respostas (
 	id integer primary key auto_increment,
     resposta integer NOT NULL,
     id_questoes integer,
-    id_avaliacao integer, 
+    id_avaliacao integer,
     data_resposta datetime NOT NULL,
     foreign key (id_questoes) references questoes (id) on delete cascade on update cascade,
     foreign key (id_avaliacao) references avaliacao (id) on delete cascade on update cascade
