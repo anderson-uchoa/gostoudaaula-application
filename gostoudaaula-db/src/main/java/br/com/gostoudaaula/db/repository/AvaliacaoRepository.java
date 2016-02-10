@@ -25,6 +25,6 @@ public interface AvaliacaoRepository extends CrudRepository<Avaliacao, Long> {
     public Avaliacao findByAula(Aula aula);
 
     @Query("SELECT count(a) > 0 FROM Avaliacao a join a.alunos aluno WHERE a = :avaliacao and aluno = :aluno)")
-    public boolean jaAvaliou(@Param("avaliacao") Avaliacao avaliacao, @Param("aluno") Aluno aluno);
+    public boolean jaAvaliou(@Param("aluno") Aluno aluno, @Param("avaliacao") Avaliacao avaliacao);
 
 }

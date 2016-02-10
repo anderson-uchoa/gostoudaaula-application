@@ -99,9 +99,6 @@ public class AvaliacaoRepositoryTest {
 
     @Test
     public void deveCadastrarUmaAvaliacaoComRespostas() {
-        avaliacaoRepo.save(avaliacao1);
-
-        clearCache();
         // FIXME parou de pegar depois de arrumar o cache, coloque tudo no objeto antes de salvar ou antes de limpar o cache, se não vai dar problema
         List<Respostas> respostas = new ArrayList<Respostas>();
         RespostasExample exemplo = new RespostasExample();
@@ -110,6 +107,10 @@ public class AvaliacaoRepositoryTest {
         respostas.add(exemplo.getExample2());
 
         avaliacao1.setRespostas(respostas);
+        
+        avaliacaoRepo.save(avaliacao1);
+        
+        clearCache();
 
         Avaliacao recuperada = avaliacaoRepo.findByData(avaliacao1.getData());
 
@@ -173,7 +174,7 @@ public class AvaliacaoRepositoryTest {
 
         Avaliacao retornadaAva = avaliacaoRepo.findByData(avaliacao1.getData());
 
-        assertThat(avaliacaoRepo.jaAvaliou(retornadaAva, aluno), equalTo(true));
+        assertThat(avaliacaoRepo.jaAvaliou(aluno, retornadaAva), equalTo(true));
     }
 
     @Test
@@ -189,7 +190,7 @@ public class AvaliacaoRepositoryTest {
 
         Avaliacao retornadaAva = avaliacaoRepo.findByData(avaliacao1.getData());
 
-        assertThat(avaliacaoRepo.jaAvaliou(retornadaAva, aluno), equalTo(false));
+        assertThat(avaliacaoRepo.jaAvaliou(aluno, retornadaAva), equalTo(false));
     }
 
     private void clearCache() {

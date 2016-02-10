@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,8 +37,7 @@ public class AulaController {
 	}
 
 	@RequestMapping(value = "aula/{prontuario}", produces = JSON, method = GET)
-	public @ResponseBody ResponseEntity<String> aulasSemAvaliacao(Aluno aluno)
-			throws JsonProcessingException {
+	public ResponseEntity<String> aulasSemAvaliacao(Aluno aluno) throws JsonProcessingException {
 
 		List<Aula> aulas = service.getListaDeAulaParaAvaliar(aluno);
 

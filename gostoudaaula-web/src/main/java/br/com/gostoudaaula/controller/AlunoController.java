@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,20 +32,20 @@ public class AlunoController {
 	}
 
 	@RequestMapping(value = "aluno", method = GET, produces = JSON)
-	public @ResponseBody ResponseEntity<String> getAlunos() throws JsonProcessingException {
+	public ResponseEntity<String> getAlunos() throws JsonProcessingException {
 		mapper.addMixIn(Aluno.class, AlunoMixIn.AssociationMixIn.class);
 		String resposta = mapper.writeValueAsString(service.getLista());
 		return new ResponseEntity<String>(resposta, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "aluno", method = POST, consumes = JSON)
-	public @ResponseBody ResponseEntity<String> salvaAluno(@RequestBody Aluno aluno) {
+	public ResponseEntity<String> salvaAluno(@RequestBody Aluno aluno) {
 		service.salva(aluno);
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "aluno/auth", method = POST, consumes = JSON, produces = JSON)
-	public @ResponseBody ResponseEntity<String> autentica(@RequestBody Aluno aluno) throws JsonProcessingException {
+	public ResponseEntity<String> autentica(@RequestBody Aluno aluno) throws JsonProcessingException {
 		String resposta = "Erro de autenticação";
 
 		if (service.autentica(aluno) != null) {

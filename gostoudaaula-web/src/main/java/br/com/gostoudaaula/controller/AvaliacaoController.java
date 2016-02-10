@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -44,7 +43,7 @@ public class AvaliacaoController {
 	}
 
 	@RequestMapping(value = "avaliacao/{id}", produces = JSON, method = GET)
-	public @ResponseBody ResponseEntity<String> devolveTodasAsQuestoes(Aula aula) throws JsonProcessingException {
+	public ResponseEntity<String> devolveTodasAsQuestoes(Aula aula) throws JsonProcessingException {
 
 		Avaliacao avaliacao = service.retorna(aula);
 
@@ -69,7 +68,7 @@ public class AvaliacaoController {
 
 		if (avaliacao != null) {
 			Aluno aluno = aula.getAlunos().get(0);
-			
+
 			if (!service.jaAvaliou(aluno, avaliacao)) {
 				avaliacao.adiciona(aluno);
 				service.salva(avaliacao);
