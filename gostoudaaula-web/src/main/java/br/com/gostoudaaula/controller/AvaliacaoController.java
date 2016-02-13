@@ -68,6 +68,7 @@ public class AvaliacaoController {
 
 		if (avaliacao != null) {
 			Aluno aluno = aula.getAlunos().get(0);
+
 			if (!service.jaAvaliou(aluno, avaliacao)) {
 				avaliacao.adiciona(aluno);
 				service.salva(avaliacao);

@@ -41,4 +41,5 @@ public class AvaliacaoMixIn {
 		@JsonProperty
 		private LocalDate data;
 	}
+	
 }
