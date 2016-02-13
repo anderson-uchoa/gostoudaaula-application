@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import br.com.gostoudaaula.db.repository.RespostasRepository;
+import br.com.gostoudaaula.model.Avaliacao;
 import br.com.gostoudaaula.model.Respostas;
 
 @Service
@@ -21,5 +22,9 @@ public class RespostasService {
 
 	public void salva(List<Respostas> respostas) {
 		repository.save(respostas);
+	}
+
+	public List<Respostas> todasRespostasDe(Avaliacao avaliacao) {
+		return repository.findByAvaliacao(avaliacao);
 	}
 }

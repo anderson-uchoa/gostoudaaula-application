@@ -158,7 +158,7 @@ public class AvaliacaoRepositoryTest {
 
 		Avaliacao recuperada = avaliacaoRepo.findByData(avaliacao1.getData());
 
-		List<Questoes> questoesRecuperadas = avaliacaoRepo.todasAsQuestoesDeUmaAvaliacao(recuperada);
+		List<Questoes> questoesRecuperadas = avaliacaoRepo.todasAsQuestoes(recuperada);
 
 		assertThat(questoesRecuperadas.size(), equalTo(2));
 		assertThat(questoesRecuperadas.get(0).getDescricao(), equalTo(q1.getDescricao()));

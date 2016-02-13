@@ -11,6 +11,7 @@ import br.com.gostoudaaula.model.Aluno;
 import br.com.gostoudaaula.model.Aula;
 import br.com.gostoudaaula.model.Avaliacao;
 import br.com.gostoudaaula.model.Questoes;
+import br.com.gostoudaaula.model.Respostas;
 
 @Service
 public class AvaliacaoService {
@@ -23,7 +24,7 @@ public class AvaliacaoService {
 	}
 
 	public List<Questoes> todasQuestoesDeUmaAvaliacao(Avaliacao avaliacao) {
-		return repository.todasAsQuestoesDeUmaAvaliacao(avaliacao);
+		return repository.todasAsQuestoes(avaliacao);
 	}
 
 	public boolean existe(Long id) {
@@ -48,6 +49,10 @@ public class AvaliacaoService {
 
 	public boolean jaAvaliou(Aluno aluno, Avaliacao avaliacao) {
 		return repository.jaAvaliou(aluno, avaliacao);
+	}
+
+	public List<Respostas> todasRespostasDe(Avaliacao avaliacao) {
+		return repository.todasAsRespostas(avaliacao);
 	}
 
 }

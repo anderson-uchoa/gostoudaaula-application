@@ -4,6 +4,8 @@ import static br.com.gostoudaaula.http.HTTPValues.JSON;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.http.HttpStatus;
@@ -21,6 +23,7 @@ import br.com.gostoudaaula.json.mixin.PeriodoLetivoMixIn;
 import br.com.gostoudaaula.json.mixin.ProfessorMixIn;
 import br.com.gostoudaaula.json.mixin.ProjetoMixIn;
 import br.com.gostoudaaula.json.mixin.QuestoesMixIn;
+import br.com.gostoudaaula.json.mixin.RespostasMixiIn;
 import br.com.gostoudaaula.model.Aluno;
 import br.com.gostoudaaula.model.Aula;
 import br.com.gostoudaaula.model.Avaliacao;
@@ -28,12 +31,15 @@ import br.com.gostoudaaula.model.PeriodoLetivo;
 import br.com.gostoudaaula.model.Professor;
 import br.com.gostoudaaula.model.Projeto;
 import br.com.gostoudaaula.model.Questoes;
+import br.com.gostoudaaula.model.Respostas;
 import br.com.gostoudaaula.service.AvaliacaoService;
 
 @Controller
+@RequestMapping("avaliacao/")
 public class AvaliacaoController {
 
 	private AvaliacaoService service;
+
 	private ObjectMapper mapper;
 
 	@Inject
@@ -42,7 +48,7 @@ public class AvaliacaoController {
 		this.mapper = mapper;
 	}
 
-	@RequestMapping(value = "avaliacao/{id}", produces = JSON, method = GET)
+	@RequestMapping(value = "{id}", produces = JSON, method = GET)
 	public ResponseEntity<String> devolveTodasAsQuestoes(Aula aula) throws JsonProcessingException {
 
 		Avaliacao avaliacao = service.retorna(aula);
@@ -61,7 +67,7 @@ public class AvaliacaoController {
 		return new ResponseEntity<String>("Avaliação inexistente", HttpStatus.NOT_FOUND);
 	}
 
-	@RequestMapping(value = "avaliacao/respondida", consumes = JSON, method = POST)
+	@RequestMapping(value = "respondida", consumes = JSON, method = POST)
 	public ResponseEntity<String> avaliacaoAula(@RequestBody Aula aula) {
 
 		Avaliacao avaliacao = service.retorna(aula);
@@ -78,6 +84,32 @@ public class AvaliacaoController {
 			}
 		}
 		return new ResponseEntity<String>("Não existe avaliação para essa aula", HttpStatus.BAD_REQUEST);
+	}
+
+	@RequestMapping(value = "respostas/{id}", method = GET, produces = JSON)
+	public ResponseEntity<String> respostasDe(Avaliacao avaliacao) throws JsonProcessingException {
+
+		List<Respostas> respostas = service.todasRespostasDe(avaliacao);
+		mapper.addMixIn(Respostas.class, RespostasMixiIn.AssociationWithQuestoesMixIn.class).addMixIn(Questoes.class,
+				QuestoesMixIn.AssociationMixIn.class);
+		String json = mapper.writeValueAsString(respostas);
+
+		return new ResponseEntity<String>(json, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "respostas/{id}", method = POST, consumes = JSON)
+	public ResponseEntity<String> cadastraRespostaPara(Avaliacao avaliacao, @RequestBody List<Respostas> respostas) {
+
+		Avaliacao retornada = service.retorna(avaliacao);
+
+		if (retornada != null) {
+
+			service.salva(retornada);
+
+			return new ResponseEntity<String>("Respostas cadastradas com sucesso", HttpStatus.OK);
+		}
+
+		return new ResponseEntity<String>("Avaliação inexistente", HttpStatus.BAD_REQUEST);
 	}
 
 }

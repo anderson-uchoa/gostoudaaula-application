@@ -21,7 +21,7 @@ public class QuestoesMixIn {
 		private List<Projeto> projetos;
 
 	}
-	
+
 	public class AssociationMixIn extends QuestoesMixIn {
 		@JsonProperty
 		private Long id;

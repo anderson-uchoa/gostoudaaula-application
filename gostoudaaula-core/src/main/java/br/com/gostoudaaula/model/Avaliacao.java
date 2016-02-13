@@ -149,4 +149,8 @@ public class Avaliacao implements Parcelable {
 		data = (LocalDate) parcel.readSerializable();
 	}
 
+	public void adiciona(Respostas resposta) {
+		respostas.add(resposta);
+	}
+
 }
