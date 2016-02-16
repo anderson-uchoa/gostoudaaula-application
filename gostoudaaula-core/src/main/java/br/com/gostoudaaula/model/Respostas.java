@@ -73,7 +73,7 @@ public class Respostas implements Parcelable {
 	}
 
 	@NotNull
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne(cascade = { CascadeType.MERGE, CascadeType.DETACH })
 	@JoinColumn(name = "id_questoes")
 	public Questoes getQuestoes() {
 		return questoes;
@@ -84,7 +84,7 @@ public class Respostas implements Parcelable {
 	}
 
 	@NotNull
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne(cascade = { CascadeType.MERGE, CascadeType.DETACH })
 	@JoinColumn(name = "id_avaliacao")
 	public Avaliacao getAvaliacao() {
 		return avaliacao;

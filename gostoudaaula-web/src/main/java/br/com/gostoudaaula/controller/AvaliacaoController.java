@@ -33,25 +33,29 @@ import br.com.gostoudaaula.model.Projeto;
 import br.com.gostoudaaula.model.Questoes;
 import br.com.gostoudaaula.model.Respostas;
 import br.com.gostoudaaula.service.AvaliacaoService;
+import br.com.gostoudaaula.service.RespostasService;
 
 @Controller
 @RequestMapping("avaliacao/")
 public class AvaliacaoController {
 
-	private AvaliacaoService service;
+	private AvaliacaoService avaliacaoService;
+	private RespostasService respostasService;
 
 	private ObjectMapper mapper;
 
 	@Inject
-	public AvaliacaoController(AvaliacaoService service, ObjectMapper mapper) {
-		this.service = service;
+	public AvaliacaoController(AvaliacaoService avaliacaoService, RespostasService respostasService,
+			ObjectMapper mapper) {
+		this.avaliacaoService = avaliacaoService;
 		this.mapper = mapper;
+		this.respostasService = respostasService;
 	}
 
 	@RequestMapping(value = "{id}", produces = JSON, method = GET)
 	public ResponseEntity<String> devolveTodasAsQuestoes(Aula aula) throws JsonProcessingException {
 
-		Avaliacao avaliacao = service.retorna(aula);
+		Avaliacao avaliacao = avaliacaoService.retorna(aula);
 
 		if (avaliacao != null) {
 			mapper.addMixIn(Avaliacao.class, AvaliacaoMixIn.AssociationMixIn.class)
@@ -61,7 +65,7 @@ public class AvaliacaoController {
 					.addMixIn(Projeto.class, ProjetoMixIn.WithQuestionsMixIn.class)
 					.addMixIn(Questoes.class, QuestoesMixIn.AssociationMixIn.class);
 
-			String json = mapper.writeValueAsString(service.retorna(avaliacao));
+			String json = mapper.writeValueAsString(avaliacaoService.retorna(avaliacao));
 			return new ResponseEntity<String>(json, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>("Avaliação inexistente", HttpStatus.NOT_FOUND);
@@ -70,14 +74,14 @@ public class AvaliacaoController {
 	@RequestMapping(value = "respondida", consumes = JSON, method = POST)
 	public ResponseEntity<String> avaliacaoAula(@RequestBody Aula aula) {
 
-		Avaliacao avaliacao = service.retorna(aula);
+		Avaliacao avaliacao = avaliacaoService.retorna(aula);
 
 		if (avaliacao != null) {
 			Aluno aluno = aula.getAlunos().get(0);
 
-			if (!service.jaAvaliou(aluno, avaliacao)) {
+			if (!avaliacaoService.jaAvaliou(aluno, avaliacao)) {
 				avaliacao.adiciona(aluno);
-				service.salva(avaliacao);
+				avaliacaoService.salva(avaliacao);
 				return new ResponseEntity<String>(HttpStatus.OK);
 			} else {
 				return new ResponseEntity<String>("Aula já avaliada", HttpStatus.NOT_ACCEPTABLE);
@@ -89,7 +93,7 @@ public class AvaliacaoController {
 	@RequestMapping(value = "respostas/{id}", method = GET, produces = JSON)
 	public ResponseEntity<String> respostasDe(Avaliacao avaliacao) throws JsonProcessingException {
 
-		List<Respostas> respostas = service.todasRespostasDe(avaliacao);
+		List<Respostas> respostas = avaliacaoService.todasRespostasDe(avaliacao);
 		mapper.addMixIn(Respostas.class, RespostasMixiIn.AssociationWithQuestoesMixIn.class).addMixIn(Questoes.class,
 				QuestoesMixIn.AssociationMixIn.class);
 		String json = mapper.writeValueAsString(respostas);
@@ -100,11 +104,12 @@ public class AvaliacaoController {
 	@RequestMapping(value = "respostas/{id}", method = POST, consumes = JSON)
 	public ResponseEntity<String> cadastraRespostaPara(Avaliacao avaliacao, @RequestBody List<Respostas> respostas) {
 
-		Avaliacao retornada = service.retorna(avaliacao);
+		if (avaliacaoService.existe(avaliacao.getId())) {
 
-		if (retornada != null) {
-
-			service.salva(retornada);
+			for (Respostas resposta : respostas) {
+				resposta.setAvaliacao(avaliacao);
+			}
+			respostasService.salva(respostas);
 
 			return new ResponseEntity<String>("Respostas cadastradas com sucesso", HttpStatus.OK);
 		}

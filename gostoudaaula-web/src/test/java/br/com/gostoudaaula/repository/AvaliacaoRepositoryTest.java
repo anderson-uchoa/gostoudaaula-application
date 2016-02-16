@@ -24,6 +24,7 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 
 import br.com.gostoudaaula.db.repository.AlunoRepository;
 import br.com.gostoudaaula.db.repository.AvaliacaoRepository;
+import br.com.gostoudaaula.db.repository.RespostasRepository;
 import br.com.gostoudaaula.example.AlunoExample;
 import br.com.gostoudaaula.example.AulaExample;
 import br.com.gostoudaaula.example.AvaliacaoExample;
@@ -49,6 +50,8 @@ public class AvaliacaoRepositoryTest {
 	private AvaliacaoRepository avaliacaoRepo;
 	@Inject
 	private AlunoRepository alunoRepo;
+	@Inject
+	private RespostasRepository restostasRepo;
 	private Avaliacao avaliacao1;
 
 	@Before
@@ -100,25 +103,31 @@ public class AvaliacaoRepositoryTest {
 
 	@Test
 	public void deveCadastrarUmaAvaliacaoComRespostas() {
-		// FIXME parou de pegar depois de arrumar o cache, coloque tudo no
-		// objeto antes de salvar ou antes de limpar o cache, se não vai dar
-		// problema
 		List<Respostas> respostas = new ArrayList<Respostas>();
 		RespostasExample exemplo = new RespostasExample();
 
-		respostas.add(exemplo.getExample1());
-		respostas.add(exemplo.getExample2());
-
-		avaliacao1.setRespostas(respostas);
-
 		avaliacaoRepo.save(avaliacao1);
-
+		
 		clearCache();
-
+		
 		Avaliacao recuperada = avaliacaoRepo.findByData(avaliacao1.getData());
 
-		assertThat(recuperada.getRespostas().get(0).getResposta(), equalTo(10));
-		assertThat(recuperada.getRespostas().get(1).getResposta(), equalTo(9));
+		Respostas r1 = exemplo.getExample1();
+		Respostas r2 = exemplo.getExample2();
+
+		r1.setAvaliacao(recuperada);
+		r2.setAvaliacao(recuperada);
+
+		respostas.addAll(Arrays.asList(r1, r2));
+
+		restostasRepo.save(respostas);
+
+		clearCache();
+		
+		Avaliacao avaliacaoComRespostas = avaliacaoRepo.findByData(avaliacao1.getData());
+
+		assertThat(avaliacaoComRespostas.getRespostas().get(0).getResposta(), equalTo(10));
+		assertThat(avaliacaoComRespostas.getRespostas().get(1).getResposta(), equalTo(9));
 
 	}
 

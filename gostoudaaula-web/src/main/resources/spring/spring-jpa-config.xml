@@ -59,6 +59,7 @@
 	<!-- configuração do spring data -->
 	<jpa:repositories base-package="br.com.gostoudaaula.db"
 		entity-manager-factory-ref="entityManagerFactory"
-		transaction-manager-ref="jpaTransactionManager" />
+		transaction-manager-ref="jpaTransactionManager" 
+		/>
 
 </beans>

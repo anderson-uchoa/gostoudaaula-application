@@ -99,8 +99,7 @@ public class Avaliacao implements Parcelable {
 		this.alunos = alunos;
 	}
 
-	@OneToMany(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "id_avaliacao")
+	@OneToMany(mappedBy = "avaliacao", cascade = CascadeType.PERSIST)
 	public List<Respostas> getRespostas() {
 		return respostas;
 	}
