@@ -78,7 +78,7 @@ public class Avaliacao implements Parcelable {
 	}
 
 	@NotNull
-	@OneToOne(cascade = CascadeType.PERSIST)
+	@OneToOne(cascade = { CascadeType.DETACH, CascadeType.PERSIST })
 	@JoinColumn(name = "id_aula")
 	public Aula getAula() {
 		return aula;
@@ -88,7 +88,7 @@ public class Avaliacao implements Parcelable {
 		this.aula = aula;
 	}
 
-	@ManyToMany(cascade = CascadeType.PERSIST)
+	@ManyToMany(cascade = { CascadeType.DETACH, CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinTable(name = "alunos_avaliacao", joinColumns = { @JoinColumn(name = "id_avaliacao") }, inverseJoinColumns = {
 			@JoinColumn(name = "id_aluno") })
 	public List<Aluno> getAlunos() {

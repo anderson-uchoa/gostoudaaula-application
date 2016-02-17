@@ -135,20 +135,38 @@ public class AulaRepositoryTest {
 	@Test
 	public void deveDevolverTodasAsAulasNaoAvaliadasDeUmAluno() {
 		Aluno aluno = new AlunoExample().getExample1();
-		Avaliacao avaliacao = new AvaliacaoExample().getExample1();
-		List<Aula> aulas = new ArrayList<>();
-		List<Avaliacao> ava = new ArrayList<>();
-		ava.add(avaliacao);
+		alunoRepo.save(aluno);
+		clearCache();
 
+		Avaliacao avaliacao = new AvaliacaoExample().getExample1();
+		avaliacaoRepo.save(avaliacao);
+		clearCache();
+
+		List<Aula> aulas = new ArrayList<>();
 		aulas.add(aula1);
 		aulas.add(aula2);
-		avaliacao.setAula(aula2);
-		aluno.setAvaliacoes(ava);
-		aluno.setAulas(aulas);
+		aulaRepo.save(aulas);
 
-		alunoRepo.save(aluno);
+		clearCache();
 
-		List<Aula> aulasDoAluno = aulaRepo.findWithNotEvaluated(aluno);
+
+		List<Avaliacao> ava = new ArrayList<>();
+		Avaliacao avaRetornada = avaliacaoRepo.findByData(avaliacao.getData());
+		avaRetornada.setAula(aulaRepo.findByData(aula2.getData()));
+		ava.add(avaRetornada);
+		avaliacaoRepo.save(avaRetornada);
+
+		clearCache();
+
+		Aluno retornado = alunoRepo.findByProntuario(aluno.getProntuario());
+		retornado.setAvaliacoes(ava);
+		retornado.setAulas(aulas);
+
+		alunoRepo.save(retornado);
+
+		clearCache();
+
+		List<Aula> aulasDoAluno = aulaRepo.findWithNotEvaluated(retornado);
 
 		assertThat(aulasDoAluno.size(), equalTo(1));
 		assertThat(aulasDoAluno.get(0).getData(), equalTo(LocalDate.now()));

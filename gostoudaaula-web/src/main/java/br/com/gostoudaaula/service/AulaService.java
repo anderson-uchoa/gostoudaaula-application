@@ -34,4 +34,8 @@ public class AulaService {
 		return repository.findWithNotEvaluated(aluno);
 	}
 
+	public Aula retorna(Aula aula) {
+		return repository.findOne(aula.getId());
+	}
+
 }

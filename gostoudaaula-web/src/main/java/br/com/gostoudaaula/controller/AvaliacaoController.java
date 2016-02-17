@@ -32,6 +32,8 @@ import br.com.gostoudaaula.model.Professor;
 import br.com.gostoudaaula.model.Projeto;
 import br.com.gostoudaaula.model.Questoes;
 import br.com.gostoudaaula.model.Respostas;
+import br.com.gostoudaaula.service.AlunoService;
+import br.com.gostoudaaula.service.AulaService;
 import br.com.gostoudaaula.service.AvaliacaoService;
 import br.com.gostoudaaula.service.RespostasService;
 
@@ -41,15 +43,19 @@ public class AvaliacaoController {
 
 	private AvaliacaoService avaliacaoService;
 	private RespostasService respostasService;
+	private AulaService aulaService;
+	private AlunoService alunoService;
 
 	private ObjectMapper mapper;
 
 	@Inject
 	public AvaliacaoController(AvaliacaoService avaliacaoService, RespostasService respostasService,
-			ObjectMapper mapper) {
-		this.avaliacaoService = avaliacaoService;
+			AulaService aulaService, AlunoService alunoService, ObjectMapper mapper) {
 		this.mapper = mapper;
+		this.avaliacaoService = avaliacaoService;
 		this.respostasService = respostasService;
+		this.aulaService = aulaService;
+		this.alunoService = alunoService;
 	}
 
 	@RequestMapping(value = "{id}", produces = JSON, method = GET)
@@ -71,16 +77,16 @@ public class AvaliacaoController {
 		return new ResponseEntity<String>("Avaliação inexistente", HttpStatus.NOT_FOUND);
 	}
 
-	@RequestMapping(value = "respondida", consumes = JSON, method = POST)
-	public ResponseEntity<String> avaliacaoAula(@RequestBody Aula aula) {
+	@RequestMapping(value = "respondida/{prontuario}", consumes = JSON, method = POST)
+	public ResponseEntity<String> avaliacaoAula(@RequestBody Aula aula, Aluno aluno) {
 
-		Avaliacao avaliacao = avaliacaoService.retorna(aula);
+		Avaliacao avaliacao = avaliacaoService.retorna(aulaService.retorna(aula));
 
 		if (avaliacao != null) {
-			Aluno aluno = aula.getAlunos().get(0);
 
-			if (!avaliacaoService.jaAvaliou(aluno, avaliacao)) {
-				avaliacao.adiciona(aluno);
+			Aluno retornado = alunoService.retorna(aluno);
+			if (!avaliacaoService.jaAvaliou(retornado, avaliacao)) {
+				avaliacao.adiciona(retornado);
 				avaliacaoService.salva(avaliacao);
 				return new ResponseEntity<String>(HttpStatus.OK);
 			} else {
@@ -88,6 +94,7 @@ public class AvaliacaoController {
 			}
 		}
 		return new ResponseEntity<String>("Não existe avaliação para essa aula", HttpStatus.BAD_REQUEST);
+
 	}
 
 	@RequestMapping(value = "respostas/{id}", method = GET, produces = JSON)
@@ -109,6 +116,7 @@ public class AvaliacaoController {
 			for (Respostas resposta : respostas) {
 				resposta.setAvaliacao(avaliacao);
 			}
+
 			respostasService.salva(respostas);
 
 			return new ResponseEntity<String>("Respostas cadastradas com sucesso", HttpStatus.OK);

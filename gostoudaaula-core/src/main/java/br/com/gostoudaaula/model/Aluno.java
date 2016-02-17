@@ -52,7 +52,7 @@ public class Aluno extends Pessoa implements Parcelable {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	
+
 	@ManyToMany(cascade = CascadeType.PERSIST)
 	@JoinTable(name = "alunos_aula", joinColumns = { @JoinColumn(name = "id_aluno") }, inverseJoinColumns = {
 			@JoinColumn(name = "id_aula") })
@@ -64,7 +64,7 @@ public class Aluno extends Pessoa implements Parcelable {
 		this.aulas = aulas;
 	}
 
-	@ManyToMany(cascade = CascadeType.PERSIST)
+	@ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE })
 	@JoinTable(name = "alunos_avaliacao", joinColumns = { @JoinColumn(name = "id_aluno") }, inverseJoinColumns = {
 			@JoinColumn(name = "id_avaliacao") })
 	public List<Avaliacao> getAvaliacoes() {

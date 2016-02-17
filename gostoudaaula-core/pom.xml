@@ -25,6 +25,7 @@
 			<artifactId>hibernate-core</artifactId>
 			<version>${hibernate.version}</version>
 			<optional>true</optional>
+			<scope>compile</scope>
 		</dependency>
 
 
@@ -32,7 +33,7 @@
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-xml</artifactId>
 			<version>2.6.3</version>
-			<optional>true</optional>
+			<optional>true</optional>			
 		</dependency>
 
 		<dependency>
@@ -40,12 +41,14 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${spring.version}</version>
 			<optional>true</optional>
+			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>com.google.android</groupId>
 			<artifactId>android</artifactId>
 			<version>4.1.1.4</version>
+			<scope>compile</scope>
 		</dependency>
 
 
