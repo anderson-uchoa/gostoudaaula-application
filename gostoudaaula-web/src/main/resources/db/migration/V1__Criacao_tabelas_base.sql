@@ -4,11 +4,18 @@ CREATE TABLE pessoa (
     sobrenome varchar(50) NOT NULL
 );
 
+CREATE TABLE token (
+	id integer primary key auto_increment,
+	codigo VARCHAR(255) NOT NULL UNIQUE
+);
+
 CREATE TABLE aluno (
 	id_pessoa integer primary key auto_increment,
     prontuario integer NOT NULL UNIQUE,
     senha varchar(255) NOT NULL,
-	foreign key (id_pessoa) references pessoa(id) on delete cascade on update cascade
+    aluno_token integer NOT NULL,
+	foreign key (id_pessoa) references pessoa(id) on delete cascade on update cascade,
+	foreign key (aluno_token) references token (id) on delete cascade on update cascade
 );
 
 CREATE TABLE professor (

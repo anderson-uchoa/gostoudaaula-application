@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.gostoudaaula.json.mixin.AlunoMixIn;
 import br.com.gostoudaaula.model.Aluno;
+import br.com.gostoudaaula.model.Token;
 import br.com.gostoudaaula.service.AlunoService;
 
 @Controller
@@ -40,16 +41,17 @@ public class AlunoController {
 
 	@RequestMapping(value = "aluno", method = POST, consumes = JSON)
 	public ResponseEntity<String> salvaAluno(@RequestBody Aluno aluno) {
+		aluno.alteraToken(aluno);
 		service.salva(aluno);
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "aluno/auth", method = POST, consumes = JSON, produces = JSON)
-	public ResponseEntity<String> autentica(@RequestBody Aluno aluno) throws JsonProcessingException {
+	public ResponseEntity<String> autenticaPorSenha(@RequestBody Aluno aluno) throws JsonProcessingException {
 		String resposta = "Erro de autenticação";
 
-		if (service.autentica(aluno) != null) {
-			mapper.addMixIn(Aluno.class, AlunoMixIn.AssociationMixIn.class);
+		if (service.autentica(aluno)) {
+			mapper.addMixIn(Aluno.class, AlunoMixIn.AssociationWithToken.class);
 			resposta = mapper.writeValueAsString(service.retorna(aluno));
 			return new ResponseEntity<String>(resposta, HttpStatus.ACCEPTED);
 		}
@@ -57,4 +59,16 @@ public class AlunoController {
 		return new ResponseEntity<String>(resposta, HttpStatus.UNAUTHORIZED);
 	}
 
+	@RequestMapping(value = "aluno/auth/{codigo}", method = GET, produces = JSON)
+	public ResponseEntity<String> autenticaPorToken(Token token) throws JsonProcessingException {
+		String resposta = "Erro de autenticação";
+
+		if (service.tokenValido(token)) {
+			mapper.addMixIn(Aluno.class, AlunoMixIn.AssociationWithToken.class);
+			resposta = mapper.writeValueAsString(service.retorna(token));
+			return new ResponseEntity<String>(resposta, HttpStatus.ACCEPTED);
+		}
+
+		return new ResponseEntity<String>(resposta, HttpStatus.UNAUTHORIZED);
+	}
 }

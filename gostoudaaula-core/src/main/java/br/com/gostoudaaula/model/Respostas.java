@@ -58,7 +58,6 @@ public class Respostas implements Parcelable {
 		this.resposta = resposta;
 	}
 
-	@NotNull
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Convert(converter = DateConverter.class)
 	@Column(name = "data_resposta")

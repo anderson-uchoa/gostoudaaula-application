@@ -1,5 +1,6 @@
 package br.com.gostoudaaula.model;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.validation.constraints.Min;
 
@@ -25,6 +27,7 @@ public class Aluno extends Pessoa implements Parcelable {
 	private String senha;
 	private List<Aula> aulas;
 	private List<Avaliacao> avaliacoes;
+	private Token token;
 
 	public Aluno() {
 
@@ -69,6 +72,30 @@ public class Aluno extends Pessoa implements Parcelable {
 			@JoinColumn(name = "id_avaliacao") })
 	public List<Avaliacao> getAvaliacoes() {
 		return avaliacoes;
+	}
+
+	public void alteraToken(Aluno aluno) {
+		if (token != null) {
+			alteraToken(aluno);
+		} else {
+			try {
+				token = new Token(aluno.getProntuario() + aluno.getSenha());
+			} catch (NoSuchAlgorithmException e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+	@SuppressWarnings("unused")
+	private void setToken(Token token) {
+		this.token = token;
+	}
+
+	@OneToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST })
+	@JoinColumn(name = "aluno_token")
+	public Token getToken() {
+		return token;
 	}
 
 	public void setAvaliacoes(List<Avaliacao> avaliacoes) {

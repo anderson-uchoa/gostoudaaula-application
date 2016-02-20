@@ -4,9 +4,15 @@ import br.com.gostoudaaula.model.Disciplina;
 
 public class DisciplinaExample {
 
-	public Disciplina getExample1(){
+	public Disciplina getExample1() {
 		Disciplina disciplina = new Disciplina();
 		disciplina.setDescricao("Programação");
+		return disciplina;
+	}
+
+	public Disciplina getExample2() {
+		Disciplina disciplina = new Disciplina();
+		disciplina.setDescricao("Calculo");
 		return disciplina;
 	}
 }

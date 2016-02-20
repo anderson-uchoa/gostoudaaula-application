@@ -15,6 +15,7 @@ import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -49,10 +50,11 @@ public class AlunoRepositoryTest {
 		aluno2 = new AlunoExample().getExample2();
 	}
 
-	@Test
+	@Test(expected = DataIntegrityViolationException.class)
 	public void naoDeveCadastrarAluno() {
 		Aluno aluno = new Aluno();
 		aluno.setProntuario(123);
+		repository.save(aluno);
 	}
 
 	@Test
@@ -96,13 +98,13 @@ public class AlunoRepositoryTest {
 	@Test
 	public void deveAutenticarAluno() {
 		repository.save(aluno1);
-		assertThat(repository.autentica(aluno1).getProntuario(), equalTo(aluno1.getProntuario()));
+		assertThat(repository.autentica(aluno1), equalTo(true));
 	}
 
 	@Test
 	public void naoDeveAutenticaAluno() {
 		repository.save(aluno1);
-		assertThat(repository.autentica(aluno2), equalTo(null));
+		assertThat(repository.autentica(aluno2), equalTo(false));
 	}
 
 	@Test
@@ -113,10 +115,33 @@ public class AlunoRepositoryTest {
 
 		retornado.setNome("João da Silva");
 		repository.save(retornado);
-		
+
+		clearCache();
+
+		assertThat(repository.findByProntuario(aluno1.getProntuario()).getNome(), equalTo(aluno1.getNome()));
+	}
+
+	@Test
+	public void deveAutenticarComToken() {
+		repository.save(aluno1);
+
+		clearCache();
+
+		Aluno aluno = new Aluno();
+		aluno.alteraToken(aluno1);
+
+		assertThat(repository.autenticaToken(aluno.getToken()), equalTo(true));
+	}
+
+	@Test
+	public void deveRetornarUmAlunoPeloToken() {
+		repository.save(aluno1);
+
 		clearCache();
 		
-		assertThat(repository.findByProntuario(aluno1.getProntuario()).getNome(), equalTo(aluno1.getNome()));
+		Aluno aluno = repository.retornaPorToken(aluno1.getToken());
+		
+		assertThat(aluno.getProntuario(), equalTo(13100082));
 	}
 
 	private void clearCache() {

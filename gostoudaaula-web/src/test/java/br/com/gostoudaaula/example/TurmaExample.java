@@ -9,4 +9,10 @@ public class TurmaExample {
 		turma.setDescricao("CCONA6");
 		return turma;
 	}
+	
+	public Turma getExample2(){
+		Turma turma = new Turma();
+		turma.setDescricao("CCONA4");
+		return turma;
+	}
 }

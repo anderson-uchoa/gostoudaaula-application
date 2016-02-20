@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.gostoudaaula.db.repository.AlunoRepository;
 import br.com.gostoudaaula.model.Aluno;
+import br.com.gostoudaaula.model.Token;
 
 @Service
 public class AlunoService {
@@ -33,8 +34,16 @@ public class AlunoService {
 		return (List<Aluno>) repository.findAll();
 	}
 
-	public Aluno autentica(Aluno aluno) {
+	public boolean autentica(Aluno aluno) {
 		return repository.autentica(aluno);
+	}
+
+	public boolean tokenValido(Token token) {
+		return repository.autenticaToken(token);
+	}
+
+	public Aluno retorna(Token token) {
+		return repository.retornaPorToken(token);
 	}
 
 

@@ -12,4 +12,13 @@ public class PeriodoLetivoExample {
 		periodo.setDisciplina(new DisciplinaExample().getExample1());
 		return periodo;
 	}
+	
+	public PeriodoLetivo getExample2() {
+		PeriodoLetivo periodo = new PeriodoLetivo();
+		periodo.setAno(2016);
+		periodo.setSemestre(1);
+		periodo.setTurma(new TurmaExample().getExample2());
+		periodo.setDisciplina(new DisciplinaExample().getExample2());
+		return periodo;
+	}
 }

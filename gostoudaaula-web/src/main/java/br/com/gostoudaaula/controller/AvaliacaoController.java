@@ -23,7 +23,7 @@ import br.com.gostoudaaula.json.mixin.PeriodoLetivoMixIn;
 import br.com.gostoudaaula.json.mixin.ProfessorMixIn;
 import br.com.gostoudaaula.json.mixin.ProjetoMixIn;
 import br.com.gostoudaaula.json.mixin.QuestoesMixIn;
-import br.com.gostoudaaula.json.mixin.RespostasMixiIn;
+import br.com.gostoudaaula.json.mixin.RespostasMixIn;
 import br.com.gostoudaaula.model.Aluno;
 import br.com.gostoudaaula.model.Aula;
 import br.com.gostoudaaula.model.Avaliacao;
@@ -101,7 +101,7 @@ public class AvaliacaoController {
 	public ResponseEntity<String> respostasDe(Avaliacao avaliacao) throws JsonProcessingException {
 
 		List<Respostas> respostas = avaliacaoService.todasRespostasDe(avaliacao);
-		mapper.addMixIn(Respostas.class, RespostasMixiIn.AssociationWithQuestoesMixIn.class).addMixIn(Questoes.class,
+		mapper.addMixIn(Respostas.class, RespostasMixIn.AssociationWithQuestoesMixIn.class).addMixIn(Questoes.class,
 				QuestoesMixIn.AssociationMixIn.class);
 		String json = mapper.writeValueAsString(respostas);
 

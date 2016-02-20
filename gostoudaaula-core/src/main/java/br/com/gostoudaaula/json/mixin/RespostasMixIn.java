@@ -10,9 +10,9 @@ import br.com.gostoudaaula.model.Avaliacao;
 import br.com.gostoudaaula.model.Questoes;
 
 @JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.NONE)
-public class RespostasMixiIn {
+public class RespostasMixIn {
 
-	public class MainMixIn extends RespostasMixiIn {
+	public class MainMixIn extends RespostasMixIn {
 
 		@JsonProperty
 		private Long id;
@@ -27,7 +27,7 @@ public class RespostasMixiIn {
 
 	}
 
-	public class AssociationMixIn extends RespostasMixiIn {
+	public class AssociationMixIn extends RespostasMixIn {
 		@JsonProperty
 		private Long id;
 		@JsonProperty
@@ -36,7 +36,7 @@ public class RespostasMixiIn {
 		private LocalDate data;
 	}
 
-	public class AssociationWithQuestoesMixIn extends RespostasMixiIn {
+	public class AssociationWithQuestoesMixIn extends RespostasMixIn {
 		@JsonProperty
 		private Long id;
 		@JsonProperty

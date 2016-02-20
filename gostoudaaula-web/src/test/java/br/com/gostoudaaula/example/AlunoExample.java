@@ -9,6 +9,7 @@ public class AlunoExample {
 		aluno1.setNome("Alex");
 		aluno1.setSobrenome("Felipe");
 		aluno1.setSenha("qwerty");
+		aluno1.alteraToken(aluno1);
 		return aluno1;
 	}
 
@@ -17,6 +18,7 @@ public class AlunoExample {
 		aluno2.setNome("João");
 		aluno2.setSobrenome("Victor");
 		aluno2.setSenha("qwerty");
+		aluno2.alteraToken(aluno2);
 		return aluno2;
 	}
 }
