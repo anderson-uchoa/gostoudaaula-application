@@ -1,25 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Gostou da aula?</title>
-</head>
-<body>
-	<main class="container">
+<%@taglib prefix="html" tagdir="/WEB-INF/tags/html"%>
+<%@taglib prefix="import" tagdir="/WEB-INF/tags/import"%>
 
-	<div class="banner">
+<import:header styles="main.css, bootstrap-theme.css, bootstrap.min.css"
+	scripts="bootstrap.min.js"></import:header>
 
-		<h1>E aí, gostou da aula?</h1>
+<div class="jumbotron">
+	<h1>Bem vindo ao gostou da aula.</h1>
 
-	</div>
-	<section class="description">
-	<div>
-		<p>Atualmente a aplicação se encontra em desenvolvimento, pedimos
-			que aguarde...</p>
-	</div>
-	</section> </main>
-</body>
-</html>
+	<p>Por enquanto o projeto ainda está em desenvolvimento</p>
+</div>
+<import:footer></import:footer>

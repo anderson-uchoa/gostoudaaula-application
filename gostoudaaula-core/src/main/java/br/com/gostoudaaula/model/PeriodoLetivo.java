@@ -51,7 +51,7 @@ public class PeriodoLetivo implements Parcelable {
 	}
 
 	@NotNull
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE })
 	@JoinColumn(name = "id_turma")
 	public Turma getTurma() {
 		return turma;
