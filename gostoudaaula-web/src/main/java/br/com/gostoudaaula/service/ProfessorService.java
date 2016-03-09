@@ -27,7 +27,7 @@ public class ProfessorService {
 	}
 
 	public Professor retorna(Professor professor) {
-		return repository.findByChapa(professor.getChapa());
+		return repository.findOne(professor.getId());
 	}
 
 	public List<Professor> getLista() {

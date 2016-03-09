@@ -1,110 +1,115 @@
-CREATE TABLE pessoa (
-	id integer primary key auto_increment,
-    nome varchar(50) NOT NULL,
-    sobrenome varchar(50) NOT NULL
+DROP TABLE IF EXISTS usuario;
+CREATE TABLE usuario (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(50) NOT NULL,
+    sobrenome VARCHAR(50) NOT NULL,
+    senha VARCHAR(255) NOT NULL,
+    token VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE token (
-	id integer primary key auto_increment,
-	codigo VARCHAR(255) NOT NULL UNIQUE
-);
-
+DROP TABLE IF EXISTS aluno;
 CREATE TABLE aluno (
-	id_pessoa integer primary key auto_increment,
-    prontuario integer NOT NULL UNIQUE,
-    senha varchar(255) NOT NULL,
-    aluno_token integer NOT NULL,
-	foreign key (id_pessoa) references pessoa(id) on delete cascade on update cascade,
-	foreign key (aluno_token) references token (id) on delete cascade on update cascade
+    id_aluno INTEGER PRIMARY KEY,
+    FOREIGN KEY (id_aluno) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE cascade
 );
 
+DROP TABLE IF EXISTS professor;
 CREATE TABLE professor (
-	id_pessoa integer primary key,
-	chapa integer NOT NULL UNIQUE,
-    foreign key (id_pessoa) references pessoa(id) on delete cascade on update cascade
+    id_professor INTEGER PRIMARY KEY,
+    FOREIGN KEY (id_professor) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE cascade
 );
 
+DROP TABLE IF EXISTS turma;
 CREATE TABLE turma (
-	id integer primary key auto_increment,
-    descricao varchar(50) NOT NULL UNIQUE
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    descricao VARCHAR(50) NOT NULL
 );
 
+DROP TABLE IF EXISTS disciplina;
 CREATE TABLE disciplina (
-	id integer primary key auto_increment,
-    descricao varchar(50) NOT NULL UNIQUE
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    descricao VARCHAR(50) NOT NULL
 );
 
+DROP TABLE IF EXISTS projeto;
 CREATE TABLE projeto (
-	id integer primary key auto_increment,
-    descricao varchar (100) NOT NULL UNIQUE
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    descricao VARCHAR (100) NOT NULL
 );
 
+DROP TABLE IF EXISTS questoes;
 CREATE TABLE questoes (
-	id integer primary key auto_increment,
-    descricao varchar (255) NOT NULL UNIQUE
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    descricao VARCHAR (255) NOT NULL
 );
 
+DROP TABLE IF EXISTS questoes_projeto;
 CREATE TABLE questoes_projeto(
-	id_questoes integer,
-    id_projeto integer,
-	primary key (id_questoes, id_projeto),
-	foreign key (id_questoes) references questoes(id) on delete cascade on update cascade,
-	foreign key (id_projeto) references projeto(id) on delete cascade on update cascade
+    id_questoes INTEGER,
+    id_projeto INTEGER,
+    PRIMARY KEY (id_questoes, id_projeto),
+    FOREIGN KEY (id_questoes) REFERENCES questoes(id) ON DELETE CASCADE ON UPDATE cascade,
+    FOREIGN KEY (id_projeto) REFERENCES projeto(id) ON DELETE CASCADE ON UPDATE cascade
 );
 
+DROP TABLE IF EXISTS periodo_letivo;
 CREATE TABLE periodo_letivo (
-	id integer auto_increment primary key,
-	ano integer,
-    semestre integer,
-	id_turma integer,
-    id_disciplina integer,
-    unique key indentificacao_do_periodo (ano, semestre, id_turma, id_disciplina),
-    foreign key (id_turma) references turma(id) on delete cascade on update cascade,
-    foreign key (id_disciplina) references disciplina(id) on delete cascade on update cascade
+    id INTEGER AUTO_INCREMENT PRIMARY KEY,
+    ano INTEGER,
+    semestre INTEGER,
+    id_turma INTEGER,
+    id_disciplina INTEGER,
+    UNIQUE KEY indentificacao_do_periodo (ano, semestre, id_turma, id_disciplina),
+    FOREIGN KEY (id_turma) REFERENCES turma(id) ON DELETE CASCADE ON UPDATE cascade,
+    FOREIGN KEY (id_disciplina) REFERENCES disciplina(id) ON DELETE CASCADE ON UPDATE cascade
 );
 
+DROP TABLE IF EXISTS aula;
 CREATE TABLE aula (
-	id integer primary key auto_increment,
-    id_professor integer,
-    id_periodo_letivo integer,
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    id_professor INTEGER,
+    id_periodo_letivo INTEGER,
     data_aula date NOT NULL,
-    foreign key (id_periodo_letivo) references periodo_letivo (id) on delete cascade on update cascade,
-    foreign key (id_professor) references professor(id_pessoa) on delete cascade on update cascade
+    FOREIGN KEY (id_periodo_letivo) REFERENCES periodo_letivo (id) ON DELETE CASCADE ON UPDATE cascade,
+    FOREIGN KEY (id_professor) REFERENCES professor(id_professor) ON DELETE CASCADE ON UPDATE cascade
 );
 
-CREATE TABLE avaliacao(
-	id integer auto_increment primary key,
-    id_projeto integer,
-    id_aula integer,
-    data_avaliacao date NOT NULL,
-	unique key id_da_avaliacao (id_projeto, id_aula),
-	foreign key (id_projeto) references projeto(id) on delete cascade on update cascade,
-	foreign key (id_aula) references aula(id) on delete cascade on update cascade
-);
-
+DROP TABLE IF EXISTS alunos_aula;
 CREATE TABLE alunos_aula (
-	id_aluno integer, 
-    id_aula integer,
-    primary key (id_aluno, id_aula),
-    foreign key (id_aluno) references aluno(id_pessoa),
-    foreign key (id_aula) references aula (id)
+    id_aluno INTEGER, 
+    id_aula INTEGER,
+    PRIMARY KEY (id_aluno, id_aula),
+    FOREIGN KEY (id_aluno) REFERENCES aluno(id_aluno),
+    FOREIGN KEY (id_aula) REFERENCES aula (id)
 );
 
+DROP TABLE IF EXISTS alunos_avaliacao;
+CREATE TABLE avaliacao(
+    id INTEGER AUTO_INCREMENT PRIMARY KEY,
+    id_projeto INTEGER,
+    id_aula INTEGER,
+    data_avaliacao date NOT NULL,
+    UNIQUE KEY id_da_avaliacao (id_projeto, id_aula),
+    FOREIGN KEY (id_projeto) REFERENCES projeto(id) ON DELETE CASCADE ON UPDATE cascade,
+    FOREIGN KEY (id_aula) REFERENCES aula(id) ON DELETE CASCADE ON UPDATE cascade
+);
 
+DROP TABLE IF EXISTS respostas;
 CREATE TABLE respostas (
-	id integer primary key auto_increment,
-    resposta integer NOT NULL,
-    id_questoes integer,
-    id_avaliacao integer,
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    resposta INTEGER NOT NULL,
+    id_questoes INTEGER,
+    id_avaliacao INTEGER, 
     data_resposta datetime NOT NULL,
-    foreign key (id_questoes) references questoes (id) on delete cascade on update cascade,
-    foreign key (id_avaliacao) references avaliacao (id) on delete cascade on update cascade
+    FOREIGN KEY (id_questoes) REFERENCES questoes (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (id_avaliacao) REFERENCES avaliacao (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+DROP TABLE IF EXISTS alunos_avaliacao;
 CREATE TABLE alunos_avaliacao (
-	id_aluno integer,
-    id_avaliacao integer,
-    primary key (id_aluno, id_avaliacao),
-    foreign key (id_aluno) references aluno (id_pessoa) on delete cascade on update cascade,
-    foreign key (id_avaliacao) references avaliacao (id) on delete cascade on update cascade
+    id_aluno INTEGER,
+    id_avaliacao INTEGER,
+    PRIMARY KEY (id_aluno, id_avaliacao),
+    FOREIGN KEY (id_aluno) REFERENCES aluno (id_aluno) ON DELETE CASCADE ON UPDATE cascade,
+    FOREIGN KEY (id_avaliacao) REFERENCES avaliacao (id) ON DELETE CASCADE ON UPDATE cascade
 );

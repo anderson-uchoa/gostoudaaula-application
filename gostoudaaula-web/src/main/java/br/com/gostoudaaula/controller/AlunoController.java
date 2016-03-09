@@ -17,7 +17,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.gostoudaaula.json.mixin.AlunoMixIn;
 import br.com.gostoudaaula.model.Aluno;
-import br.com.gostoudaaula.model.Token;
 import br.com.gostoudaaula.service.AlunoService;
 
 @Controller
@@ -41,8 +40,9 @@ public class AlunoController {
 
 	@RequestMapping(value = "aluno", method = POST, consumes = JSON)
 	public ResponseEntity<String> salvaAluno(@RequestBody Aluno aluno) {
-		aluno.alteraToken(aluno);
+		aluno.adicionaTokenDefault();
 		service.salva(aluno);
+		service.geraNovoToken(aluno);
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 
@@ -52,23 +52,32 @@ public class AlunoController {
 
 		if (service.autentica(aluno)) {
 			mapper.addMixIn(Aluno.class, AlunoMixIn.AssociationWithToken.class);
-			resposta = mapper.writeValueAsString(service.retorna(aluno));
+			Aluno retornado = service.retorna(aluno);
+			service.atualizaToken(retornado);
+			resposta = mapper.writeValueAsString(retornado);
 			return new ResponseEntity<String>(resposta, HttpStatus.ACCEPTED);
 		}
 
 		return new ResponseEntity<String>(resposta, HttpStatus.UNAUTHORIZED);
 	}
 
-	@RequestMapping(value = "aluno/auth/{codigo}", method = GET, produces = JSON)
-	public ResponseEntity<String> autenticaPorToken(Token token) throws JsonProcessingException {
+	@RequestMapping(value = "aluno/auth/token", method = POST, produces = JSON, consumes = JSON)
+	public ResponseEntity<String> autenticaPorToken(@RequestBody Aluno aluno) throws JsonProcessingException {
 		String resposta = "Erro de autenticação";
 
-		if (service.tokenValido(token)) {
+		String tokenCriptografado = aluno.getToken();
+
+		String tokenDecriptografado = aluno.decriptografa(tokenCriptografado);
+
+		if (service.tokenValido(tokenDecriptografado)) {
+			Aluno retornado = service.retorna(tokenDecriptografado);
+			service.atualizaToken(retornado);
 			mapper.addMixIn(Aluno.class, AlunoMixIn.AssociationWithToken.class);
-			resposta = mapper.writeValueAsString(service.retorna(token));
+			resposta = mapper.writeValueAsString(retornado);
 			return new ResponseEntity<String>(resposta, HttpStatus.ACCEPTED);
 		}
 
 		return new ResponseEntity<String>(resposta, HttpStatus.UNAUTHORIZED);
 	}
+
 }

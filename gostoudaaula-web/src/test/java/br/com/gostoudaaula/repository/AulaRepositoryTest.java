@@ -87,8 +87,8 @@ public class AulaRepositoryTest {
 		aulaRepo.save(aula1);
 		Aula recuperada = (Aula) aulaRepo.findByData(aula1.getData());
 
-		assertThat(recuperada.getAlunos().get(0).getProntuario(), equalTo(13100082));
-		assertThat(recuperada.getAlunos().get(1).getProntuario(), equalTo(13100083));
+		assertThat(recuperada.getAlunos().get(0).getNome(), equalTo("Alex"));
+		assertThat(recuperada.getAlunos().get(1).getNome(), equalTo("João"));
 	}
 
 	@Test
@@ -96,7 +96,7 @@ public class AulaRepositoryTest {
 		aula1.setProfessor(new ProfessorExample().getExample1());
 		aulaRepo.save(aula1);
 		Aula recuperada = aulaRepo.findByData(aula1.getData());
-		assertThat(recuperada.getProfessor().getChapa(), equalTo(100));
+		assertThat(recuperada.getProfessor().getNome(), equalTo("Rodrigo"));
 	}
 
 	@Test
@@ -149,16 +149,15 @@ public class AulaRepositoryTest {
 
 		clearCache();
 
-
 		List<Avaliacao> ava = new ArrayList<>();
 		Avaliacao avaRetornada = avaliacaoRepo.findByData(avaliacao.getData());
 		avaRetornada.setAula(aulaRepo.findByData(aula2.getData()));
 		ava.add(avaRetornada);
 		avaliacaoRepo.save(avaRetornada);
 
-		clearCache();
+		clearCache(); 
 
-		Aluno retornado = alunoRepo.findByProntuario(aluno.getProntuario());
+		Aluno retornado = alunoRepo.findByToken(new AlunoExample().getExample1().getToken());
 		retornado.setAvaliacoes(ava);
 		retornado.setAulas(aulas);
 

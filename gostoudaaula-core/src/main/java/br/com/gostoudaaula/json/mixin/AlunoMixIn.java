@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.com.gostoudaaula.model.Aula;
 import br.com.gostoudaaula.model.Avaliacao;
-import br.com.gostoudaaula.model.Token;
 
 @JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.NONE)
 public class AlunoMixIn {
@@ -51,7 +50,7 @@ public class AlunoMixIn {
 		@JsonProperty
 		private Integer prontuario;
 		@JsonProperty
-		private Token token;
+		private String token;
 	}
 
 }

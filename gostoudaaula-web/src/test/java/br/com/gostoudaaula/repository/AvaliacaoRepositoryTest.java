@@ -107,9 +107,9 @@ public class AvaliacaoRepositoryTest {
 		RespostasExample exemplo = new RespostasExample();
 
 		avaliacaoRepo.save(avaliacao1);
-		
+
 		clearCache();
-		
+
 		Avaliacao recuperada = avaliacaoRepo.findByData(avaliacao1.getData());
 
 		Respostas r1 = exemplo.getExample1();
@@ -123,7 +123,7 @@ public class AvaliacaoRepositoryTest {
 		restostasRepo.save(respostas);
 
 		clearCache();
-		
+
 		Avaliacao avaliacaoComRespostas = avaliacaoRepo.findByData(avaliacao1.getData());
 
 		assertThat(avaliacaoComRespostas.getRespostas().get(0).getResposta(), equalTo(10));
@@ -144,8 +144,8 @@ public class AvaliacaoRepositoryTest {
 
 		Avaliacao recuperada = avaliacaoRepo.findByData(avaliacao1.getData());
 
-		assertThat(recuperada.getAlunos().get(0).getProntuario(), equalTo(13100082));
-		assertThat(recuperada.getAlunos().get(1).getProntuario(), equalTo(13100083));
+		assertThat(recuperada.getAlunos().get(0).getNome(), equalTo("Alex"));
+		assertThat(recuperada.getAlunos().get(1).getNome(), equalTo("João"));
 	}
 
 	public void deveDevolverTodasAsQuestoesDeUmaAvaliacao() {

@@ -53,15 +53,17 @@ public class AlunoRepositoryTest {
 	@Test(expected = DataIntegrityViolationException.class)
 	public void naoDeveCadastrarAluno() {
 		Aluno aluno = new Aluno();
-		aluno.setProntuario(123);
 		repository.save(aluno);
 	}
 
 	@Test
 	public void deveCadastrarUmAluno() {
 		repository.save(aluno1);
-		Aluno alunoDevolvido = repository.findByProntuario(aluno1.getProntuario());
-		assertThat(alunoDevolvido.getProntuario(), equalTo(13100082));
+		clearCache();
+		List<Aluno> alunos = devolveTodosAlunos();
+		Aluno aluno = alunos.get(0);
+		Aluno alunoDevolvido = repository.findOne(aluno.getId());
+		assertThat(alunoDevolvido.getId(), equalTo(aluno.getId()));
 	}
 
 	@Test
@@ -70,9 +72,11 @@ public class AlunoRepositoryTest {
 		alunos.add(aluno1);
 		alunos.add(aluno2);
 		repository.save(alunos);
-		List<Aluno> alunosSalvos = (List<Aluno>) repository.findAll();
-		assertThat(alunosSalvos.get(0).getProntuario(), equalTo(13100082));
-		assertThat(alunosSalvos.get(1).getProntuario(), equalTo(13100083));
+		List<Aluno> alunosSalvos = devolveTodosAlunos();
+
+		assertThat(alunosSalvos.size(), equalTo(2));
+		assertThat(alunosSalvos.get(0).getNome(), equalTo(aluno1.getNome()));
+		assertThat(alunosSalvos.get(1).getNome(), equalTo(aluno2.getNome()));
 	}
 
 	@Test
@@ -81,8 +85,8 @@ public class AlunoRepositoryTest {
 		aulas.add(new AulaExample().getExample1());
 		aluno1.setAulas(aulas);
 		repository.save(aluno1);
-		assertThat(repository.findByProntuario(aluno1.getProntuario()).getAulas().get(0).getData(),
-				equalTo(LocalDate.now()));
+		Aluno aluno = devolveTodosAlunos().get(0);
+		assertThat(aluno.getAulas().get(0).getData(), equalTo(LocalDate.now()));
 	}
 
 	@Test
@@ -91,8 +95,8 @@ public class AlunoRepositoryTest {
 		avaliacoes.add(new AvaliacaoExample().getExample1());
 		aluno1.setAvaliacoes(avaliacoes);
 		repository.save(aluno1);
-		assertThat(repository.findByProntuario(aluno1.getProntuario()).getAvaliacoes().get(0).getData(),
-				equalTo(LocalDate.now()));
+		Aluno aluno = devolveTodosAlunos().get(0);
+		assertThat(aluno.getAvaliacoes().get(0).getData(), equalTo(LocalDate.now()));
 	}
 
 	@Test
@@ -110,15 +114,18 @@ public class AlunoRepositoryTest {
 	@Test
 	public void deveAlterarNomeDoAluno() {
 		repository.save(aluno1);
-		Aluno retornado = repository.findByProntuario(aluno1.getProntuario());
 		clearCache();
+
+		Aluno retornado = devolveTodosAlunos().get(0);
 
 		retornado.setNome("João da Silva");
 		repository.save(retornado);
 
 		clearCache();
 
-		assertThat(repository.findByProntuario(aluno1.getProntuario()).getNome(), equalTo(aluno1.getNome()));
+		Aluno aluno = devolveTodosAlunos().get(0);
+
+		assertThat(aluno.getNome(), equalTo("João da Silva"));
 	}
 
 	@Test
@@ -128,24 +135,28 @@ public class AlunoRepositoryTest {
 		clearCache();
 
 		Aluno aluno = new Aluno();
-		aluno.alteraToken(aluno1);
+		aluno.setToken(aluno1.getNome());
 
 		assertThat(repository.autenticaToken(aluno.getToken()), equalTo(true));
 	}
 
 	@Test
 	public void deveRetornarUmAlunoPeloToken() {
-		repository.save(aluno1);
+		repository.save(aluno1); 
 
 		clearCache();
-		
-		Aluno aluno = repository.retornaPorToken(aluno1.getToken());
-		
-		assertThat(aluno.getProntuario(), equalTo(13100082));
+
+		Aluno aluno = repository.findByToken(aluno1.getToken());
+
+		assertThat(aluno.getNome(), equalTo("Alex"));
 	}
 
 	private void clearCache() {
 		manager.flush();
 		manager.clear();
+	}
+
+	private List<Aluno> devolveTodosAlunos() {
+		return (List<Aluno>) repository.findAll();
 	}
 }

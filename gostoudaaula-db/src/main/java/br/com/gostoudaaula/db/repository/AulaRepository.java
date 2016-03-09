@@ -17,8 +17,8 @@ public interface AulaRepository extends CrudRepository<Aula, Long> {
 	@Query("from Aula a where exists(select av.aula from Avaliacao av where av.aula = a)")
 	public List<Aula> findWithAvaliacao();
 
-	@Query("select a from Aula a join a.alunos al where al.prontuario = :#{#aluno.prontuario} and "
-			+ "not exists(select av from Avaliacao av join av.alunos als where av.aula = a and als.prontuario = :#{#aluno.prontuario})")
+	@Query("select a from Aula a join a.alunos al where al.id = :#{#aluno.id} and "
+			+ "not exists(select av from Avaliacao av join av.alunos als where av.aula = a and als.id = :#{#aluno.id})")
 	public List<Aula> findWithNotEvaluated(@Param("aluno") Aluno aluno);
 
 }

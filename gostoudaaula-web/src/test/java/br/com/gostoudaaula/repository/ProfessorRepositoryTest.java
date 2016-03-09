@@ -44,7 +44,8 @@ public class ProfessorRepositoryTest {
 	@Test
 	public void deveCadastrarUmProfessor() {
 		professorRepo.save(professor1);
-		assertThat(professor1.getChapa(), equalTo(professorRepo.findByChapa(professor1.getChapa()).getChapa()));
+		Professor professor = devolveTodosProfessores().get(0);
+		assertThat(professor.getNome(), equalTo("Rodrigo"));
 	}
 
 	@Test
@@ -54,9 +55,13 @@ public class ProfessorRepositoryTest {
 		aulas.add(exemplo.getExample1());
 		professor1.setAulas(aulas);
 		professorRepo.save(professor1);
-		Professor recuperado = professorRepo.findByChapa(professor1.getChapa());
+		Professor recuperado = devolveTodosProfessores().get(0);
 		assertThat(recuperado.getAulas().get(0).getData(), equalTo(LocalDate.now()));
 
+	}
+
+	public List<Professor> devolveTodosProfessores() {
+		return (List<Professor>) professorRepo.findAll();
 	}
 
 }

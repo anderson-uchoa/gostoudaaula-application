@@ -4,8 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import br.com.gostoudaaula.model.Professor;
 
-public interface ProfessorRepository extends CrudRepository<Professor, Long>{
-
-	public Professor findByChapa(Integer chapa);
+public interface ProfessorRepository extends CrudRepository<Professor, Long> {
 
 }
