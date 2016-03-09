@@ -6,11 +6,14 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import javax.inject.Inject;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.context.WebApplicationContext;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,6 +36,7 @@ public class AlunoController {
 
 	@RequestMapping(value = "aluno", method = GET, produces = JSON)
 	public ResponseEntity<String> getAlunos() throws JsonProcessingException {
+		System.out.println(mapper);
 		mapper.addMixIn(Aluno.class, AlunoMixIn.AssociationMixIn.class);
 		String resposta = mapper.writeValueAsString(service.getLista());
 		return new ResponseEntity<String>(resposta, HttpStatus.OK);
@@ -49,8 +53,9 @@ public class AlunoController {
 	@RequestMapping(value = "aluno/auth", method = POST, consumes = JSON, produces = JSON)
 	public ResponseEntity<String> autenticaPorSenha(@RequestBody Aluno aluno) throws JsonProcessingException {
 		String resposta = "Erro de autenticação";
-
+		System.out.println(mapper);
 		if (service.autentica(aluno)) {
+
 			mapper.addMixIn(Aluno.class, AlunoMixIn.AssociationWithToken.class);
 			Aluno retornado = service.retorna(aluno);
 			service.atualizaToken(retornado);

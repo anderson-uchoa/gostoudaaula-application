@@ -8,7 +8,8 @@
 		<property name="schemas" value="${flyway.schemas}" />
 		<property name="encoding" value="${flyway.encoding}" />
 		<property name="dataSource" ref="dataSource" />
-	</bean>	
+		<property name="initOnMigrate" value="true" />
+	</bean>
 
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">

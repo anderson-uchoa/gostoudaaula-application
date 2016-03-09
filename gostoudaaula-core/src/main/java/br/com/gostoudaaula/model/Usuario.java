@@ -1,7 +1,5 @@
 package br.com.gostoudaaula.model;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,6 +12,7 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.jasypt.digest.StandardStringDigester;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
+import org.joda.time.LocalDateTime;
 
 import br.com.gostoudaaula.utils.KeyUtils;
 
@@ -85,13 +84,13 @@ public abstract class Usuario {
 	public String criptografa() {
 		StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
 		encryptor.setPassword(KeyUtils.PRIVADA.toString());
-		return encryptor.encrypt(token); 
+		return encryptor.encrypt(token);
 	}
 
 	public String decriptografa(String token) {
 		StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
 		encryptor.setPassword(KeyUtils.PRIVADA.toString());
-		
+
 		return encryptor.decrypt(token);
 	}
 

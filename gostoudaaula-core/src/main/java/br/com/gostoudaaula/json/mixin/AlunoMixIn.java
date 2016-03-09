@@ -20,8 +20,6 @@ public class AlunoMixIn {
 		@JsonProperty
 		private String sobrenome;
 		@JsonProperty
-		private Integer prontuario;
-		@JsonProperty
 		private String senha;
 		@JsonProperty
 		private List<Aula> aulas;
@@ -36,8 +34,6 @@ public class AlunoMixIn {
 		private String nome;
 		@JsonProperty
 		private String sobrenome;
-		@JsonProperty
-		private Integer prontuario;
 	}
 
 	public class AssociationWithToken extends AlunoMixIn {
@@ -47,8 +43,6 @@ public class AlunoMixIn {
 		private String nome;
 		@JsonProperty
 		private String sobrenome;
-		@JsonProperty
-		private Integer prontuario;
 		@JsonProperty
 		private String token;
 	}
