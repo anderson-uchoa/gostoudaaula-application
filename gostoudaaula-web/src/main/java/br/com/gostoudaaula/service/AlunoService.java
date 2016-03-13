@@ -55,9 +55,9 @@ public class AlunoService {
 		aluno.setToken(aluno.criptografa());
 	}
 
-	private void geraToken(Aluno retornado) {
-		retornado.novoToken();
-		salva(retornado);
+	private void geraToken(Aluno aluno) {
+		aluno.novoToken();
+		salva(aluno);
 	}
 
 	public boolean existe(Aluno aluno) {

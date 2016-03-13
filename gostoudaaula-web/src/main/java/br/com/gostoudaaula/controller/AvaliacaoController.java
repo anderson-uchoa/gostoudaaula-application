@@ -38,7 +38,7 @@ import br.com.gostoudaaula.service.AvaliacaoService;
 import br.com.gostoudaaula.service.RespostasService;
 
 @Controller
-@RequestMapping("avaliacao/")
+@RequestMapping("avaliacao")
 public class AvaliacaoController {
 
 	private AvaliacaoService avaliacaoService;
@@ -77,7 +77,7 @@ public class AvaliacaoController {
 		return new ResponseEntity<String>("Avaliação inexistente", HttpStatus.NOT_FOUND);
 	}
 
-	@RequestMapping(value = "respondida/{prontuario}", consumes = JSON, method = POST)
+	@RequestMapping(value = "respondida/{id}", consumes = JSON, method = POST)
 	public ResponseEntity<String> avaliacaoAula(@RequestBody Aula aula, Aluno aluno) {
 
 		Avaliacao avaliacao = avaliacaoService.retorna(aulaService.retorna(aula));

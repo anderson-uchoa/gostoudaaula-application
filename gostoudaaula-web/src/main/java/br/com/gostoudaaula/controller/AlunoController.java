@@ -20,7 +20,7 @@ import br.com.gostoudaaula.model.Aluno;
 import br.com.gostoudaaula.service.AlunoService;
 
 @Controller
-@RequestMapping("aluno/")
+@RequestMapping("aluno")
 public class AlunoController {
 
 	private AlunoService service;
@@ -34,7 +34,6 @@ public class AlunoController {
 
 	@RequestMapping(method = GET, produces = JSON)
 	public ResponseEntity<String> getAlunos() throws JsonProcessingException {
-		System.out.println(mapper);
 		mapper.addMixIn(Aluno.class, AlunoMixIn.AssociationMixIn.class);
 		String resposta = mapper.writeValueAsString(service.getLista());
 		return new ResponseEntity<String>(resposta, HttpStatus.OK);
@@ -45,28 +44,23 @@ public class AlunoController {
 		aluno.adicionaTokenDefault();
 		service.salva(aluno);
 		service.geraNovoToken(aluno);
-		return new ResponseEntity<String>(HttpStatus.OK);
+		return new ResponseEntity<String>("Cadastrado com sucesso!", HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "auth", method = POST, consumes = JSON, produces = JSON)
 	public ResponseEntity<String> autenticaPorSenha(@RequestBody Aluno aluno) throws JsonProcessingException {
-		String resposta = "Erro de autenticação";
-		System.out.println(mapper);
 		if (service.autentica(aluno)) {
-
-			mapper.addMixIn(Aluno.class, AlunoMixIn.AssociationWithToken.class);
+			mapper.addMixIn(Aluno.class, AlunoMixIn.AssociationWithTokenMixIn.class);
 			Aluno retornado = service.retorna(aluno);
 			service.atualizaToken(retornado);
-			resposta = mapper.writeValueAsString(retornado);
-			return new ResponseEntity<String>(resposta, HttpStatus.ACCEPTED);
+			String json = mapper.writeValueAsString(retornado);
+			return new ResponseEntity<String>(json, HttpStatus.ACCEPTED);
 		}
-
-		return new ResponseEntity<String>(resposta, HttpStatus.UNAUTHORIZED);
+		return new ResponseEntity<String>("Erro de autenticação", HttpStatus.UNAUTHORIZED);
 	}
 
 	@RequestMapping(value = "auth/token", method = POST, produces = JSON, consumes = JSON)
 	public ResponseEntity<String> autenticaPorToken(@RequestBody Aluno aluno) throws JsonProcessingException {
-		String resposta = "Erro de autenticação";
 
 		String tokenCriptografado = aluno.getToken();
 
@@ -75,12 +69,12 @@ public class AlunoController {
 		if (service.tokenValido(tokenDecriptografado)) {
 			Aluno retornado = service.retorna(tokenDecriptografado);
 			service.atualizaToken(retornado);
-			mapper.addMixIn(Aluno.class, AlunoMixIn.AssociationWithToken.class);
-			resposta = mapper.writeValueAsString(retornado);
-			return new ResponseEntity<String>(resposta, HttpStatus.ACCEPTED);
+			mapper.addMixIn(Aluno.class, AlunoMixIn.AssociationWithTokenMixIn.class);
+			String json = mapper.writeValueAsString(retornado);
+			return new ResponseEntity<String>(json, HttpStatus.ACCEPTED);
 		}
 
-		return new ResponseEntity<String>(resposta, HttpStatus.UNAUTHORIZED);
+		return new ResponseEntity<String>("Erro de autentição", HttpStatus.UNAUTHORIZED);
 	}
 
 }

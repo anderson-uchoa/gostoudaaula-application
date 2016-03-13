@@ -33,8 +33,17 @@ public class ProfessorMixIn {
 		private String nome;
 		@JsonProperty
 		private String sobrenome;
+	}
+
+	public class AssociationWithTokenMixIn extends ProfessorMixIn {
 		@JsonProperty
-		private Integer chapa;
+		private Long id;
+		@JsonProperty
+		private String nome;
+		@JsonProperty
+		private String sobrenome;
+		@JsonProperty
+		private String token;
 	}
 
 }

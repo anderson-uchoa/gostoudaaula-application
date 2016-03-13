@@ -36,7 +36,7 @@ public class AlunoMixIn {
 		private String sobrenome;
 	}
 
-	public class AssociationWithToken extends AlunoMixIn {
+	public class AssociationWithTokenMixIn extends AlunoMixIn {
 		@JsonProperty
 		private Long id;
 		@JsonProperty

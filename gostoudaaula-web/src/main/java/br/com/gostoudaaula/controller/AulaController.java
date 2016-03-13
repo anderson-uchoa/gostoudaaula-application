@@ -25,6 +25,7 @@ import br.com.gostoudaaula.model.Professor;
 import br.com.gostoudaaula.service.AulaService;
 
 @Controller
+@RequestMapping("aula")
 public class AulaController {
 
 	private ObjectMapper mapper;
@@ -36,7 +37,9 @@ public class AulaController {
 		this.service = service;
 	}
 
-	@RequestMapping(value = "aula/{prontuario}", produces = JSON, method = GET)
+	
+	
+	@RequestMapping(value = "{id}", produces = JSON, method = GET)
 	public ResponseEntity<String> aulasSemAvaliacao(Aluno aluno) throws JsonProcessingException {
 
 		List<Aula> aulas = service.getListaDeAulaParaAvaliar(aluno);

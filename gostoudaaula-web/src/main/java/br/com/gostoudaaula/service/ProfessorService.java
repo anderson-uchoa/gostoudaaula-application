@@ -13,7 +13,6 @@ import br.com.gostoudaaula.model.Professor;
 @Service
 public class ProfessorService {
 
-
 	private ProfessorRepository repository;
 
 	@Inject
@@ -32,5 +31,36 @@ public class ProfessorService {
 
 	public List<Professor> getLista() {
 		return (List<Professor>) repository.findAll();
+	}
+
+	public boolean existe(Professor professor) {
+		return repository.exists(professor.getId());
+	}
+
+	public boolean autentica(Professor professor) {
+		return repository.autentica(professor);
+	}
+
+	public boolean tokenValido(String token) {
+		return repository.autenticaToken(token);
+	}
+
+	public Professor retorna(String token) {
+		return repository.findByToken(token);
+	}
+
+	public void atualizaToken(Professor professor) {
+		geraToken(professor);
+		professor.setToken(professor.criptografa());
+	}
+
+	public void geraNovoToken(Professor professor) {
+		Professor retornado = retorna(professor.getToken());
+		geraToken(retornado);
+	}
+
+	private void geraToken(Professor professor) {
+		professor.novoToken();
+		salva(professor);
 	}
 }
