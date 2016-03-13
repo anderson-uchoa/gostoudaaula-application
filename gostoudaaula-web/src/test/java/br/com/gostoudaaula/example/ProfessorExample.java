@@ -12,4 +12,13 @@ public class ProfessorExample {
 		professor.setToken(professor.getNome());
 		return professor;
 	}
+
+	public Professor getExample2() {
+		Professor professor = new Professor();
+		professor.setNome("Antônio");
+		professor.setSobrenome("Guardado");
+		professor.setSenha("bdnosql");
+		professor.setToken(professor.getNome());
+		return null;
+	}
 }

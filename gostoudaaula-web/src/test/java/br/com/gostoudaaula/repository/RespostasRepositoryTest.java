@@ -3,23 +3,10 @@ package br.com.gostoudaaula.repository;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
-
 import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
-import br.com.gostoudaaula.db.repository.AvaliacaoRepository;
-import br.com.gostoudaaula.db.repository.QuestoesRepository;
-import br.com.gostoudaaula.db.repository.RespostasRepository;
 import br.com.gostoudaaula.example.AvaliacaoExample;
 import br.com.gostoudaaula.example.QuestoesExample;
 import br.com.gostoudaaula.example.RespostasExample;
@@ -27,21 +14,8 @@ import br.com.gostoudaaula.model.Avaliacao;
 import br.com.gostoudaaula.model.Questoes;
 import br.com.gostoudaaula.model.Respostas;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@TestExecutionListeners(listeners = { DependencyInjectionTestExecutionListener.class,
-		TransactionalTestExecutionListener.class })
-@ContextConfiguration(locations = "/spring/daoContext.xml")
-@Transactional
-public class RespostasRepositoryTest {
+public class RespostasRepositoryTest extends RepositoryTest {
 
-	@Inject
-	private RespostasRepository respostasRepo;
-	@Inject
-	private QuestoesRepository questoesRepo;
-	@Inject
-	private AvaliacaoRepository avaliacaoRepo;
-	@Inject
-	private EntityManager manager;
 	private Respostas respostas1;
 
 	@Before
@@ -82,14 +56,10 @@ public class RespostasRepositoryTest {
 		respostasRepo.save(respostas1);
 
 		clearCache();
-		
+
 		Respostas recuperada = respostasRepo.findByData(respostas1.getData());
 
 		assertThat(recuperada.getAvaliacao().getData(), equalTo(LocalDate.now()));
 	}
 
-	private void clearCache() {
-		manager.flush();
-		manager.clear();
-	}
 }

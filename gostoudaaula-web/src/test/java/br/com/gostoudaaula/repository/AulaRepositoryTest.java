@@ -6,23 +6,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
-
 import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
-import br.com.gostoudaaula.db.repository.AlunoRepository;
-import br.com.gostoudaaula.db.repository.AulaRepository;
-import br.com.gostoudaaula.db.repository.AvaliacaoRepository;
 import br.com.gostoudaaula.example.AlunoExample;
 import br.com.gostoudaaula.example.AulaExample;
 import br.com.gostoudaaula.example.AvaliacaoExample;
@@ -32,21 +19,8 @@ import br.com.gostoudaaula.model.Aluno;
 import br.com.gostoudaaula.model.Aula;
 import br.com.gostoudaaula.model.Avaliacao;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@TestExecutionListeners(listeners = { DependencyInjectionTestExecutionListener.class,
-		TransactionalTestExecutionListener.class })
-@ContextConfiguration(locations = "/spring/daoContext.xml")
-@Transactional
-public class AulaRepositoryTest {
+public class AulaRepositoryTest extends RepositoryTest {
 
-	@Inject
-	private AulaRepository aulaRepo;
-	@Inject
-	private AvaliacaoRepository avaliacaoRepo;
-	@Inject
-	private AlunoRepository alunoRepo;
-	@Inject
-	private EntityManager manager;
 	private Aula aula1;
 	private Aula aula2;
 
@@ -155,7 +129,7 @@ public class AulaRepositoryTest {
 		ava.add(avaRetornada);
 		avaliacaoRepo.save(avaRetornada);
 
-		clearCache(); 
+		clearCache();
 
 		Aluno retornado = alunoRepo.findByToken(new AlunoExample().getExample1().getToken());
 		retornado.setAvaliacoes(ava);
@@ -185,11 +159,6 @@ public class AulaRepositoryTest {
 		clearCache();
 
 		assertThat(aulaRepo.findByData(retornada.getData()).getData(), equalTo(retornada.getData()));
-	}
-
-	private void clearCache() {
-		manager.flush();
-		manager.clear();
 	}
 
 }

@@ -7,24 +7,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
-
 import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
-import br.com.gostoudaaula.db.repository.AlunoRepository;
-import br.com.gostoudaaula.db.repository.AvaliacaoRepository;
-import br.com.gostoudaaula.db.repository.RespostasRepository;
 import br.com.gostoudaaula.example.AlunoExample;
 import br.com.gostoudaaula.example.AulaExample;
 import br.com.gostoudaaula.example.AvaliacaoExample;
@@ -37,21 +23,8 @@ import br.com.gostoudaaula.model.Projeto;
 import br.com.gostoudaaula.model.Questoes;
 import br.com.gostoudaaula.model.Respostas;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@TestExecutionListeners(listeners = { DependencyInjectionTestExecutionListener.class,
-		TransactionalTestExecutionListener.class })
-@ContextConfiguration(locations = "/spring/daoContext.xml")
-@Transactional
-public class AvaliacaoRepositoryTest {
+public class AvaliacaoRepositoryTest extends RepositoryTest {
 
-	@PersistenceContext
-	private EntityManager manager;
-	@Inject
-	private AvaliacaoRepository avaliacaoRepo;
-	@Inject
-	private AlunoRepository alunoRepo;
-	@Inject
-	private RespostasRepository restostasRepo;
 	private Avaliacao avaliacao1;
 
 	@Before
@@ -120,8 +93,7 @@ public class AvaliacaoRepositoryTest {
 
 		respostas.addAll(Arrays.asList(r1, r2));
 
-		restostasRepo.save(respostas);
-
+		respostasRepo.save(respostas);
 		clearCache();
 
 		Avaliacao avaliacaoComRespostas = avaliacaoRepo.findByData(avaliacao1.getData());
@@ -222,11 +194,6 @@ public class AvaliacaoRepositoryTest {
 		clearCache();
 
 		assertThat(avaliacaoRepo.findByData(retornada.getData()).getData(), equalTo(retornada.getData()));
-	}
-
-	private void clearCache() {
-		manager.flush();
-		manager.clear();
 	}
 
 }

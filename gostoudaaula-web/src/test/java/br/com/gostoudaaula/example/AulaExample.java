@@ -20,4 +20,11 @@ public class AulaExample {
 		return aula;
 	}
 
+	public Aula getExample3() {
+		Aula aula = new Aula();
+		aula.setPeriodoLetivo(new PeriodoLetivoExample().getExample3());
+		aula.setData(new LocalDate("2016-01-30"));
+		return aula;
+	}
+
 }

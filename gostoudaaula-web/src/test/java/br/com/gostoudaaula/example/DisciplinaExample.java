@@ -15,4 +15,10 @@ public class DisciplinaExample {
 		disciplina.setDescricao("Calculo");
 		return disciplina;
 	}
+
+	public Disciplina getExample3() {
+		Disciplina disciplina = new Disciplina();
+		disciplina.setDescricao("Física");
+		return disciplina;
+	}
 }

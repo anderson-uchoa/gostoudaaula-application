@@ -6,36 +6,18 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.transaction.Transactional;
-
 import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
-import br.com.gostoudaaula.db.repository.ProjetoRepository;
 import br.com.gostoudaaula.example.AvaliacaoExample;
 import br.com.gostoudaaula.example.ProjetoExample;
 import br.com.gostoudaaula.example.QuestoesExample;
 import br.com.gostoudaaula.model.Projeto;
 import br.com.gostoudaaula.model.Questoes;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@TestExecutionListeners(listeners = {
-		DependencyInjectionTestExecutionListener.class,
-		TransactionalTestExecutionListener.class })
-@ContextConfiguration(locations = "/spring/daoContext.xml")
-@Transactional
-public class ProjetoRepositoryTest {
+public class ProjetoRepositoryTest extends RepositoryTest {
 
-	@Inject
-	private ProjetoRepository projetoRepo;
 	private Projeto projeto1;
 
 	@Before
@@ -62,10 +44,8 @@ public class ProjetoRepositoryTest {
 
 		Projeto recuperado = projetoRepo.findByDescricao(projeto1.getDescricao());
 
-		assertThat(recuperado.getQuestoes().get(0).getDescricao(),
-				equalTo("Questão 1"));
-		assertThat(recuperado.getQuestoes().get(1).getDescricao(),
-				equalTo("Questão 2"));
+		assertThat(recuperado.getQuestoes().get(0).getDescricao(), equalTo("Questão 1"));
+		assertThat(recuperado.getQuestoes().get(1).getDescricao(), equalTo("Questão 2"));
 	}
 
 	@Test
@@ -73,8 +53,7 @@ public class ProjetoRepositoryTest {
 		projeto1.setAvaliacao(new AvaliacaoExample().getExample1());
 		projetoRepo.save(projeto1);
 		Projeto recuperado = projetoRepo.findByDescricao(projeto1.getDescricao());
-		assertThat(recuperado.getAvaliacao().getData(),
-				equalTo(LocalDate.now()));
+		assertThat(recuperado.getAvaliacao().getData(), equalTo(LocalDate.now()));
 	}
 
 }

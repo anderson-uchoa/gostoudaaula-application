@@ -59,4 +59,8 @@ public class AlunoService {
 		retornado.novoToken();
 		salva(retornado);
 	}
+
+	public boolean existe(Aluno aluno) {
+		return repository.exists(aluno.getId());
+	}
 }
