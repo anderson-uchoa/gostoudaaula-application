@@ -32,8 +32,7 @@ import br.com.gostoudaaula.json.LocalDateDeserializer;
 import br.com.gostoudaaula.json.LocalDateSerializer;
 
 @Entity
-@Table( name = "avaliacao",
-uniqueConstraints = { @UniqueConstraint( columnNames = { "id_projeto", "id_aula" } ) } )
+@Table(name = "avaliacao", uniqueConstraints = { @UniqueConstraint(columnNames = { "id_projeto", "id_aula" }) })
 public class Avaliacao implements Parcelable {
 
 	private Long id;
@@ -82,7 +81,7 @@ public class Avaliacao implements Parcelable {
 	}
 
 	@NotNull
-	@OneToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE })
+	@OneToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST })
 	@JoinColumn(name = "id_aula")
 	public Aula getAula() {
 		return aula;

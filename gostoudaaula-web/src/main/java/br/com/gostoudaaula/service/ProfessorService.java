@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.gostoudaaula.db.repository.ProfessorRepository;
 import br.com.gostoudaaula.model.Professor;
+import br.com.gostoudaaula.model.Turma;
 
 @Service
 public class ProfessorService {
@@ -62,5 +63,9 @@ public class ProfessorService {
 	private void geraToken(Professor professor) {
 		professor.novoToken();
 		salva(professor);
+	}
+
+	public List<Turma> getTurmas(Professor professor) {
+		return repository.todasAsTurmas(professor);
 	}
 }

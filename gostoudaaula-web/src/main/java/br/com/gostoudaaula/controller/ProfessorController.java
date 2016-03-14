@@ -90,4 +90,10 @@ public class ProfessorController {
 		return new ResponseEntity<String>("Erro de autentição", HttpStatus.UNAUTHORIZED);
 	}
 
+	@RequestMapping(value = "turmas/{id}", method = GET, produces = JSON)
+	public ResponseEntity<String> getTurmas(Professor professor) throws JsonProcessingException {
+		String json = mapper.writeValueAsString(professorService.getTurmas(professor));
+		return new ResponseEntity<String>(json, HttpStatus.OK);
+	}
+
 }
