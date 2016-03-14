@@ -26,10 +26,12 @@ import br.com.gostoudaaula.model.Respostas;
 public class AvaliacaoRepositoryTest extends RepositoryTest {
 
 	private Avaliacao avaliacao1;
+	private Avaliacao avaliacao2;
 
 	@Before
 	public void setup() {
 		avaliacao1 = new AvaliacaoExample().getExample1();
+		avaliacao2 = new AvaliacaoExample().getExample2();
 	}
 
 	@Test
@@ -174,6 +176,10 @@ public class AvaliacaoRepositoryTest extends RepositoryTest {
 
 		clearCache();
 
+		avaliacaoRepo.save(avaliacao2);
+
+		clearCache();
+
 		Avaliacao retornadaAva = avaliacaoRepo.findByData(avaliacao1.getData());
 
 		assertThat(avaliacaoRepo.jaAvaliou(aluno, retornadaAva), equalTo(false));
@@ -195,5 +201,7 @@ public class AvaliacaoRepositoryTest extends RepositoryTest {
 
 		assertThat(avaliacaoRepo.findByData(retornada.getData()).getData(), equalTo(retornada.getData()));
 	}
+	
+	
 
 }

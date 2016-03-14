@@ -33,7 +33,6 @@ import br.com.gostoudaaula.model.Projeto;
 import br.com.gostoudaaula.model.Questoes;
 import br.com.gostoudaaula.model.Respostas;
 import br.com.gostoudaaula.service.AlunoService;
-import br.com.gostoudaaula.service.AulaService;
 import br.com.gostoudaaula.service.AvaliacaoService;
 import br.com.gostoudaaula.service.RespostasService;
 
@@ -43,18 +42,16 @@ public class AvaliacaoController {
 
 	private AvaliacaoService avaliacaoService;
 	private RespostasService respostasService;
-	private AulaService aulaService;
 	private AlunoService alunoService;
 
 	private ObjectMapper mapper;
 
 	@Inject
 	public AvaliacaoController(AvaliacaoService avaliacaoService, RespostasService respostasService,
-			AulaService aulaService, AlunoService alunoService, ObjectMapper mapper) {
+			AlunoService alunoService, ObjectMapper mapper) {
 		this.mapper = mapper;
 		this.avaliacaoService = avaliacaoService;
 		this.respostasService = respostasService;
-		this.aulaService = aulaService;
 		this.alunoService = alunoService;
 	}
 
@@ -78,16 +75,19 @@ public class AvaliacaoController {
 	}
 
 	@RequestMapping(value = "respondida/{id}", consumes = JSON, method = POST)
-	public ResponseEntity<String> avaliacaoAula(@RequestBody Aula aula, Aluno aluno) {
+	public ResponseEntity<String> avaliacaoAula(@RequestBody Avaliacao avaliacao, Aluno aluno) {
 
-		Avaliacao avaliacao = avaliacaoService.retorna(aulaService.retorna(aula));
+		Avaliacao retornada = avaliacaoService.retorna(avaliacao);
 
-		if (avaliacao != null) {
+		if (retornada != null) {
 
 			Aluno retornado = alunoService.retorna(aluno);
-			if (!avaliacaoService.jaAvaliou(retornado, avaliacao)) {
-				avaliacao.adiciona(retornado);
-				avaliacaoService.salva(avaliacao);
+
+			System.out.println("chega aqui o aluno hue" + retornado.getId());
+
+			if (!avaliacaoService.jaAvaliou(retornado, retornada)) {
+				retornada.adiciona(retornado);
+				avaliacaoService.salva(retornada);
 				return new ResponseEntity<String>(HttpStatus.OK);
 			} else {
 				return new ResponseEntity<String>("Aula já avaliada", HttpStatus.NOT_ACCEPTABLE);

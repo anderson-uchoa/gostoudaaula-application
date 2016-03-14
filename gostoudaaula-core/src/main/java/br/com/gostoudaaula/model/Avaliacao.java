@@ -15,6 +15,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import org.joda.time.LocalDate;
@@ -30,6 +32,8 @@ import br.com.gostoudaaula.json.LocalDateDeserializer;
 import br.com.gostoudaaula.json.LocalDateSerializer;
 
 @Entity
+@Table( name = "avaliacao",
+uniqueConstraints = { @UniqueConstraint( columnNames = { "id_projeto", "id_aula" } ) } )
 public class Avaliacao implements Parcelable {
 
 	private Long id;
@@ -78,7 +82,7 @@ public class Avaliacao implements Parcelable {
 	}
 
 	@NotNull
-	@OneToOne(cascade = { CascadeType.DETACH, CascadeType.PERSIST })
+	@OneToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE })
 	@JoinColumn(name = "id_aula")
 	public Aula getAula() {
 		return aula;

@@ -36,7 +36,7 @@ public class AvaliacaoService {
 	}
 
 	public Avaliacao retorna(Avaliacao avaliacao) {
-		return repository.retorna(avaliacao);
+		return repository.findOne(avaliacao.getId());
 	}
 
 	public Avaliacao retorna(Aula aula) {
