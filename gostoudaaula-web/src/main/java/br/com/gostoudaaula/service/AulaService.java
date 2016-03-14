@@ -38,4 +38,8 @@ public class AulaService {
 		return repository.findOne(aula.getId());
 	}
 
+	public List<Aula> todasAsAulas() {
+		return (List<Aula>) repository.findAll();
+	}
+
 }

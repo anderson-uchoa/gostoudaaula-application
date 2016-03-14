@@ -46,10 +46,20 @@ public class Professor extends Usuario implements Parcelable {
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeLong(id);
+		dest.writeString(nome);
+		dest.writeString(sobrenome);
+		dest.writeString(senha);
+		dest.writeString(token);
 		dest.writeTypedList(aulas);
 	}
 
 	private Professor(Parcel parcel) {
+		id = parcel.readLong();
+		nome = parcel.readString();
+		sobrenome = parcel.readString();
+		senha = parcel.readString();
+		token = parcel.readString();
 		aulas = new ArrayList<>();
 		parcel.readTypedList(aulas, Aula.CREATOR);
 	}

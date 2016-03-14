@@ -101,4 +101,7 @@ public abstract class Usuario {
 		this.token = digester.digest(this.id + this.nome + this.senha);
 	}
 
+	
+	
+
 }
