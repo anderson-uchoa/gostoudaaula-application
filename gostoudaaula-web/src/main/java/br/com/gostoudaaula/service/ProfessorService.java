@@ -8,6 +8,9 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import br.com.gostoudaaula.db.repository.ProfessorRepository;
+import br.com.gostoudaaula.dto.PeriodoDTO;
+import br.com.gostoudaaula.model.Avaliacao;
+import br.com.gostoudaaula.model.Disciplina;
 import br.com.gostoudaaula.model.Professor;
 import br.com.gostoudaaula.model.Turma;
 
@@ -67,5 +70,14 @@ public class ProfessorService {
 
 	public List<Turma> getTurmas(Professor professor) {
 		return repository.todasAsTurmas(professor);
+	}
+
+	public List<Disciplina> getDisciplinas(Professor professor, Turma turma) {
+		return repository.todasAsDisciplinas(professor, turma);
+	}
+
+	public List<Avaliacao> getAvaliacoesPorPeriodo(Professor professor, PeriodoDTO periodoDTO) {
+		return repository.devolveAvaliacoesPorPeriodo(professor, periodoDTO.getInicio(), periodoDTO.getFim(),
+				periodoDTO.getPeriodoLetivo().getTurma(), periodoDTO.getPeriodoLetivo().getDisciplina());
 	}
 }

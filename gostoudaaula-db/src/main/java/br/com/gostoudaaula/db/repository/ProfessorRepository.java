@@ -27,9 +27,11 @@ public interface ProfessorRepository extends CrudRepository<Professor, Long> {
 
 	@Query("SELECT DISTINCT a.periodoLetivo.disciplina FROM Aula a WHERE a.professor = :professor AND "
 			+ "a.periodoLetivo.turma = :turma")
-	public List<Disciplina> todasAsDisciplinas(@Param("professor") Professor retornado, @Param("turma") Turma turma);
+	public List<Disciplina> todasAsDisciplinas(@Param("professor") Professor professor, @Param("turma") Turma turma);
 
-	@Query("SELECT a FROM Avaliacao a WHERE a.data BETWEEN :inicio AND :fim AND a.aula.professor = :professor")
-	public List<Avaliacao> devolveAvaliacoesPorPeriodo(@Param("professor") Professor retornado, @Param("inicio") LocalDate inicio,
-			@Param("fim") LocalDate fim);
+	@Query("SELECT a FROM Avaliacao a WHERE a.data BETWEEN :inicio AND :fim AND a.aula.professor = :professor AND "
+			+ "a.aula.periodoLetivo.turma = :turma AND a.aula.periodoLetivo.disciplina = :disciplina")
+	public List<Avaliacao> devolveAvaliacoesPorPeriodo(@Param("professor") Professor professor,
+			@Param("inicio") LocalDate inicio, @Param("fim") LocalDate fim, @Param("turma") Turma turma,
+			@Param("disciplina") Disciplina disciplina);
 }

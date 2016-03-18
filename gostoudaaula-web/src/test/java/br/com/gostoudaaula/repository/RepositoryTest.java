@@ -16,6 +16,7 @@ import br.com.gostoudaaula.db.repository.AlunoRepository;
 import br.com.gostoudaaula.db.repository.AulaRepository;
 import br.com.gostoudaaula.db.repository.AvaliacaoRepository;
 import br.com.gostoudaaula.db.repository.DisciplinaRepository;
+import br.com.gostoudaaula.db.repository.PeriodoLetivoRepository;
 import br.com.gostoudaaula.db.repository.ProfessorRepository;
 import br.com.gostoudaaula.db.repository.ProjetoRepository;
 import br.com.gostoudaaula.db.repository.QuestoesRepository;
@@ -49,6 +50,8 @@ public abstract class RepositoryTest {
 	protected RespostasRepository respostasRepo;
 	@Inject
 	protected TurmaRepository turmaRepo;
+	@Inject
+	protected PeriodoLetivoRepository periodoRepo;
 
 	protected void clearCache() {
 		manager.flush();

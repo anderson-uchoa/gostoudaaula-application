@@ -62,7 +62,7 @@ public class PeriodoLetivo implements Parcelable {
 	}
 
 	@NotNull
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST })
 	@JoinColumn(name = "id_disciplina")
 	public Disciplina getDisciplina() {
 		return disciplina;

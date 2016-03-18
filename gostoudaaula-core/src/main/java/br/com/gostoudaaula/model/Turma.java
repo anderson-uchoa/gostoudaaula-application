@@ -65,9 +65,4 @@ public class Turma implements Parcelable {
 		descricao = parcel.readString();
 	}
 
-	@Override
-	public String toString() {
-		return this.descricao;
-	}
-
 }

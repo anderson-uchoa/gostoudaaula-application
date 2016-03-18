@@ -52,7 +52,7 @@ public class Aula implements Parcelable {
 	}
 
 	@NotNull
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH })
 	@JoinColumn(name = "id_periodo_letivo")
 	public PeriodoLetivo getPeriodoLetivo() {
 		return periodoLetivo;

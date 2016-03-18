@@ -173,6 +173,7 @@ public class ProfessorRepositoryTest extends RepositoryTest {
 		Avaliacao avaliacao2 = avaliacaoEx.getExample2();
 		Aula aula2 = aulaEx.getExample2();
 		aula2.setProfessor(retornado);
+		aula2.setPeriodoLetivo(periodoRepo.findAll().iterator().next());
 		avaliacao2.setAula(aula2);
 
 		avaliacaoRepo.save(avaliacao2);
@@ -193,7 +194,8 @@ public class ProfessorRepositoryTest extends RepositoryTest {
 		LocalDate inicio = avaliacao1.getData();
 		LocalDate fim = avaliacao1.getData();
 
-		List<Avaliacao> avaliacoes = professorRepo.devolveAvaliacoesPorPeriodo(retornado, inicio, fim);
+		List<Avaliacao> avaliacoes = professorRepo.devolveAvaliacoesPorPeriodo(retornado, inicio, fim,
+				aula1.getPeriodoLetivo().getTurma(), aula1.getPeriodoLetivo().getDisciplina());
 
 		assertThat(avaliacoes.size(), equalTo(1));
 		assertThat(avaliacoes.get(0).getData(), equalTo(avaliacao1.getData()));
@@ -201,21 +203,12 @@ public class ProfessorRepositoryTest extends RepositoryTest {
 		inicio = avaliacao1.getData();
 		fim = avaliacao2.getData();
 
-		List<Avaliacao> avaliacoes2 = professorRepo.devolveAvaliacoesPorPeriodo(retornado, inicio, fim);
+		List<Avaliacao> avaliacoes2 = professorRepo.devolveAvaliacoesPorPeriodo(retornado, inicio, fim,
+				aula1.getPeriodoLetivo().getTurma(), aula1.getPeriodoLetivo().getDisciplina());
 
 		assertThat(avaliacoes2.size(), equalTo(2));
 		assertThat(avaliacoes2.get(0).getData(), equalTo(avaliacao1.getData()));
 		assertThat(avaliacoes2.get(1).getData(), equalTo(avaliacao2.getData()));
-
-		inicio = avaliacao1.getData();
-		fim = avaliacao3.getData();
-
-		List<Avaliacao> avaliacoes3 = professorRepo.devolveAvaliacoesPorPeriodo(retornado, inicio, fim);
-
-		assertThat(avaliacoes3.size(), equalTo(3));
-		assertThat(avaliacoes3.get(0).getData(), equalTo(avaliacao1.getData()));
-		assertThat(avaliacoes3.get(1).getData(), equalTo(avaliacao2.getData()));
-		assertThat(avaliacoes3.get(2).getData(), equalTo(avaliacao3.getData()));
 
 	}
 
