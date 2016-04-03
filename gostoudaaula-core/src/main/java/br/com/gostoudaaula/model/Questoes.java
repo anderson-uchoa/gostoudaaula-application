@@ -1,6 +1,6 @@
 package br.com.gostoudaaula.model;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -11,12 +11,13 @@ import javax.persistence.ManyToMany;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 @Entity
-public class Questoes implements Parcelable {
+public class Questoes implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long id;
 	private String descricao;
 	private List<Projeto> projetos;
@@ -51,35 +52,6 @@ public class Questoes implements Parcelable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public static final Parcelable.Creator<Questoes> CREATOR = new Parcelable.Creator<Questoes>() {
-		public Questoes createFromParcel(Parcel in) {
-			return new Questoes(in);
-		}
-
-		public Questoes[] newArray(int size) {
-			return new Questoes[size];
-		}
-	};
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeLong(id);
-		dest.writeString(descricao);
-		dest.writeTypedList(projetos);
-	}
-
-	private Questoes(Parcel parcel) {
-		id = parcel.readLong();
-		descricao = parcel.readString();
-		projetos = new ArrayList<>();
-		parcel.readTypedList(projetos, Projeto.CREATOR);
 	}
 
 }

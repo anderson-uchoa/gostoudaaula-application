@@ -1,5 +1,7 @@
 package br.com.gostoudaaula.model;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
@@ -19,15 +21,17 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 import br.com.gostoudaaula.converter.DateConverter;
 import br.com.gostoudaaula.json.LocalDateDeserializer;
 import br.com.gostoudaaula.json.LocalDateSerializer;
 
 @Entity
-public class Respostas implements Parcelable {
+public class Respostas implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long id;
 	private Integer resposta;
 	private LocalDate data;
@@ -91,38 +95,6 @@ public class Respostas implements Parcelable {
 
 	public void setAvaliacao(Avaliacao avaliacao) {
 		this.avaliacao = avaliacao;
-	}
-
-	public static final Parcelable.Creator<Respostas> CREATOR = new Parcelable.Creator<Respostas>() {
-		public Respostas createFromParcel(Parcel in) {
-			return new Respostas(in);
-		}
-
-		public Respostas[] newArray(int size) {
-			return new Respostas[size];
-		}
-	};
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeLong(id);
-		dest.writeInt(resposta);
-		dest.writeSerializable(data);
-		dest.writeParcelable(questoes, flags);
-		dest.writeParcelable(avaliacao, flags);
-	}
-
-	private Respostas(Parcel parcel) {
-		id = parcel.readLong();
-		resposta = parcel.readInt();
-		data = (LocalDate) parcel.readSerializable();
-		parcel.readParcelable(Questoes.class.getClassLoader());
-		parcel.readParcelable(Avaliacao.class.getClassLoader());
 	}
 
 }

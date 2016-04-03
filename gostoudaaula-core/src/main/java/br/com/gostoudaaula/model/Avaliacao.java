@@ -1,6 +1,6 @@
 package br.com.gostoudaaula.model;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -25,16 +25,18 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 import br.com.gostoudaaula.converter.DateConverter;
 import br.com.gostoudaaula.json.LocalDateDeserializer;
 import br.com.gostoudaaula.json.LocalDateSerializer;
 
 @Entity
 @Table(name = "avaliacao", uniqueConstraints = { @UniqueConstraint(columnNames = { "id_projeto", "id_aula" }) })
-public class Avaliacao implements Parcelable {
+public class Avaliacao implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long id;
 	private Projeto projeto;
 	private Aula aula;
@@ -113,42 +115,6 @@ public class Avaliacao implements Parcelable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public static final Parcelable.Creator<Avaliacao> CREATOR = new Parcelable.Creator<Avaliacao>() {
-		public Avaliacao createFromParcel(Parcel in) {
-			return new Avaliacao(in);
-		}
-
-		public Avaliacao[] newArray(int size) {
-			return new Avaliacao[size];
-		}
-	};
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeLong(id);
-		dest.writeParcelable(projeto, flags);
-		dest.writeParcelable(aula, flags);
-		dest.writeTypedList(alunos);
-		dest.writeTypedList(respostas);
-		dest.writeSerializable(data);
-	}
-
-	private Avaliacao(Parcel parcel) {
-		id = parcel.readLong();
-		projeto = parcel.readParcelable(Projeto.class.getClassLoader());
-		aula = parcel.readParcelable(Aula.class.getClassLoader());
-		alunos = new ArrayList<>();
-		parcel.readTypedList(alunos, Aluno.CREATOR);
-		respostas = new ArrayList<>();
-		parcel.readTypedList(respostas, Respostas.CREATOR);
-		data = (LocalDate) parcel.readSerializable();
 	}
 
 	public void adiciona(Respostas resposta) {

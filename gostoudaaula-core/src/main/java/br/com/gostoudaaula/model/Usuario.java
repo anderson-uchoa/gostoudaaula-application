@@ -1,5 +1,7 @@
 package br.com.gostoudaaula.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,8 +20,12 @@ import br.com.gostoudaaula.utils.KeyUtils;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Usuario {
+public abstract class Usuario implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected Long id;
 	protected String nome;
 	protected String sobrenome;
@@ -100,8 +106,5 @@ public abstract class Usuario {
 		digester.setIterations(2000);
 		this.token = digester.digest(this.id + this.nome + this.senha);
 	}
-
-	
-	
 
 }

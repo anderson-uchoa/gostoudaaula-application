@@ -1,6 +1,6 @@
 package br.com.gostoudaaula.model;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -17,14 +17,15 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 @Entity
 @Table(name = "periodo_letivo", uniqueConstraints = {
 		@UniqueConstraint(columnNames = { "ano", "semestre", "id_turma", "id_disciplina" }) })
-public class PeriodoLetivo implements Parcelable {
+public class PeriodoLetivo implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long id;
 	private Integer ano;
 	private Integer semestre;
@@ -95,38 +96,4 @@ public class PeriodoLetivo implements Parcelable {
 		this.id = id;
 	}
 
-	public static final Parcelable.Creator<PeriodoLetivo> CREATOR = new Parcelable.Creator<PeriodoLetivo>() {
-		public PeriodoLetivo createFromParcel(Parcel in) {
-			return new PeriodoLetivo(in);
-		}
-
-		public PeriodoLetivo[] newArray(int size) {
-			return new PeriodoLetivo[size];
-		}
-	};
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeLong(id);
-		dest.writeInt(ano);
-		dest.writeInt(semestre);
-		dest.writeTypedList(aulas);
-		dest.writeParcelable(turma, flags);
-		dest.writeParcelable(disciplina, flags);
-	}
-
-	private PeriodoLetivo(Parcel parcel) {
-		id = parcel.readLong();
-		ano = parcel.readInt();
-		semestre = parcel.readInt();
-		aulas = new ArrayList<>();
-		parcel.readTypedList(aulas, Aula.CREATOR);
-		turma = parcel.readParcelable(Turma.class.getClassLoader());
-		disciplina = parcel.readParcelable(Disciplina.class.getClassLoader());
-	}
 }

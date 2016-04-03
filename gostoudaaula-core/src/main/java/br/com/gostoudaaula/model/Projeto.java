@@ -1,6 +1,6 @@
 package br.com.gostoudaaula.model;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -15,12 +15,13 @@ import javax.persistence.OneToOne;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 @Entity
-public class Projeto implements Parcelable {
+public class Projeto implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long id;
 	private String descricao;
 	private Avaliacao avaliacao;
@@ -66,37 +67,6 @@ public class Projeto implements Parcelable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public static final Parcelable.Creator<Projeto> CREATOR = new Parcelable.Creator<Projeto>() {
-		public Projeto createFromParcel(Parcel in) {
-			return new Projeto(in);
-		}
-
-		public Projeto[] newArray(int size) {
-			return new Projeto[size];
-		}
-	};
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeLong(id);
-		dest.writeString(descricao);
-		dest.writeParcelable(avaliacao, flags);
-		dest.writeTypedList(questoes);
-	}
-
-	private Projeto(Parcel parcel) {
-		id = parcel.readLong();
-		descricao = parcel.readString();
-		avaliacao = parcel.readParcelable(Avaliacao.class.getClassLoader());
-		questoes = new ArrayList<>();
-		parcel.readTypedList(questoes, Questoes.CREATOR);
 	}
 
 }

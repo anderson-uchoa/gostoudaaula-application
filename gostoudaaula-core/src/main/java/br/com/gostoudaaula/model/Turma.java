@@ -1,5 +1,7 @@
 package br.com.gostoudaaula.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -7,12 +9,13 @@ import javax.persistence.Id;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 @Entity
-public class Turma implements Parcelable {
+public class Turma implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long id;
 	private String descricao;
 
@@ -37,32 +40,6 @@ public class Turma implements Parcelable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public static final Parcelable.Creator<Turma> CREATOR = new Parcelable.Creator<Turma>() {
-		public Turma createFromParcel(Parcel in) {
-			return new Turma(in);
-		}
-
-		public Turma[] newArray(int size) {
-			return new Turma[size];
-		}
-	};
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeLong(id);
-		dest.writeString(descricao);
-	}
-
-	private Turma(Parcel parcel) {
-		id = parcel.readLong();
-		descricao = parcel.readString();
 	}
 
 }

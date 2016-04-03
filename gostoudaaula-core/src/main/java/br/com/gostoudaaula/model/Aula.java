@@ -1,6 +1,6 @@
 package br.com.gostoudaaula.model;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -21,15 +21,17 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 import br.com.gostoudaaula.converter.DateConverter;
 import br.com.gostoudaaula.json.LocalDateDeserializer;
 import br.com.gostoudaaula.json.LocalDateSerializer;
 
 @Entity
-public class Aula implements Parcelable {
+public class Aula implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long id;
 	private Professor professor;
 	private PeriodoLetivo periodoLetivo;
@@ -93,39 +95,6 @@ public class Aula implements Parcelable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public static final Parcelable.Creator<Aula> CREATOR = new Parcelable.Creator<Aula>() {
-		public Aula createFromParcel(Parcel in) {
-			return new Aula(in);
-		}
-
-		public Aula[] newArray(int size) {
-			return new Aula[size];
-		}
-	};
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeLong(id);
-		dest.writeParcelable(professor, flags);
-		dest.writeParcelable(periodoLetivo, flags);
-		dest.writeSerializable(data);
-		dest.writeTypedList(alunos);
-	}
-
-	private Aula(Parcel parcel) {
-		id = parcel.readLong();
-		professor = parcel.readParcelable(Professor.class.getClassLoader());
-		periodoLetivo = parcel.readParcelable(PeriodoLetivo.class.getClassLoader());
-		data = (LocalDate) parcel.readSerializable();
-		alunos = new ArrayList<>();
-		parcel.readTypedList(alunos, Aluno.CREATOR);
 	}
 
 }
